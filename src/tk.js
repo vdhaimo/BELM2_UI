@@ -10,6 +10,7 @@ btdevicelistMain.addEventListener("animationend", (event) => {
         while (btdevicelist.firstChild) {
             btdevicelist.removeChild(btdevicelist.lastChild);
         }
+        btdevicelistMain.style.display = 'none';
     }
 });
 
@@ -31,6 +32,8 @@ function clear() {
 
 function load() {
 
+    btdevicelistMain.style.display = 'block';
+
     btdevicelistMain.classList.remove('slide-out')
     btdevicelistMain.classList.add('slide-in')
 
@@ -41,16 +44,23 @@ function load() {
         var h = document.createElement('bt-listitem');
         h.setAttribute('bigtext', generateString(5));
         h.setAttribute('smalltext', generateString(8));
+
         btdevicelist.appendChild(h);
 
         i--
     }
 
 
+
+
 }
 
-load()
-
+function btlistitemclicked(elem) {
+    console.log(elem);
+}
+function rer() {
+    console.log('capybara')
+}
 // program to generate random strings
 
 // declare all characters
