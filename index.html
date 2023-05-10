@@ -112,24 +112,24 @@
   </div>
   <style>
     .mmain {
-      position: absolute;
+      position: relative;
       width: 36px;
-      height: 48px;
       margin: 0;
       padding: 0;
       color: var(--text-colorA);
       opacity: 0.5;
+      display: inline-block;
+      text-align: center;
 
     }
 
     .mmain:active {
       opacity: 0.8;
-
       text-shadow: 0 0 5px var(--text-colorA);
     }
 
     .material-symbols-outlined {
-      position: absolute;
+      position: relative;
       font-size: 36px;
       width: 100%;
       height: 100%;
@@ -141,10 +141,9 @@
     }
 
     .maticonbtext {
-      position: absolute;
-      top: 48px;
+      position: relative;
       text-align: center;
-      margin: 0;
+      margin: -10px 0 0 0;
       padding: 0;
       width: 100%;
       font-size: 12px;
@@ -356,222 +355,121 @@
       </style>
       <script src="src/CE/btDevices.js"></script>
     </div>
+    <div class="contentwindow">
+      <div class="home">
 
 
-    <script>function ccl23() { console.log('das') }</script>
-    <div id="connectedvehicle">
-      <div id="connectedvehicletop" onclick="ccl23()">
-        <span id="statconnected" class="material-symbols-outlined">
-          link
-        </span>
-        <p id="vehiclename">Bolt
-        </p>
-        <p id="vehicleconnectionstatus">ECU off</p>
 
-        <span id="more" class="material-symbols-outlined">
-          expand_more
-        </span>
-      </div>
+        <div class="currentvehicle">
 
-      <div id="vehiclemore">
-        <br />
-        <p class="hh">Name</p>
-        <p class="ii">Bolt</p>
-        <p class="hh">Cubic Centimeter</p>
-        <p class="ii">1200</p>
-        <p class="hh">Fuel Type</p>
-        <p class="ii"><select name="fueltype" id="fueltype">
-            <option value="Petrol">Gasoline</option>
-            <option value="Diesel">Diesel</option>
-            <option value="CNG">CNG</option>
-          </select></p>
-        <div id="vehiclenavbutton">
+          <P id="connectstatus">Connected</P>
 
-          <bt-iconmatbutton icon="keyboard_double_arrow_left" desc="Prev" callback="rer"></bt-iconmatbutton>
-          <bt-iconmatbutton icon="tune" desc="Edit" callback="rer"></bt-iconmatbutton>
-          <bt-iconmatbutton icon="check_box" desc="Save" callback="rer"></bt-iconmatbutton>
-          <bt-iconmatbutton icon="keyboard_double_arrow_right" desc="Next" callback="rer"></bt-iconmatbutton>
+          <p id="vname">Bolt
+            <br>
+            <span id="vehicledetails">cc: 1198 | Fuel : Petrol</span>
+          </p>
+
+
+          <bt-iconmatbutton id="prevbutton" icon="arrow_drop_up" desc="Prev"></bt-iconmatbutton>
+          <bt-iconmatbutton id="nextbutton" icon="arrow_drop_down" desc="Next"></bt-iconmatbutton>
 
         </div>
 
       </div>
+      <style>
+        .home {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          margin: 0;
+
+        }
+
+        #connectstatus {
+          position: absolute;
+          top: 0;
+          left: 56px;
+          color: var(--text-colorB);
+
+        }
+
+        .currentvehicle {
+          position: absolute;
+          right: 0;
+          left: 0;
+          margin: 0 5px 5px 5px;
+          padding: 50px 0 0 0;
+          border-radius: 5px;
+          background-color: var(--card-color);
+          height: 150px;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          padding-right: 12px;
+        }
+
+        #prevbutton,
+        #nextbutton {
+          position: relative;
+          width: 72px;
+          margin-right: 24px;
+          text-align: center;
+        }
+
+        #vname {
+          text-align: left;
+          position: relative;
+          font-size: 32px;
+          color: var(--text-colorA);
+          width: 100%;
+          margin: 0 0 0 48px;
+          line-height: 22px;
+        }
+
+        #vehicledetails {
+          margin: 0;
+          position: relative;
+          font-size: 12px;
+          color: var(--text-colorB);
+          width: 100%;
+          text-align: center;
+        }
+      </style>
+
     </div>
 
+
+    <div class="navbar">
+      <bt-iconmatbutton icon="arrow_drop_up" desc="Prev"></bt-iconmatbutton>
+      <bt-iconmatbutton icon="arrow_drop_up" desc="Prev"></bt-iconmatbutton>
+      <bt-iconmatbutton icon="arrow_drop_up" desc="Prev"></bt-iconmatbutton>
+      <bt-iconmatbutton icon="arrow_drop_up" desc="Prev"></bt-iconmatbutton>
+
+    </div>
     <style>
-      #fueltype {
-        margin-top: 7px;
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 100;
-        font-size: 17px;
-        background-color: var(--card-color);
-        color: var(--text-colorA);
-        border-radius: 0;
-      }
-
-      #vehiclenavbutton {
-        display: table;
-        table-layout: fixed;
-
-        margin-top: 24px;
-        margin-left: 12px;
-        width: 100%;
-        height: 36px;
-        color: var(--text-colorB);
-      }
-
-      #vehiclenavbutton bt-iconmatbutton {
-        display: table-cell;
-        align-items: center;
-      }
-
-
-      .hh {
-        margin: 0;
-        padding: 0;
-        font-size: 12px;
-        color: var(--text-colorB);
-        font-weight: 400;
-      }
-
-      .ii {
-        margin: 0 0 15px 15px;
-        padding: 0;
-        font-weight: 100;
-        font-size: 17px;
-      }
-
-      #connectedvehicletop {
-        position: relative;
+      .navbar {
+        position: absolute;
+        display: flex;
         height: 72px;
         width: 100%;
-      }
-
-      #connectedvehicle {
-        position: sticky;
-        top: 5px;
-        left: 10px;
-        width: calc(100% - 20px);
-
-
-        height: fit-content;
-        pointer-events: all;
-      }
-
-
-      #statconnected {
-
-        margin: 0;
+        bottom: 0;
         padding: 0;
-        position: absolute;
-        left: 24px;
-        top: 17px;
-        font-size: 32px;
-        color: var(--c1);
-        align-content: baseline;
-      }
 
-      #vehiclename {
-        position: absolute;
-        left: 72px;
-        top: 10px;
-        margin: 0;
-        padding: 0;
-        font-size: 24px;
-        font-weight: 400;
-      }
-
-      #vehicleconnectionstatus {
-        margin: 0;
-        padding: 0;
-        position: absolute;
-        left: 75px;
-        top: 42px;
-        font-size: 10px;
-        font-weight: 200;
-      }
-
-      #more {
-        position: absolute;
-        right: 24px;
-        top: 24px;
-
-
-      }
-
-      #vehiclemore {
-        height: fit-content;
-        padding-left: 24px;
-        padding-right: 24px;
-        padding-bottom: 48px;
-
-
-        border-radius: 2px 2px 10px 10px;
         background-color: var(--card-color);
-        box-shadow: 0 5px 5px var(--shadow-color);
+
+      }
+
+      .contentwindow {
+        position: absolute;
+        display: flex;
+        height: calc(100% - 72px);
+        top: 0;
+        width: 100%;
+
       }
     </style>
-
-
-    <div id="statusbar">
-
-      <div id="statusbeacon"></div>
-      <P id="statusbartext">Connecting</P>
-    </div>
-    <style>
-      #statusbar {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 20px;
-
-        display: none;
-
-        background: lemonchiffon;
-      }
-
-      #statusbartext {
-        position: absolute;
-        width: 100%;
-        text-align: center;
-        bottom: 0;
-        padding: 0;
-        margin: 0;
-        color: black;
-        font-weight: 200;
-
-        font-size: 17px;
-      }
-
-      #statusbeacon {
-        position: absolute;
-        width: 100%;
-        height: 20px;
-        left: 0;
-        bottom: 0;
-        padding: 0;
-        margin: 0;
-        opacity: 0.8;
-
-        background: linear-gradient(90deg, transparent 0%, white 50%, transparent 100%);
-
-        animation-name: progressindicator;
-        animation-duration: 2s;
-        animation-timing-function: ease-out;
-        animation-iteration-count: infinite;
-
-      }
-
-      @keyframes progressindicator {
-        from {
-          left: -100%;
-        }
-
-        to {
-          left: 100%;
-        }
-      }
-    </style>
-
 
   </div>
 
