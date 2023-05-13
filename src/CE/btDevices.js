@@ -74,8 +74,9 @@ class tpiconbutton extends HTMLElement {
         const content = template.content.cloneNode(true);
 
 
-        this.ICON = content.querySelector('.material-symbols-outlined')
-        this.DESC = content.querySelector('.maticonbtext')
+        this.ICON = content.querySelector('.material-symbols-outlined');
+        this.DESC = content.querySelector('.maticonbtext');
+        this.MAIN = content.querySelector('.mmain');
 
         shadowRoot.appendChild(linkElem);
         shadowRoot.appendChild(content);
@@ -89,7 +90,7 @@ class tpiconbutton extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['icon', 'desc', 'callback'];
+        return ['icon', 'desc', 'active', 'callback'];
     }
 
 
@@ -101,6 +102,10 @@ class tpiconbutton extends HTMLElement {
         if (name === 'desc') {
             // Update the element's content based on the new attribute value
             this.DESC.innerHTML = newValue
+        }
+        if (name === 'active') {
+            if (newValue === 'yes') this.MAIN.style.opacity = 1;
+            else this.MAIN.style.opacity = 0.5;
         }
     }
 

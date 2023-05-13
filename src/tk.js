@@ -74,3 +74,41 @@ function generateString(length) {
 
     return result;
 }
+
+
+const navbarbuttons = document.getElementsByClassName("navbarbutton");
+
+function toggleNavbarButtons(btn) {
+
+
+    Array.prototype.forEach.call(navbarbuttons, element => {
+
+        element.setAttribute('active', 'none');
+
+    });
+    navbarbuttons[btn].setAttribute('active', 'yes');
+}
+
+function navbar_link() {
+    toggleNavbarButtons(0);
+}
+function navbar_drive() {
+    toggleNavbarButtons(1);
+}
+function navbar_trips() {
+    toggleNavbarButtons(2);
+}
+function navbar_settings() {
+    toggleNavbarButtons(3);
+}
+
+
+const connectionbar = document.getElementsByClassName("vehicleconnection");
+
+var i = 32
+Array.prototype.forEach.call(connectionbar, element => {
+
+    element.style.left = i + 'px';
+
+    i += 10;
+});
