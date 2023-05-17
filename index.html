@@ -547,13 +547,13 @@
           @keyframes slideIn {
             from {
               opacity: 0;
-              transform: translateY(-50%) scaleY(0);
+              transform: translateX(-100%);
 
             }
 
             to {
               opacity: 1;
-              transform: translateY(0) scaleY(1);
+              transform: translateX(0);
 
             }
           }
@@ -561,12 +561,12 @@
           @keyframes slideOut {
             from {
               opacity: 1;
-              transform: translateY(0) scaleY(1);
+              transform: translateX(0);
             }
 
             to {
               opacity: 0;
-              transform: translateY(-50%) scaleY(0);
+              transform: translateX(-100%);
 
             }
           }
@@ -577,7 +577,11 @@
 
 
         <script>function ccc2() {
-            closeDevices();
+
+          }
+
+          function saveVehicle() {
+
           }
         </script>
         <span id="vehicleeditclose" class="material-symbols-outlined" onclick="ccc2()">
@@ -589,12 +593,52 @@
         <P id="editvehheading">Edit Vehicle</P>
 
         <br>
-        <input class="editveh" type="text" id="lname" placeholder="Vehicle Name">
+        <div class="editvehContainer">
+          <input class="editveh" type="text" id="lname" placeholder="Vehicle Name">
+        </div>
         <br>
-        <input class="editveh" type="text" id="lcc" placeholder="Cubic Centimeters">
+
+        <div class="editvehContainer">
+          <input class="editveh" type="text" id="lcc" placeholder="Engine Displacement">
+          CC
+        </div>
+
+        <br>
+        <div class="editvehContainer">
+          <select name="Fuel Selector" id="FuelType">
+            <option value="Petrol">Gasoline</option>
+            <option value="Diesel">Diesel</option>
+            <option value="CNG">CNG</option>
+          </select>
+          Fuel Type
+
+        </div>
+        <br>
+        <div class="editvehContainer">
+          <Button id="saveVehicle">Save</Button>
+        </div>
 
 
         <style>
+          #saveVehicle {
+            background-color: transparent;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 200;
+            font-size: 24px;
+            border: none;
+            width: 100%;
+            text-align: center;
+            color: var(--c4);
+          }
+
+          #saveVehicle:active {
+
+            text-shadow: 0 0 5px var(--c4);
+          }
+
+
+
+
           input:focus,
           select:focus,
           textarea:focus,
@@ -604,28 +648,64 @@
 
           .editveh {
 
-            margin-top: 24px;
-            margin-left: 24px;
-            font-size: 24px;
+
             position: relative;
             background-color: var(--background-color);
             border: 0;
             color: var(--text-colorA);
+            width: 100%;
+            font-size: 24px;
 
             font-family: 'Open Sans', sans-serif;
             font-weight: 200;
             border-bottom: 1px solid var(--c3);
             caret-color: var(--c3);
-            width: calc(100% - 48px);
+
+          }
+
+          .editvehContainer {
+            padding-top: 24px;
+            padding-right: 24px;
+            padding-left: 24px;
+            font-size: 24px;
+            width: calc(100% - 75px);
+
+
             display: flex;
+            color: var(--text-colorB);
 
           }
 
-          #lcc ::after {
-            content: 'CC';
-            position: relative;
+          #FuelType {
+            margin-right: 20px;
+
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 200;
+
+            background-color: transparent;
+            border: 0px;
+            font-size: 24px;
+            color: var(--text-colorA);
+            border-bottom: 1px solid var(--c3);
 
           }
+
+          select option {
+            background-color: var(--card-color);
+
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 200;
+
+            outline: none;
+
+
+          }
+
+
+          :focus {
+            background-color: var(--card-color);
+          }
+
 
           ::placeholder {
             /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -637,8 +717,9 @@
 
           #editVehicle {
 
+
             z-index: 20;
-            display: block;
+            display: none;
 
             position: relative;
             width: 100%;
@@ -651,13 +732,20 @@
 
             background-color: var(--background-color);
 
+            overflow-y: scroll;
+
+            animation-duration: 0.4s;
+            animation-fill-mode: forwards;
+            animation-timing-function: ease;
+
+
 
           }
 
           #editvehheading {
 
             position: relative;
-            width: 100%;
+            width: calc(100% - 32px);
             margin: 0;
             display: flex;
             align-items: center;
