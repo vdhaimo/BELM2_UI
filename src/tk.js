@@ -112,3 +112,26 @@ Array.prototype.forEach.call(connectionbar, element => {
 
     i += 10;
 });
+
+
+const editvehicleOptn = document.getElementById("editVehicle");
+
+function editvehicle() {
+
+    editvehicleOptn.style.display = 'block';
+
+    editvehicleOptn.classList.remove('slide-out')
+    editvehicleOptn.classList.add('slide-in')
+
+}
+
+function editvehicleclose(isSave) {
+    editvehicleOptn.classList.remove('slide-in')
+    editvehicleOptn.classList.add('slide-out')
+}
+
+editvehicleOptn.addEventListener("animationend", (event) => {
+    if (event.animationName == 'slideOut') {
+        editvehicleOptn.style.display = 'none';
+    }
+});

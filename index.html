@@ -339,7 +339,7 @@
         <bt-cardx1 icon="memory" bigtext="OBD2 Device" smalltext="Connected to OBD II se:34:f5:78"
           onclick="load()"></bt-cardx1>
 
-        <bt-cardx1 icon="" bigtext="Edit Current Vehicle" smalltext="Bolt"></bt-cardx1>
+        <bt-cardx1 icon="" bigtext="Edit Current Vehicle" smalltext="Bolt" onclick="editvehicle()"></bt-cardx1>
 
 
 
@@ -577,11 +577,11 @@
 
 
         <script>function ccc2() {
-
+            editvehicleclose(false);
           }
 
           function saveVehicle() {
-
+            editvehicleclose(true);
           }
         </script>
         <span id="vehicleeditclose" class="material-symbols-outlined" onclick="ccc2()">
@@ -615,7 +615,7 @@
         </div>
         <br>
         <div class="editvehContainer">
-          <Button id="saveVehicle">Save</Button>
+          <Button id="saveVehicle" onclick="saveVehicle()">Save</Button>
         </div>
 
 
