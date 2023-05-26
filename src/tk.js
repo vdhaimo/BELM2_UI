@@ -14,10 +14,11 @@ btdevicelistMain.addEventListener("animationend", (event) => {
     }
 });
 
-var n = 20
 
 function closeDevices() {
     clear();
+    if (!ispc) XAPI.stopDeviceRead();
+
 }
 
 
@@ -31,6 +32,7 @@ function clear() {
 
 
 function load() {
+    if (!ispc) XAPI.readDevices();
 
     btdevicelistMain.style.display = 'block';
 
@@ -38,42 +40,34 @@ function load() {
     btdevicelistMain.classList.add('slide-in')
 
 
-    i = n
-    while (i > 0) {
 
-        var h = document.createElement('bt-listitem');
-        h.setAttribute('bigtext', generateString(5));
-        h.setAttribute('smalltext', generateString(8));
-
-        btdevicelist.appendChild(h);
-
-        i--
-    }
+}
 
 
+function onDeviceRead(dname, dadd, dtype) {
+
+
+
+    var h = document.createElement('bt-listitem');
+    h.setAttribute('bigtext', dname);
+    h.setAttribute('smalltext', dadd);
+
+    btdevicelist.appendChild(h);
 
 
 }
 
-function btlistitemclicked(elem) {
-    console.log(elem);
+function btlistitemclicked(addr) {
+    if (!XAPI.ispc) XAPI.connectdevice(addr);
 }
+
 function rer() {
     console.log('capybara')
 }
 // program to generate random strings
 
-// declare all characters
 
-function generateString(length) {
-    let result = ' ';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
 
-    return result;
-}
 
 
 const navbarbuttons = document.getElementsByClassName("navbarbutton");
@@ -135,3 +129,8 @@ editvehicleOptn.addEventListener("animationend", (event) => {
         editvehicleOptn.style.display = 'none';
     }
 });
+
+
+
+if (!ispc) XAPI.showMsg("fname", "pswd");
+

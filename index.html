@@ -114,7 +114,7 @@
     }
 
     #main:active {
-      background-color: var(--background-color);
+      opacity: 0.5;
     }
 
     #icn {
@@ -246,6 +246,11 @@
 
 <body>
 
+  <script>
+
+    var ispc = typeof XAPI == "undefined";
+
+  </script>
 
 
   <div id='map'></div>
@@ -339,7 +344,8 @@
         <bt-cardx1 icon="memory" bigtext="OBD2 Device" smalltext="Connected to OBD II se:34:f5:78"
           onclick="load()"></bt-cardx1>
 
-        <bt-cardx1 icon="" bigtext="Edit Current Vehicle" smalltext="Bolt" onclick="editvehicle()"></bt-cardx1>
+        <bt-cardx1 icon="car_repair" bigtext="Edit Current Vehicle" smalltext="Bolt"
+          onclick="editvehicle()"></bt-cardx1>
 
 
 
@@ -453,12 +459,12 @@
           close
         </span>
 
-
         <div id="listholderoverlay">
 
         </div>
 
         <P id="btdevheading">Select Device</P>
+
 
 
         <style>
@@ -472,9 +478,8 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            animation-duration: 0.4s;
+            animation-duration: 0.2s;
             animation-fill-mode: forwards;
-            animation-timing-function: ease;
 
             background-color: var(--background-color);
 
@@ -492,9 +497,9 @@
             height: 144px;
             text-align: left;
             font-size: 24px;
-            border-bottom: 1px solid #222222;
             font-weight: 400;
             color: #888888;
+            border-bottom: 1px solid var(--card-color)
           }
 
 
@@ -537,23 +542,28 @@
           }
 
           .slide-in {
+
+            animation-timing-function: ease-out;
+
             animation-name: slideIn;
           }
 
           .slide-out {
+
+            animation-timing-function: ease-in;
             animation-name: slideOut;
           }
 
           @keyframes slideIn {
             from {
               opacity: 0;
-              transform: translateX(-100%);
+              transform: translateY(20%);
 
             }
 
             to {
               opacity: 1;
-              transform: translateX(0);
+              transform: translateY(0);
 
             }
           }
@@ -561,12 +571,12 @@
           @keyframes slideOut {
             from {
               opacity: 1;
-              transform: translateX(0);
+              transform: translateY(0);
             }
 
             to {
               opacity: 0;
-              transform: translateX(-100%);
+              transform: translateY(20%);
 
             }
           }
@@ -726,17 +736,13 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            animation-duration: 0.4s;
+            animation-duration: 0.2s;
             animation-fill-mode: forwards;
-            animation-timing-function: ease;
+            animation-timing-function: ease-out;
 
             background-color: var(--background-color);
 
             overflow-y: scroll;
-
-            animation-duration: 0.4s;
-            animation-fill-mode: forwards;
-            animation-timing-function: ease;
 
 
 
