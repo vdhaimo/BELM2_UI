@@ -324,11 +324,10 @@
           </style>
         </div>
 
-        <div class="currentvehicle">
+        <div id="currentvehiclecard" class="currentvehicle">
 
           <div class="vehicleconnection"></div>
           <P id="connectstatus">ECU Com</P>
-          <button id="connectbutton">Disconnect</button>
 
           <p id="vname">Bolt
             <br>
@@ -336,16 +335,21 @@
           </p>
 
 
-          <bt-iconmatbutton id="prevbutton" icon="arrow_drop_up" desc="Prev"></bt-iconmatbutton>
-          <bt-iconmatbutton id="nextbutton" icon="arrow_drop_down" desc="Next"></bt-iconmatbutton>
+          <bt-iconmatbutton id="prevbutton" icon="chevron_left" desc=""></bt-iconmatbutton>
+
+          <bt-iconmatbutton id="resetnav" icon="adjust" desc=""></bt-iconmatbutton>
+          <bt-iconmatbutton id="nextbutton" icon="chevron_right" desc=""></bt-iconmatbutton>
 
         </div>
 
-        <bt-cardx1 icon="memory" bigtext="OBD2 Device" smalltext="Connected to OBD II se:34:f5:78"
+        <bt-cardx1 id="option_devices" icon="memory" bigtext="OBD2 Device" smalltext="Connected to OBD II se:34:f5:78"
           onclick="load()"></bt-cardx1>
 
-        <bt-cardx1 icon="car_repair" bigtext="Edit Current Vehicle" smalltext="Bolt"
+        <bt-cardx1 id="option_edit" icon="car_repair" bigtext="Edit Current Vehicle" smalltext="Bolt"
           onclick="editvehicle()"></bt-cardx1>
+
+        <bt-cardx1 id="option_nodevs" icon="add" bigtext="Tap to find OBD2 devices" smalltext="No saved Vehicles found"
+          onclick="load()"></bt-cardx1>
 
 
 
@@ -363,18 +367,7 @@
 
         }
 
-        #connectbutton {
-          position: absolute;
-          right: 36px;
-          top: 26px;
-          background-color: var(--card-color);
-          border-radius: 5px;
-          font-size: 17px;
-          color: var(--text-colorA);
-          border: 1px solid var(--text-colorA);
 
-
-        }
 
 
         #connectstatus {
@@ -407,11 +400,12 @@
           z-index: 10;
         }
 
+        #resetnav,
         #prevbutton,
         #nextbutton {
           position: relative;
           width: 72px;
-          margin-right: 24px;
+          margin-right: 0;
           text-align: center;
         }
 
@@ -604,21 +598,21 @@
 
         <br>
         <div class="editvehContainer">
-          <input class="editveh" type="text" id="lname" placeholder="Vehicle Name">
+          <input class="editveh" type="text" maxlength="16" id="lname" placeholder="Vehicle Name">
         </div>
         <br>
 
         <div class="editvehContainer">
-          <input class="editveh" type="text" id="lcc" placeholder="Engine Displacement">
+          <input class="editveh" type="number" id="lcc" placeholder="Engine Displacement">
           CC
         </div>
 
         <br>
         <div class="editvehContainer">
-          <select name="Fuel Selector" id="FuelType">
-            <option value="Petrol">Gasoline</option>
-            <option value="Diesel">Diesel</option>
-            <option value="CNG">CNG</option>
+          <select name="Fuel Selector" id="FuelType" onchange=fuelTypeChanged()>
+            <option value=1>Gasoline</option>
+            <option value=4>Diesel</option>
+            <option value=6>CNG</option>
           </select>
           Fuel Type
 
