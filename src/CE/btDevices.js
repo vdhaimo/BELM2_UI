@@ -14,8 +14,9 @@ class btListItem extends HTMLElement {
 
 
 
-        this.BIGTEXT = content.querySelector('#bigtext')
-        this.SMALLTEXT = content.querySelector('#smalltext')
+        this.BIGTEXT = content.querySelector('#bigtext');
+        this.SMALLTEXT = content.querySelector('#smalltext');
+        this.RIGHTTEXT = content.querySelector('#righttext');
 
         shadowRoot.appendChild(content);
 
@@ -31,18 +32,21 @@ class btListItem extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['bigtext', 'smalltext'];
+        return ['bigtext', 'smalltext', 'righttext'];
     }
 
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'bigtext') {
             // Update the element's content based on the new attribute value
-            this.BIGTEXT.innerHTML = newValue
+            this.BIGTEXT.innerHTML = newValue;
         }
         if (name === 'smalltext') {
             // Update the element's content based on the new attribute value
-            this.SMALLTEXT.innerHTML = newValue
+            this.SMALLTEXT.innerHTML = newValue;
+        }
+        if (name === 'righttext') {
+            this.RIGHTTEXT.innerHTML = newValue;
         }
     }
 

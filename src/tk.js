@@ -7,17 +7,24 @@ const btdevicelist = document.getElementById("listholder")
 const btdevicelistMain = document.getElementById('selectBTdevices')
 btdevicelistMain.addEventListener("animationend", (event) => {
     if (event.animationName == 'slideOut') {
-        while (btdevicelist.firstChild) {
-            btdevicelist.removeChild(btdevicelist.lastChild);
-        }
+
+
+        cleanBTlist();
+
         btdevicelistMain.style.display = 'none';
     }
 });
 
+function cleanBTlist() {
+    while (btdevicelist.firstChild) {
+        btdevicelist.removeChild(btdevicelist.lastChild);
+    }
+
+}
+
 
 function closeDevices() {
     clear();
-    if (!ispc) XAPI.stopDeviceRead();
 
 }
 
@@ -32,30 +39,61 @@ function clear() {
 
 
 function load() {
-    if (!ispc) XAPI.readDevices();
+
+    searchtext.value = "";
+
+
+    XAPI.read();
 
     btdevicelistMain.style.display = 'block';
 
-    btdevicelistMain.classList.remove('slide-out')
-    btdevicelistMain.classList.add('slide-in')
+    btdevicelistMain.classList.remove('slide-out');
+    btdevicelistMain.classList.add('slide-in');
+
+
+}
+
+const searchtext = document.getElementById("btdevicesearch");
+searchtext.addEventListener('input', result => {
+    updateDeviceList();
+});
+
+var devices = [];
+
+function bondedDevices(devs) {
+
+    devices = devs;
+
+    console.log(devices);
+
+    updateDeviceList();
+
+}
+
+function updateDeviceList() {
+
+    cleanBTlist();
+
+    var text = searchtext.value;
+
+    devices.forEach(element => {
+
+        if (element.name.toLowerCase().includes(text.toLowerCase()) || element.address.toLowerCase().includes(text.toLowerCase())) {
+            var h = document.createElement('bt-listitem');
+            h.setAttribute('bigtext', element.name);
+            h.setAttribute('smalltext', element.address);
+            vehiclelist.forEach(vehicle => {
+                if (element.address == vehicle.devadd) h.setAttribute('righttext', vehicle.name);
+            });
+
+            btdevicelist.appendChild(h);
+        }
+    });
 
 
 
 }
 
-
-function onDeviceRead(dname, dadd, dtype) {
-
-
-
-    var h = document.createElement('bt-listitem');
-    h.setAttribute('bigtext', dname);
-    h.setAttribute('smalltext', dadd);
-
-    btdevicelist.appendChild(h);
-
-
-}
 
 function btlistitemclicked(addr) {
     if (!XAPI.ispc) XAPI.connectdevice(addr);
@@ -100,13 +138,7 @@ function navbar_settings() {
 
 const connectionbar = document.getElementsByClassName("vehicleconnection");
 
-var i = 32
-Array.prototype.forEach.call(connectionbar, element => {
 
-    element.style.left = i + 'px';
-
-    i += 10;
-});
 
 
 const editvehicleOptn = document.getElementById("editVehicle");
@@ -139,15 +171,15 @@ editvehicleOptn.addEventListener("animationend", (event) => {
 });
 
 
-
-if (!ispc) XAPI.showMsg("fname", "pswd");
+function pairNewDevice() {
+    XAPI.pairNewDevice();
+}
 
 
 var vehiclelist = []
 
 function readVehicles(vehicles) {
 
-    console.log(vehicles);
 
     var vhs = []
 
@@ -164,10 +196,10 @@ function readVehicles(vehicles) {
     }
 
 
-    if (vehicles.length > 2) {
+    if (vehicles.length > 1) {
         vehicles.sort((a, b) => {
-            const vinA = a.vin;
-            const vinB = b.vin;
+            const vinA = a.vin.toLowerCase();
+            const vinB = b.vin.toLowerCase();
             if (vinA < vinB) {
                 return -1; // a should be placed before b
             }
@@ -180,7 +212,7 @@ function readVehicles(vehicles) {
 
     vehiclelist = vehicles;
 
-    populateHomescreen(vehiclelist.length < 1);
+    populateHomescreen(vehiclelist.length < 5);
 
 
     return "read";
@@ -192,11 +224,12 @@ function connectedVehicleID(id, mac) {
 
     connectedvehicleid = id;
 
+    lastdeviceMAC = mac;
+
     vehiclelist.forEach(element => {
         if (element.vin == id) {
             //connected to element update card
-            editOption.setAttribute('smalltext', element.name);
-            devicesOption.setAttribute('smalltext', mac);
+
 
 
             if (element.mac != mac) {
@@ -244,7 +277,7 @@ function saveVehicle() {
 }
 
 
-const vehicleCard = document.getElementById("currentvehiclecard");
+const vehicleCard = document.getElementById("curvehcard");
 
 const devicesOption = document.getElementById("option_devices");
 
@@ -252,21 +285,30 @@ const editOption = document.getElementById("option_edit");
 
 const nodevsOption = document.getElementById("option_nodevs");
 
+const connectOption = document.getElementById("option_connect");
+const disconnectOption = document.getElementById("option_disconnect");
+
 
 function populateHomescreen(noVehicles) {
 
     if (noVehicles) {
         vehicleCard.style.display = 'none';
         editOption.style.display = 'none';
-        devicesOption.style.display = 'none';
+        devicesOption.style.display = 'block';
         nodevsOption.style.display = 'block';
+        connectOption.style.display = 'none';
+        disconnectOption.style.display = 'none';
     }
     else {
-        vehicleCard.style.display = 'block';
+        vehicleCard.style.display = 'flex';
         editOption.style.display = 'block';
         devicesOption.style.display = 'block';
         nodevsOption.style.display = 'none';
     }
+
+}
+
+function connectVehicle(isconnect) {
 
 }
 
@@ -277,10 +319,25 @@ const cvD = document.getElementById('vehicledetails');
 const ecuLamp = document.getElementById('vehicleconnection');
 const ecuStatus = document.getElementById('connectstatus');
 
+var lastdeviceMAC = ""
+function lastDevice(mac) {
+    lastdeviceMAC = mac;
+}
 
-function populateCurrentVehicleCard() {
+
+function updateCurrentVehicleCard() {
+
+
+    vehiclelist.forEach(vehicle => {
+        if (vehicle.devadd == lastdeviceMAC) {
+
+        }
+    })
+
 
 }
+
+
 
 
 XAPI.askVehicles();

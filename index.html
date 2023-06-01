@@ -96,7 +96,7 @@
     <p id="bigtext"></p>
     <p id="smalltext"></p>
 
-    <p id="righttext">Fiestfddfsfdsdfsdfsdfa</p>
+    <p id="righttext"></p>
 
   </div>
 
@@ -130,13 +130,17 @@
 
     #bigtext {
       left: 72px;
+      width: 40%;
       position: absolute;
-      font-size: 24px;
+      font-size: 17px;
       top: 17px;
       height: 100%;
       margin: 0;
       padding: 0;
       color: var(--text-colorA);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
     }
 
@@ -324,7 +328,7 @@
           </style>
         </div>
 
-        <div id="currentvehiclecard" class="currentvehicle">
+        <div class="currentvehicle" id="curvehcard">
 
           <div class="vehicleconnection"></div>
           <P id="connectstatus">ECU Com</P>
@@ -341,15 +345,19 @@
           <bt-iconmatbutton id="nextbutton" icon="chevron_right" desc=""></bt-iconmatbutton>
 
         </div>
+        <bt-cardx1 id="option_connect" icon="link" bigtext="Connect" smalltext="OBD2"
+          onclick="connectVehicle(true)"></bt-cardx1>
 
-        <bt-cardx1 id="option_devices" icon="memory" bigtext="OBD2 Device" smalltext="Connected to OBD II se:34:f5:78"
+        <bt-cardx1 id="option_disconnect" icon="link_off" bigtext="Disconnect" smalltext="Connected to Bolt"
+          onclick="connectVehicle(false)"></bt-cardx1>
+
+        <bt-cardx1 id="option_devices" icon="memory" bigtext="OBD2 Device" smalltext="Select OBD2 device"
           onclick="load()"></bt-cardx1>
 
-        <bt-cardx1 id="option_edit" icon="car_repair" bigtext="Edit Current Vehicle" smalltext="Bolt"
+        <bt-cardx1 id="option_edit" icon="car_repair" bigtext="Edit Vehicle" smalltext="Bolt"
           onclick="editvehicle()"></bt-cardx1>
 
-        <bt-cardx1 id="option_nodevs" icon="add" bigtext="Tap to find OBD2 devices" smalltext="No saved Vehicles found"
-          onclick="load()"></bt-cardx1>
+
 
 
 
@@ -441,9 +449,24 @@
         }
       </style>
 
+
+
       <div id="selectBTdevices">
+
+
+
+
+        <input type="text" placeholder="Type to search" id="btdevicesearch" class="editveh">
+
+        <button class="floatingbutton" onclick="pairNewDevice()">&#43; Pair New</button>
+
         <div id="listholder">
+
+
+
         </div>
+
+
 
         <script>function ccc() {
             closeDevices();
@@ -455,13 +478,48 @@
 
         <div id="listholderoverlay">
 
+
+
         </div>
 
-        <P id="btdevheading">Select Device</P>
-
+        <P id="btdevheading">Paired Devices</P>
 
 
         <style>
+          .floatingbutton {
+            position: absolute;
+            bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+            width: fit-content;
+            background-color: var(--card-color);
+            color: var(--text-colorA);
+            border: 0px;
+
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 200;
+            border-radius: 20px;
+            padding: 5px 20px 5px 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 1;
+            z-index: 20;
+
+          }
+
+          .floatingbutton:active {
+            opacity: 0.5;
+          }
+
+          #btdevicesearch {
+            width: 100%;
+            position: absolute;
+            top: 144px;
+            height: 48px;
+            font-size: 24px;
+            padding-left: 24px;
+          }
+
           #selectBTdevices {
 
             z-index: 20;
@@ -515,8 +573,8 @@
           #listholder {
             padding: 0;
             width: 100%;
-            top: 144px;
-            height: calc(100% - 144px);
+            top: 192px;
+            height: calc(100% - 192px);
             position: absolute;
             margin: 0;
             overflow-y: scroll;
@@ -527,8 +585,8 @@
           #listholderoverlay {
             padding: 0;
             width: 100%;
-            top: 144px;
-            height: calc(100% - 144px);
+            top: 192px;
+            height: calc(100% - 192px);
             position: absolute;
             margin: 0;
             background: linear-gradient(0deg, #111111 0%, transparent 32px, transparent calc(100% - 20px), #111111 100%);
