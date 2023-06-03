@@ -15,6 +15,8 @@ btdevicelistMain.addEventListener("animationend", (event) => {
     }
 });
 
+
+
 function cleanBTlist() {
     while (btdevicelist.firstChild) {
         btdevicelist.removeChild(btdevicelist.lastChild);
@@ -283,7 +285,6 @@ const devicesOption = document.getElementById("option_devices");
 
 const editOption = document.getElementById("option_edit");
 
-const nodevsOption = document.getElementById("option_nodevs");
 
 const connectOption = document.getElementById("option_connect");
 const disconnectOption = document.getElementById("option_disconnect");
@@ -295,7 +296,6 @@ function populateHomescreen(noVehicles) {
         vehicleCard.style.display = 'none';
         editOption.style.display = 'none';
         devicesOption.style.display = 'block';
-        nodevsOption.style.display = 'block';
         connectOption.style.display = 'none';
         disconnectOption.style.display = 'none';
     }
@@ -341,3 +341,9 @@ function updateCurrentVehicleCard() {
 
 
 XAPI.askVehicles();
+
+var dbg = document.getElementById('dlog');
+
+function plog(mess) {
+    dbg.innerHTML = mess;
+}
