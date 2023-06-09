@@ -198,8 +198,8 @@ function readVehicles(vehicles) {
     }
 
 
-    if (vehicles.length > 1) {
-        vehicles.sort((a, b) => {
+    if (vhs.length > 1) {
+        vhs.sort((a, b) => {
             const vinA = a.vin.toLowerCase();
             const vinB = b.vin.toLowerCase();
             if (vinA < vinB) {
@@ -212,9 +212,9 @@ function readVehicles(vehicles) {
         });
     }
 
-    vehiclelist = vehicles;
+    vehiclelist = vhs;
 
-    populateHomescreen(vehiclelist.length < 5);
+    populateHomescreen(!vehiclelist.length);
 
 
     return "read";
@@ -325,14 +325,17 @@ function lastDevice(mac) {
 }
 
 
-function updateCurrentVehicleCard() {
 
 
-    vehiclelist.forEach(vehicle => {
-        if (vehicle.devadd == lastdeviceMAC) {
+function updatevehiclecard(vehicleid) {
 
-        }
-    })
+
+
+
+}
+
+function navVards(inc) {
+
 
 
 }
@@ -340,10 +343,15 @@ function updateCurrentVehicleCard() {
 
 
 
-XAPI.askVehicles();
+if (!ispc) XAPI.askVehicles();
 
 var dbg = document.getElementById('dlog');
 
 function plog(mess) {
-    dbg.innerHTML = mess;
+
+    var str = "";
+    mess.forEach(element => {
+        str += element;
+    });
+    dbg.innerHTML = str;
 }

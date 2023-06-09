@@ -59,6 +59,71 @@ class btListItem extends HTMLElement {
 window.customElements.define('bt-listitem', btListItem);
 
 
+class btVehicleCard extends HTMLElement {
+
+    constructor() {
+        super();
+
+        let template = document.getElementById("tp-vehiclecard");
+
+        const shadowRoot = this.attachShadow({ mode: "closed" });
+        const content = template.content.cloneNode(true);
+
+
+
+        this.COM = content.querySelector('#com');
+        this.CONSTAT = content.querySelector('#connectionstat');
+        this.VNAME = content.querySelector('#vname');
+        this.VDTL = content.querySelector('#vdetails');
+
+
+        shadowRoot.appendChild(content);
+
+    }
+
+    connectedCallback() {
+
+        /*
+                this.addEventListener('click', function (event) {
+                    btlistitemclicked(event.target.getAttribute('smalltext'));
+                });    */
+
+    }
+
+    static get observedAttributes() {
+        return ['com', 'constat', 'vnm', 'vdtl'];
+    }
+
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'com') {
+            // Update the element's content based on the new attribute value
+            this.COM.style.display = 'none';
+            this.COM.style.display = 'block';
+        }
+        if (name === 'constat') {
+            // Update the element's content based on the new attribute value
+            this.CONSTAT.innerHTML = newValue;
+
+
+        }
+        if (name === 'vnm') {
+            this.VNAME.innerHTML = newValue;
+        }
+        if (name === 'vdtl') {
+            this.VDTL.innerHTML = newValue;
+        }
+    }
+
+
+}
+
+
+
+// Define the custom element
+window.customElements.define('bt-vehiclecard', btVehicleCard);
+
+
 
 
 

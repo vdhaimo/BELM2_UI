@@ -15,6 +15,121 @@
   }
 </style>
 
+<template id="tp-vehiclecard">
+
+  <div id="main">
+    <div id="com"></div>
+    <P id="connectionstat"></P>
+
+    <p id="vname">
+      <br>
+    <P id="vdetails"></P>
+    </p>
+  </div>
+
+
+  <style>
+    #main {
+      position: relative;
+      top: 5px;
+      right: 0;
+      left: 0;
+      margin: 5px 10px 20px 10px;
+      padding: 50px 0 0 0;
+      border-radius: 10px;
+      background-color: var(--card-color);
+      height: 150px;
+      width: 240px;
+      bottom: 0;
+      align-items: center;
+      text-align: center;
+      padding-right: 12px;
+      z-index: 10;
+      opacity: 1;
+      scroll-snap-align: center;
+      gap: 24px;
+    }
+
+    #main:active {
+      opacity: 1;
+    }
+
+
+    #connectionstat {
+      position: absolute;
+      top: 0;
+      left: 52px;
+      color: var(--text-colorB);
+      margin: 0;
+      padding: 0;
+      top: 26px;
+      font-size: 15px;
+
+    }
+
+    #vname {
+      top: 48px;
+      text-align: left;
+      position: relative;
+      font-size: 32px;
+      font-weight: 100;
+      color: var(--text-colorA);
+      width: 100%;
+      margin: 0 0 0 48px;
+      color: var(--c5);
+    }
+
+    #vdetails {
+      top: 50px;
+      font-weight: 400;
+      margin: 0 0 0 48px;
+      position: relative;
+      font-size: 12px;
+      color: var(--text-colorB);
+      width: 100%;
+      text-align: left;
+      display: block;
+    }
+
+    #com {
+      top: 28px;
+      left: 24px;
+      position: absolute;
+      border-radius: 5px;
+      width: 15px;
+      height: 15px;
+      background-color: var(--text-colorB);
+      animation-name: comflash;
+      animation-duration: 0.2s;
+      animation-iteration-count: 1;
+      opacity: 0.5;
+
+    }
+
+
+    @keyframes comflash {
+      0% {
+        background-color: var(--c3);
+        box-shadow: 0 0 5px;
+        opacity: 1;
+      }
+
+
+      100% {
+
+        background-color: var(--text-colorB);
+        box-shadow: 0 0 0;
+        opacity: 0.5;
+      }
+
+
+    }
+  </style>
+
+
+
+</template>
+
 <template id="tp-cardX1">
 
 
@@ -328,23 +443,15 @@
           </style>
         </div>
 
-        <div class="currentvehicle" id="curvehcard">
-
-          <div class="vehicleconnection"></div>
-          <P id="connectstatus">ECU Com</P>
-
-          <p id="vname">Bolt
-            <br>
-            <span id="vehicledetails">cc: 1198 | Fuel : Petrol</span>
-          </p>
-
-
-          <bt-iconmatbutton id="prevbutton" icon="chevron_left" desc=""></bt-iconmatbutton>
-
-          <bt-iconmatbutton id="resetnav" icon="adjust" desc=""></bt-iconmatbutton>
-          <bt-iconmatbutton id="nextbutton" icon="chevron_right" desc=""></bt-iconmatbutton>
+        <div class="vehiclecardsholder">
+          <bt-vehiclecard vnm="Bolt" vdtl="1200 CC | Petrol" constat="STICK"></bt-vehiclecard>
+          <bt-vehiclecard vnm="Fiesta" vdtl="1400 CC | Petrol" constat="STICK"></bt-vehiclecard>
+          <bt-vehiclecard vnm="i20" vdtl="1200 CC | Petrol" constat="STICK"></bt-vehiclecard>
 
         </div>
+
+
+
         <bt-cardx1 id="option_connect" icon="link" bigtext="Connect" smalltext="OBD2"
           onclick="connectVehicle(true)"></bt-cardx1>
 
@@ -359,12 +466,57 @@
 
 
 
+        <script>
 
+          const scrollContainer = document.querySelector('.vehiclecardsholder');
+          scrollContainer.addEventListener('scroll', handleScroll);
+
+
+
+          function handleScroll() {
+
+            const bx = scrollContainer.getBoundingClientRect();
+            const bb = (bx.right - bx.left) / 2;
+
+            const snappedElement = getSnappedElement(scrollContainer, bb);
+            console.log(snappedElement);
+          }
+
+          function getSnappedElement(container, xn) {
+            const scrollLeft = container.scrollLeft;
+            const elements = Array.from(container.querySelectorAll('bt-vehiclecard'));
+
+
+            for (let i = 0; i < elements.length; i++) {
+              const element = elements[i];
+              const rect = element.getBoundingClientRect();
+              if (rect.left <= xn && rect.right >= xn) {
+                return element;
+              }
+            }
+
+            return null;
+          }
+        </script>
 
 
 
       </div>
       <style>
+        .vehiclecardsholder {
+          position: relative;
+          display: flex;
+          width: calc(100% - 48px);
+          height: fit-content;
+          overflow-x: scroll;
+          scroll-snap-type: x mandatory;
+          padding: 0 24px 0 24px;
+
+
+
+
+        }
+
         .home {
           position: absolute;
           width: 100%;
@@ -373,79 +525,6 @@
           margin: 0;
           overflow-y: scroll;
 
-        }
-
-
-
-
-        #connectstatus {
-          position: absolute;
-          top: 0;
-          left: 62px;
-          color: var(--text-colorB);
-          margin: 0;
-          padding: 0;
-          top: 26px;
-          font-size: 15px;
-
-        }
-
-        .currentvehicle {
-          position: sticky;
-          top: 5px;
-          right: 0;
-          left: 0;
-          margin: 5px 8px 5px 8px;
-          padding: 50px 0 0 0;
-          border-radius: 10px;
-          background-color: var(--card-color);
-          height: 150px;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          text-align: center;
-          padding-right: 12px;
-          z-index: 10;
-        }
-
-        #resetnav,
-        #prevbutton,
-        #nextbutton {
-          position: relative;
-          width: 72px;
-          margin-right: 0;
-          text-align: center;
-        }
-
-        #vname {
-          text-align: left;
-          position: relative;
-          font-size: 32px;
-          color: var(--text-colorA);
-          width: 100%;
-          margin: 0 0 0 48px;
-          color: var(--c4);
-        }
-
-        #vehicledetails {
-          margin: 0;
-          position: relative;
-          font-size: 12px;
-          color: var(--text-colorB);
-          width: 100%;
-          text-align: left;
-          display: block;
-        }
-
-        .vehicleconnection {
-          top: 28px;
-          left: 24px;
-          position: absolute;
-          border-radius: 5px;
-          width: 15px;
-          height: 15px;
-          background-color: var(--c3);
-          box-shadow: 0 0 5px;
         }
       </style>
 
