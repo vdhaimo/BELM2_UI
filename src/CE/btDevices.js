@@ -24,7 +24,6 @@ class btListItem extends HTMLElement {
 
     connectedCallback() {
 
-
         this.addEventListener('click', function (event) {
             btlistitemclicked(event.target.getAttribute('smalltext'));
         });
@@ -70,7 +69,7 @@ class btVehicleCard extends HTMLElement {
         const content = template.content.cloneNode(true);
 
 
-
+        this.MAIN = content.querySelector('#main');
         this.COM = content.querySelector('#com');
         this.CONSTAT = content.querySelector('#connectionstat');
         this.VNAME = content.querySelector('#vname');
@@ -91,7 +90,7 @@ class btVehicleCard extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['com', 'constat', 'vnm', 'vdtl'];
+        return ['com', 'constat', 'vnm', 'vdtl', 'select'];
     }
 
 
@@ -112,6 +111,11 @@ class btVehicleCard extends HTMLElement {
         }
         if (name === 'vdtl') {
             this.VDTL.innerHTML = newValue;
+        }
+        if (name === 'select') {
+            if (newValue === 'yes') this.MAIN.style.opacity = 1;
+            else this.MAIN.style.opacity = 0.5;
+
         }
     }
 

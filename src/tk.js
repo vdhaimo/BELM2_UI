@@ -355,3 +355,55 @@ function plog(mess) {
     });
     dbg.innerHTML = str;
 }
+
+
+
+const cardhodler = document.querySelector(".vehiclecardsholder");
+
+
+
+
+var vlis = [];
+function uploadtolist(name, details, com, constat) {
+
+
+
+    var h = document.createElement('bt-vehiclecard');
+    h.setAttribute('vnm', name);
+    h.setAttribute('vdtl', details);
+    h.setAttribute('com', com);
+    h.setAttribute('constat', constat);
+    h.setAttribute('select', 'none');
+
+    h.addEventListener('click', function (event) {
+        selectVcard(h);
+    });
+
+
+    cardhodler.appendChild(h);
+
+    vlis.push(h);
+
+}
+
+function selectVcard(element) {
+
+
+    //deselect
+    vlis.forEach(lmnt => {
+        lmnt.setAttribute('select', 'none');
+    });
+
+    //select
+    element.setAttribute('select', 'yes');
+
+
+}
+
+
+
+
+uploadtolist('Bolt', '1200 cc| Petrol', 'das', 'asd')
+uploadtolist('Fiesta', '1400 cc| Petrol', 'das', 'asd')
+uploadtolist('i20', '1200 cc| Petrol', 'das', 'asd')
+uploadtolist('Idc', '1500 cc| Petrol', 'das', 'asd')
