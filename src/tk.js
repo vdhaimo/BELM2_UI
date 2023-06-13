@@ -232,6 +232,8 @@ function connectedVehicleID(id, mac) {
         if (element.vin == id) {
             //connected to element update card
 
+            selectVehicle(element);
+
 
 
             if (element.mac != mac) {
@@ -303,7 +305,6 @@ function populateHomescreen(noVehicles) {
         vehicleCard.style.display = 'flex';
         editOption.style.display = 'block';
         devicesOption.style.display = 'block';
-        nodevsOption.style.display = 'none';
     }
 
 }
@@ -364,7 +365,7 @@ const cardhodler = document.querySelector(".vehiclecardsholder");
 
 
 var vlis = [];
-function uploadtolist(name, details, com, constat) {
+function uploadtolist(name, details, com, constat, vin) {
 
 
 
@@ -374,6 +375,7 @@ function uploadtolist(name, details, com, constat) {
     h.setAttribute('com', com);
     h.setAttribute('constat', constat);
     h.setAttribute('select', 'none');
+    h.setAttribute('vin', vin);
 
     h.addEventListener('click', function (event) {
         selectVcard(h);
@@ -386,6 +388,15 @@ function uploadtolist(name, details, com, constat) {
 
 }
 
+var connectedVCard;
+
+function selectVehicle(vehicle) {
+
+    vlis.forEach(element => {
+        if (element.getAttribute('vin') == vehicle.vin) selectVcard(element);
+    });
+}
+
 function selectVcard(element) {
 
 
@@ -396,6 +407,7 @@ function selectVcard(element) {
 
     //select
     element.setAttribute('select', 'yes');
+    element.scrollIntoView({ behavior: 'smooth' });
 
 
 }

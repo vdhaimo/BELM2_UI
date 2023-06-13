@@ -74,6 +74,7 @@ class btVehicleCard extends HTMLElement {
         this.CONSTAT = content.querySelector('#connectionstat');
         this.VNAME = content.querySelector('#vname');
         this.VDTL = content.querySelector('#vdetails');
+        this.TTS = content.querySelector('#tapinstr');
 
 
         shadowRoot.appendChild(content);
@@ -90,7 +91,7 @@ class btVehicleCard extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['com', 'constat', 'vnm', 'vdtl', 'select'];
+        return ['com', 'constat', 'vnm', 'vdtl', 'select', 'vin'];
     }
 
 
@@ -113,8 +114,22 @@ class btVehicleCard extends HTMLElement {
             this.VDTL.innerHTML = newValue;
         }
         if (name === 'select') {
-            if (newValue === 'yes') this.MAIN.style.opacity = 1;
-            else this.MAIN.style.opacity = 0.5;
+            if (newValue === 'yes') {
+                this.MAIN.style.opacity = 1;
+                this.COM.style.opacity = 1;
+                this.CONSTAT.style.opacity = 1;
+                this.VNAME.style.opacity = 1;
+                this.VDTL.style.opacity = 1;
+                this.TTS.style.display = 'none';
+            }
+            else {
+                this.MAIN.style.opacity = 0.5;
+                this.COM.style.opacity = 0.5;
+                this.CONSTAT.style.opacity = 0.5;
+                this.VNAME.style.opacity = 0.5;
+                this.VDTL.style.opacity = 0.5;
+                this.TTS.style.display = 'block';
+            }
 
         }
     }
