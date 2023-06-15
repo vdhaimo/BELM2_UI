@@ -164,6 +164,8 @@ function editvehicle(isNew) {
 function editvehicleclose(isSave) {
     editvehicleOptn.classList.remove('slide-in')
     editvehicleOptn.classList.add('slide-out')
+
+    if (isSave) saveVehicle();
 }
 
 editvehicleOptn.addEventListener("animationend", (event) => {
@@ -224,9 +226,13 @@ function readVehicles(vehicles) {
 
 function connectedVehicleID(id, mac) {
 
+    closeDevices();
+
     connectedvehicleid = id;
 
     lastdeviceMAC = mac;
+
+    Cookies.set('lastMAC', lastdeviceMAC);
 
     vehiclelist.forEach(element => {
         if (element.vin == id) {
@@ -234,6 +240,9 @@ function connectedVehicleID(id, mac) {
 
             selectVehicle(element);
 
+            vlis.forEach(lmnt => {
+                if (lmnt.getAttribute('vin') == vehicle.vin) connectedVCard = lmnt;
+            });
 
 
             if (element.mac != mac) {
@@ -294,12 +303,14 @@ const disconnectOption = document.getElementById("option_disconnect");
 
 function populateHomescreen(noVehicles) {
 
+    connectOption.style.display = 'none';
+    disconnectOption.style.display = 'none';
+
     if (noVehicles) {
         vehicleCard.style.display = 'none';
         editOption.style.display = 'none';
         devicesOption.style.display = 'block';
-        connectOption.style.display = 'none';
-        disconnectOption.style.display = 'none';
+
     }
     else {
         vehicleCard.style.display = 'flex';
@@ -320,9 +331,14 @@ const cvD = document.getElementById('vehicledetails');
 const ecuLamp = document.getElementById('vehicleconnection');
 const ecuStatus = document.getElementById('connectstatus');
 
-var lastdeviceMAC = ""
-function lastDevice(mac) {
-    lastdeviceMAC = mac;
+var lastdeviceMAC = Cookies.get('lastMAC');
+function lastDevice() {
+
+    if (!lastdeviceMAC) return;
+
+    vehiclelist.forEach(vehicle => {
+        if (vehicle.devadd == lastdeviceMAC) selectVehicle(vehicle);
+    });
 }
 
 
@@ -409,6 +425,14 @@ function selectVcard(element) {
     element.setAttribute('select', 'yes');
     element.scrollIntoView({ behavior: 'smooth' });
 
+    if (connectedVCard && element == connectedVCard) {
+        connectOption.style.display = 'none';
+        disconnectOption.style.display = 'block';
+    } else {
+        connectOption.style.display = 'block';
+        disconnectOption.style.display = 'none';
+    }
+
 
 }
 
@@ -419,3 +443,8 @@ uploadtolist('Bolt', '1200 cc| Petrol', 'das', 'asd')
 uploadtolist('Fiesta', '1400 cc| Petrol', 'das', 'asd')
 uploadtolist('i20', '1200 cc| Petrol', 'das', 'asd')
 uploadtolist('Idc', '1500 cc| Petrol', 'das', 'asd')
+
+
+function updateReceived() {
+    if (connectedVCard) connectedVCard.setAttribute('com', 'yes');
+}
