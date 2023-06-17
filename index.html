@@ -480,38 +480,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
 
 
-        <script>
 
-          const scrollContainer = document.querySelector('.vehiclecardsholder');
-          scrollContainer.addEventListener('scroll', handleScroll);
-
-
-
-          function handleScroll() {
-
-            const bx = scrollContainer.getBoundingClientRect();
-            const bb = (bx.right - bx.left) / 2;
-
-            const snappedElement = getSnappedElement(scrollContainer, bb);
-            console.log(snappedElement);
-          }
-
-          function getSnappedElement(container, xn) {
-            const scrollLeft = container.scrollLeft;
-            const elements = Array.from(container.querySelectorAll('bt-vehiclecard'));
-
-
-            for (let i = 0; i < elements.length; i++) {
-              const element = elements[i];
-              const rect = element.getBoundingClientRect();
-              if (rect.left <= xn && rect.right >= xn) {
-                return element;
-              }
-            }
-
-            return null;
-          }
-        </script>
 
 
 
@@ -970,13 +939,22 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
   </div>
 
-  <P id="dlog"></P>
+  <P id="dlog">assa</P>
+  <P id="dlog2">assa</P>
 
   <style>
     #dlog {
       z-index: 30;
       position: fixed;
       top: 0;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    #dlog2 {
+      z-index: 30;
+      position: fixed;
+      top: 24px;
       font-size: 14px;
       width: 100%;
     }

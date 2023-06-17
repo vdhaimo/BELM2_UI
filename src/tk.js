@@ -66,7 +66,6 @@ function bondedDevices(devs) {
 
     devices = devs;
 
-    console.log(devices);
 
     updateDeviceList();
 
@@ -102,7 +101,6 @@ function btlistitemclicked(addr) {
 }
 
 function rer() {
-    console.log('capybara')
 }
 // program to generate random strings
 
@@ -147,8 +145,11 @@ const editvehicleOptn = document.getElementById("editVehicle");
 const editHeading = document.getElementById("editvehheading");
 const editvehicleClosebutton = document.getElementById("vehicleeditclose");
 
+var isNw;
 function editvehicle(isNew) {
 
+
+    isNw = isNew;
 
     editHeading.innerHTML = isNew ? "Create Vehicle" : "Edit Vehicle";
     editvehicleClosebutton.style.display = isNew ? 'none' : 'flex';
@@ -166,6 +167,8 @@ function editvehicleclose(isSave) {
     editvehicleOptn.classList.add('slide-out')
 
     if (isSave) saveVehicle();
+
+
 }
 
 editvehicleOptn.addEventListener("animationend", (event) => {
@@ -228,6 +231,8 @@ function connectedVehicleID(id, mac) {
 
     closeDevices();
 
+    document.getElementById('dlog2').innerHTML = id;
+
     connectedvehicleid = id;
 
     lastdeviceMAC = mac;
@@ -272,7 +277,7 @@ function saveVehicle() {
 
     var nm = vehicleName.value;
 
-    if (nm.length < 4) {
+    if (nm.length < 2) {
         XAPI.showToast("Name should be at least 4 characters long")
         return;
     }
@@ -286,7 +291,17 @@ function saveVehicle() {
         return;
     }
 
-    XAPI.saveVehicle(nm, c_c, fuel);
+    if (isNw) XAPI.saveVehicle(nm, c_c, fuel);
+    else if (selectVcard) {
+
+        vehiclelist.forEach(element => {
+            if (element.vin == selectVcard.getAttribute('vin')) {
+                XAPI.saveEditedVehicle(element.vin, nm, c_c, element.conm, element.mac);
+                return;
+            }
+        });
+
+    }
 }
 
 
@@ -303,18 +318,19 @@ const disconnectOption = document.getElementById("option_disconnect");
 
 function populateHomescreen(noVehicles) {
 
+
     connectOption.style.display = 'none';
     disconnectOption.style.display = 'none';
 
     if (noVehicles) {
-        vehicleCard.style.display = 'none';
+        // vehicleCard.style.display = 'none';
         editOption.style.display = 'none';
         devicesOption.style.display = 'block';
 
     }
     else {
-        vehicleCard.style.display = 'flex';
-        editOption.style.display = 'block';
+        // vehicleCard.style.display = 'flex';
+        editOption.style.display = 'none';
         devicesOption.style.display = 'block';
     }
 
@@ -351,11 +367,7 @@ function updatevehiclecard(vehicleid) {
 
 }
 
-function navVards(inc) {
 
-
-
-}
 
 
 
@@ -378,7 +390,7 @@ function plog(mess) {
 const cardhodler = document.querySelector(".vehiclecardsholder");
 
 
-
+var parent = this;
 
 var vlis = [];
 function uploadtolist(name, details, com, constat, vin) {
@@ -394,7 +406,7 @@ function uploadtolist(name, details, com, constat, vin) {
     h.setAttribute('vin', vin);
 
     h.addEventListener('click', function (event) {
-        selectVcard(h);
+        parent.selectVcard(h);
     });
 
 
@@ -405,6 +417,7 @@ function uploadtolist(name, details, com, constat, vin) {
 }
 
 var connectedVCard;
+var selectedVcard;
 
 function selectVehicle(vehicle) {
 
@@ -412,6 +425,7 @@ function selectVehicle(vehicle) {
         if (element.getAttribute('vin') == vehicle.vin) selectVcard(element);
     });
 }
+
 
 function selectVcard(element) {
 
@@ -425,6 +439,8 @@ function selectVcard(element) {
     element.setAttribute('select', 'yes');
     element.scrollIntoView({ behavior: 'smooth' });
 
+    editOption.style.display = 'block';
+
     if (connectedVCard && element == connectedVCard) {
         connectOption.style.display = 'none';
         disconnectOption.style.display = 'block';
@@ -433,6 +449,7 @@ function selectVcard(element) {
         disconnectOption.style.display = 'none';
     }
 
+    selectedVcard = element;
 
 }
 
