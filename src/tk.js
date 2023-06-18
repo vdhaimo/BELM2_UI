@@ -188,9 +188,11 @@ var vehiclelist = []
 function readVehicles(vehicles) {
 
 
+
+
     var vhs = []
 
-    for (vh in vehicles) {
+    vehicles.forEach(vh => {
         var updated = false;
         vhs.forEach(element => {
             if (element.vin == vh.vin) {
@@ -200,8 +202,8 @@ function readVehicles(vehicles) {
         });
         if (!updated) vhs.push(vh);
 
-    }
-
+    });
+    console.log(vhs);
 
     if (vhs.length > 1) {
         vhs.sort((a, b) => {
@@ -334,6 +336,11 @@ function populateHomescreen(noVehicles) {
         devicesOption.style.display = 'block';
     }
 
+    vehiclelist.forEach(vh => {
+
+        var dt = vh.cc + " cc" + " | " + FUELS[vh.fuel];
+        uploadtolist(vh.name, dt, "", "", vh.vin);
+    });
 }
 
 function connectVehicle(isconnect) {
@@ -454,12 +461,12 @@ function selectVcard(element) {
 }
 
 
-
+/*
 
 uploadtolist('Bolt', '1200 cc| Petrol', 'das', 'asd')
 uploadtolist('Fiesta', '1400 cc| Petrol', 'das', 'asd')
 uploadtolist('i20', '1200 cc| Petrol', 'das', 'asd')
-uploadtolist('Idc', '1500 cc| Petrol', 'das', 'asd')
+uploadtolist('Idc', '1500 cc| Petrol', 'das', 'asd')*/
 
 
 function updateReceived() {
