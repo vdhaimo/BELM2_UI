@@ -151,6 +151,25 @@ function editvehicle(isNew) {
 
     isNw = isNew;
 
+    if (isNew) {
+
+        fueltypeselector.value = 1;
+        vehicleName.value = "";
+        cc.value = "";
+
+    } else if (selectedVcard) {
+
+        vehiclelist.forEach(vehicle => {
+            if (vehicle.vin == selectedVcard.getAttribute('vin')) {
+                fueltypeselector.value = vehicle.fuel;
+                vehicleName.value = vehicle.name;
+                cc.value = vehicle.cc;
+            }
+        });
+
+
+    }
+
     editHeading.innerHTML = isNew ? "Create Vehicle" : "Edit Vehicle";
     editvehicleClosebutton.style.display = isNew ? 'none' : 'flex';
 
@@ -189,21 +208,21 @@ function readVehicles(vehicles) {
 
 
 
-
     var vhs = []
 
     vehicles.forEach(vh => {
-        var updated = false;
-        vhs.forEach(element => {
+
+        vhs.forEach(function (element, index) {
+
             if (element.vin == vh.vin) {
-                element = vh;
-                updated = true;
+
+                vhs.splice(index, 1);
+
             }
         });
-        if (!updated) vhs.push(vh);
+        vhs.push(vh);
 
     });
-    console.log(vhs);
 
     if (vhs.length > 1) {
         vhs.sort((a, b) => {
@@ -223,6 +242,7 @@ function readVehicles(vehicles) {
 
     populateHomescreen(!vehiclelist.length);
 
+    lastDevice();
 
     return "read";
 
@@ -294,11 +314,11 @@ function saveVehicle() {
     }
 
     if (isNw) XAPI.saveVehicle(nm, c_c, fuel);
-    else if (selectVcard) {
+    else if (selectedVcard) {
 
         vehiclelist.forEach(element => {
-            if (element.vin == selectVcard.getAttribute('vin')) {
-                XAPI.saveEditedVehicle(element.vin, nm, c_c, element.conm, element.mac);
+            if (element.vin == selectedVcard.getAttribute('vin')) {
+                XAPI.saveEditedVehicle(element.vin, nm, c_c, element.conm, element.devadd, fuel);
                 return;
             }
         });
@@ -336,6 +356,7 @@ function populateHomescreen(noVehicles) {
         devicesOption.style.display = 'block';
     }
 
+
     vehiclelist.forEach(vh => {
 
         var dt = vh.cc + " cc" + " | " + FUELS[vh.fuel];
@@ -367,12 +388,6 @@ function lastDevice() {
 
 
 
-function updatevehiclecard(vehicleid) {
-
-
-
-
-}
 
 
 
@@ -402,6 +417,20 @@ var parent = this;
 var vlis = [];
 function uploadtolist(name, details, com, constat, vin) {
 
+    var updated = false;
+    vlis.forEach(item => {
+        if (item.getAttribute('vin') == vin) {
+            item.setAttribute('vnm', name);
+            item.setAttribute('vdtl', details);
+            item.setAttribute('com', com);
+            item.setAttribute('constat', constat);
+            item.setAttribute('select', 'none');
+            updated = true;
+            return;
+        }
+    });
+
+    if (updated) return;
 
 
     var h = document.createElement('bt-vehiclecard');
@@ -429,7 +458,12 @@ var selectedVcard;
 function selectVehicle(vehicle) {
 
     vlis.forEach(element => {
-        if (element.getAttribute('vin') == vehicle.vin) selectVcard(element);
+        if (element.getAttribute('vin') == vehicle.vin) {
+
+            selectVcard(element);
+
+            return;
+        }
     });
 }
 
@@ -458,15 +492,13 @@ function selectVcard(element) {
 
     selectedVcard = element;
 
+
+
+
 }
 
 
-/*
 
-uploadtolist('Bolt', '1200 cc| Petrol', 'das', 'asd')
-uploadtolist('Fiesta', '1400 cc| Petrol', 'das', 'asd')
-uploadtolist('i20', '1200 cc| Petrol', 'das', 'asd')
-uploadtolist('Idc', '1500 cc| Petrol', 'das', 'asd')*/
 
 
 function updateReceived() {
