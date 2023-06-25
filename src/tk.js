@@ -33,8 +33,8 @@ function closeDevices() {
 
 function clear() {
 
-    btdevicelistMain.classList.remove('slide-in')
-    btdevicelistMain.classList.add('slide-out')
+    btdevicelistMain.classList.remove('slide-in');
+    btdevicelistMain.classList.add('slide-out');
 
 
 }
@@ -121,19 +121,6 @@ function toggleNavbarButtons(btn) {
     navbarbuttons[btn].setAttribute('active', 'yes');
 }
 
-function navbar_link() {
-    toggleNavbarButtons(0);
-
-}
-function navbar_drive() {
-    toggleNavbarButtons(1);
-}
-function navbar_trips() {
-    toggleNavbarButtons(2);
-}
-function navbar_settings() {
-    toggleNavbarButtons(3);
-}
 
 
 const connectionbar = document.getElementsByClassName("vehicleconnection");
@@ -504,3 +491,85 @@ function selectVcard(element) {
 function updateReceived() {
     if (connectedVCard) connectedVCard.setAttribute('com', 'yes');
 }
+
+
+const tabs = [document.querySelector('.home'),
+document.querySelector('.drive'),
+document.querySelector('.trips'),
+document.querySelector('.settings')];
+
+
+tabs.forEach(tab => {
+
+    tab.style.display = 'none';
+
+    tab.addEventListener("animationend", (event) => {
+        if (event.animationName == 'OFL' || event.animationName == 'OFR') {
+
+            tab.style.display = 'none';
+        }
+    });
+});
+
+function selectTab(n) {
+
+    toggleNavbarButtons(n);
+
+    var ii = false;
+
+    tabs.forEach(function (tab, index) {
+
+        if (tab.style.display == 'block') {
+
+            // slide in slide out logic
+            if (index < n) {
+                //slide out left
+                tab.classList.remove('ifl');
+                tab.classList.remove('ifr');
+                tab.classList.remove('ofl');
+                tab.classList.add('ofr');
+
+            }
+            if (index > n) {
+                //slide out right
+                tab.classList.remove('ifl');
+                tab.classList.remove('ifr');
+                tab.classList.add('ofl');
+                tab.classList.remove('ofr');
+
+            }
+
+            ii = true;
+
+        }
+
+        if (index == n) {
+
+            if (tab.style.display == 'block') return;
+
+            tab.style.display = 'block';
+            if (ii) {
+                //slide in right                
+                tab.classList.add('ifl');
+                tab.classList.remove('ifr');
+                tab.classList.remove('ofl');
+                tab.classList.remove('ofr');
+            }
+            else {
+                //slide in left
+                tab.classList.remove('ifl');
+                tab.classList.add('ifr');
+                tab.classList.remove('ofl');
+                tab.classList.remove('ofr');
+            }
+
+            console.log(ii);
+        }
+
+    });
+
+
+
+}
+
+selectTab(0);

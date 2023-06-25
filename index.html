@@ -444,8 +444,9 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
       <div class="home">
 
         <div id="title">
-          <h1>BlackBox</h1>
-          <P>autos</P>
+          <P><span id="bxh">BlackBox</span>.autos</P>
+
+
           <style>
             #title {
               padding-top: 10px;
@@ -453,8 +454,11 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
               font-family: 'Saira Stencil One', cursive;
               width: 100%;
               text-align: center;
-              line-height: 5px;
               color: var(--c0);
+            }
+
+            #bxh {
+              font-size: 36px;
             }
           </style>
         </div>
@@ -512,6 +516,33 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
         }
       </style>
 
+      <div class="drive"></div>
+      <style>
+        .drive {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+      </style>
+
+      <div class="trips"></div>
+      <style>
+        .trips {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+      </style>
+
+
+      <div class="settings"></div>
+      <style>
+        .settings {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+      </style>
 
 
       <div id="selectBTdevices">
@@ -694,6 +725,84 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
               transform: translateY(20%);
 
             }
+          }
+
+          @keyframes IFL {
+            from {
+              opacity: 0;
+              transform: translateX(100%);
+
+            }
+
+            to {
+              opacity: 1;
+              transform: translateX(0);
+
+            }
+          }
+
+          @keyframes IFR {
+            from {
+              opacity: 0;
+              transform: translateX(-100%);
+            }
+
+            to {
+              opacity: 1;
+              transform: translateX(0);
+
+            }
+          }
+
+          @keyframes OFL {
+            from {
+              opacity: 1;
+              transform: translateX(0);
+
+            }
+
+            to {
+              opacity: 0;
+              transform: translateX(100%);
+
+            }
+          }
+
+          @keyframes OFR {
+            from {
+              opacity: 1;
+              transform: translateX(0);
+            }
+
+            to {
+              opacity: 0;
+              transform: translateX(-100%);
+
+            }
+          }
+
+          .ifl {
+
+            animation-duration: 0.3s;
+            animation-name: IFL;
+          }
+
+          .ofl {
+
+            animation-duration: 0.3s;
+            animation-name: OFL;
+          }
+
+          .ifr {
+
+            animation-duration: 0.3s;
+            animation-name: IFR;
+          }
+
+          .ofr {
+
+            animation-duration: 0.3s;
+            animation-name: OFR;
           }
         </style>
         <script src="src/CE/btDevices.js"></script>
@@ -901,11 +1010,10 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
 
     <div class="navbar">
-      <bt-iconmatbutton class="navbarbutton" icon="memory_alt" desc="Link" callback="navbar_link"></bt-iconmatbutton>
-      <bt-iconmatbutton class="navbarbutton" icon="navigation" desc="Drive" callback="navbar_drive"></bt-iconmatbutton>
-      <bt-iconmatbutton class="navbarbutton" icon="history" desc="Trips" callback="navbar_trips"></bt-iconmatbutton>
-      <bt-iconmatbutton class="navbarbutton" icon="settings" desc="Settings"
-        callback="navbar_settings"></bt-iconmatbutton>
+      <bt-iconmatbutton class="navbarbutton" icon="memory_alt" desc="Link" onclick="selectTab(0)"></bt-iconmatbutton>
+      <bt-iconmatbutton class="navbarbutton" icon="navigation" desc="Drive" onclick="selectTab(1)"></bt-iconmatbutton>
+      <bt-iconmatbutton class="navbarbutton" icon="history" desc="Trips" onclick="selectTab(2)"></bt-iconmatbutton>
+      <bt-iconmatbutton class="navbarbutton" icon="settings" desc="Settings" onclick="selectTab(3)"></bt-iconmatbutton>
 
     </div>
     <style>
@@ -939,8 +1047,8 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
   </div>
 
-  <P id="dlog">assa</P>
-  <P id="dlog2">assa</P>
+  <P id="dlog">log1</P>
+  <P id="dlog2">log2</P>
 
   <style>
     #dlog {

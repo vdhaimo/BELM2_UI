@@ -172,9 +172,9 @@ class tpiconbutton extends HTMLElement {
     }
 
     connectedCallback() {
-        this.addEventListener('click', function (event) {
-            window[event.target.getAttribute('callback')]();
-        });
+        /* this.addEventListener('click', function (event) {
+             window[event.target.getAttribute('callback')]();
+         });*/
     }
 
     static get observedAttributes() {
