@@ -563,7 +563,6 @@ function selectTab(n) {
                 tab.classList.remove('ofr');
             }
 
-            console.log(ii);
         }
 
     });

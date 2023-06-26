@@ -404,6 +404,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
       margin: 0;
       padding: 0;
       color: var(--text-colorA);
+      background-color: var(--background-color);
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
@@ -416,6 +417,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
     #app {
 
+      pointer-events: none;
       font-family: 'Open Sans', sans-serif;
       font-weight: 300;
 
@@ -426,7 +428,6 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
       transform: translateX(calc(50vw - 50%));
 
-      background-color: var(--background-color);
       top: 0;
       bottom: 0;
 
@@ -506,6 +507,8 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
 
         .home {
+          pointer-events: all;
+
           position: absolute;
           width: 100%;
           height: 100%;
@@ -513,24 +516,49 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
           margin: 0;
           overflow-y: scroll;
 
+          background-color: var(--background-color);
+
         }
       </style>
 
-      <div class="drive"></div>
+      <div class="drive">
+        <div class="topgrdnt">
+          DRIVE
+        </div>
+      </div>
       <style>
         .drive {
+          pointer-events: none;
           position: absolute;
           width: 100%;
           height: 100%;
         }
       </style>
 
-      <div class="trips"></div>
+      <div class="trips">
+
+        <div class="topgrdnt">
+          TRIPS
+        </div>
+
+      </div>
       <style>
         .trips {
+          pointer-events: none;
           position: absolute;
           width: 100%;
           height: 100%;
+        }
+
+        .topgrdnt {
+          width: 100%;
+          height: 28px;
+          background-color: var(--background-color);
+          box-shadow: 0 0 15px var(--background-color);
+          font-size: 18px;
+          font-weight: 800;
+          text-align: center;
+          color: var(--text-colorB);
         }
       </style>
 
@@ -538,6 +566,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
       <div class="settings"></div>
       <style>
         .settings {
+          pointer-events: all;
           position: absolute;
           width: 100%;
           height: 100%;
@@ -615,6 +644,8 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
           }
 
           #selectBTdevices {
+
+            pointer-events: all;
 
             z-index: 20;
             display: none;
@@ -729,13 +760,11 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           @keyframes IFL {
             from {
-              opacity: 0;
               transform: translateX(100%);
 
             }
 
             to {
-              opacity: 1;
               transform: translateX(0);
 
             }
@@ -743,12 +772,10 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           @keyframes IFR {
             from {
-              opacity: 0;
               transform: translateX(-100%);
             }
 
             to {
-              opacity: 1;
               transform: translateX(0);
 
             }
@@ -756,13 +783,11 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           @keyframes OFL {
             from {
-              opacity: 1;
               transform: translateX(0);
 
             }
 
             to {
-              opacity: 0;
               transform: translateX(100%);
 
             }
@@ -770,12 +795,10 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           @keyframes OFR {
             from {
-              opacity: 1;
               transform: translateX(0);
             }
 
             to {
-              opacity: 0;
               transform: translateX(-100%);
 
             }
@@ -783,25 +806,26 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           .ifl {
 
-            animation-duration: 0.3s;
+
+            animation-duration: 0.2s;
             animation-name: IFL;
           }
 
           .ofl {
 
-            animation-duration: 0.3s;
+            animation-duration: 0.2s;
             animation-name: OFL;
           }
 
           .ifr {
 
-            animation-duration: 0.3s;
+            animation-duration: 0.2s;
             animation-name: IFR;
           }
 
           .ofr {
 
-            animation-duration: 0.3s;
+            animation-duration: 0.2s;
             animation-name: OFR;
           }
         </style>
@@ -951,7 +975,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           #editVehicle {
 
-
+            pointer-events: all;
             z-index: 20;
             display: none;
 
@@ -1018,6 +1042,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
     </div>
     <style>
       .navbar {
+        pointer-events: all;
         position: absolute;
         display: flex;
         height: 72px;
@@ -1027,14 +1052,20 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
         background-color: var(--card-color);
 
+        box-shadow: 0 0 10px var(--background-color);
+
+
       }
 
       .contentwindow {
+        pointer-events: none;
+        background: none;
         position: absolute;
         display: flex;
         height: calc(100% - 87px);
         top: 0;
         width: 100%;
+        background: none;
 
       }
 
@@ -1072,6 +1103,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
   <script src="src/consts.js"></script>
   <script src="src/tk.js"></script>
+  <script src="src/trips.js"></script>
 </body>
 
 </html>
