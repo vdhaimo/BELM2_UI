@@ -8,7 +8,7 @@
     --c3: #a5eeb8;
     --c4: #b5f0d6;
     --card-color: #222629;
-    --card-color-light: #64696e;
+    --card-color-light: #34393d;
     --background-color: #111111;
     --text-colorA: #cccccc;
     --text-colorB: #aaaaaa;
@@ -170,6 +170,7 @@
       font-weight: 200;
       cursor: pointer;
       border-bottom: 1px solid var(--card-color);
+      border-radius: 5px;
 
     }
 
@@ -544,12 +545,14 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
         </div>
 
 
-        <div class="tripslistholder"></div>
+        <div class="tripslistholder">
+
+        </div>
 
         <div class="tripcard">
 
-          <P id="tcvehicle">Bolt</P>
-          <P id="tctstamp">19.05.2023 12:25</P>
+          <P id="tcvehicle"></P>
+          <P id="tctstamp">No Recorded Logs</P>
 
           <bt-iconmatbutton id="opentripslist" icon="unfold_more" desc="" onclick="openTripsList()"></bt-iconmatbutton>
 
@@ -568,9 +571,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
           height: 100%;
         }
 
-        .trips:-webkit-scrollbar {
-          display: none;
-        }
+
 
         .topgrdnt {
           position: relative;
@@ -599,6 +600,8 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
         }
 
         .tripslistholder {
+
+          overflow-y: scroll;
 
           background-color: var(--card-color);
           pointer-events: all;

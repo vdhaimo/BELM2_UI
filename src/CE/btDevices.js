@@ -230,9 +230,10 @@ class btCardX1 extends HTMLElement {
 
 
 
-        this.BIGTEXT = content.querySelector('#bigtext')
-        this.SMALLTEXT = content.querySelector('#smalltext')
-        this.ICON = content.querySelector('#icn')
+        this.MAIN = content.querySelector('#main');
+        this.BIGTEXT = content.querySelector('#bigtext');
+        this.SMALLTEXT = content.querySelector('#smalltext');
+        this.ICON = content.querySelector('#icn');
 
 
         shadowRoot.appendChild(linkElem);
@@ -247,7 +248,7 @@ class btCardX1 extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['bigtext', 'smalltext', 'icon'];
+        return ['bigtext', 'smalltext', 'icon', 'selected'];
     }
 
 
@@ -263,6 +264,13 @@ class btCardX1 extends HTMLElement {
         if (name === 'icon') {
             // Update the element's content based on the new attribute value
             this.ICON.innerHTML = newValue
+        }
+        if (name === 'selected') {
+            if (newValue == 'yes') {
+                this.MAIN.style.background = 'var(--card-color-light)';
+            } else {
+                this.MAIN.style.background = 'transparent';
+            }
         }
     }
 
