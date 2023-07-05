@@ -65,7 +65,6 @@ function selectLogFile(h) {
 
     sendReadFileReq(triplogs[idx]);
 
-
 }
 
 
@@ -84,12 +83,32 @@ function sendReadFileReq(filename) {
 
 }
 
+var coords = [], data = [];
+
 function fileRead(stringarray) {
+
+    coords = [];
+    data = [];
+
     stringarray.forEach(element => {
 
-        console.log(element);
+
+
+        var arr = element.split('\t');
+        if (arr.length > 3) data.push(arr);
+        else coords.push([arr[1], arr[2]]);
+
+
 
     });
+
+
+
+    console.log(coords);
+    console.log(data);
+
+    addPath(coords);
+    if (tripsList.style.display == 'block') openTripsList();
 }
 
 const expandbutton = document.querySelector('#opentripslist');
@@ -107,12 +126,14 @@ function openTripsList() {
     if (tripsList.style.display != 'block') {
         tripsList.style.display = 'block';
         expandbutton.setAttribute('icon', 'map');
+        expandbutton.setAttribute('desc', 'Map');
         tripsList.classList.remove('col');
         tripsList.classList.add('exp');
 
 
     } else {
-        expandbutton.setAttribute('icon', 'unfold_more');
+        expandbutton.setAttribute('icon', 'list_alt');
+        expandbutton.setAttribute('desc', 'Trips');
         tripsList.classList.add('col');
         tripsList.classList.remove('exp');
 
