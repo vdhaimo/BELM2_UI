@@ -22,7 +22,6 @@ function readLogs(loglist) {
 
         vehiclelist.forEach(vh => {
             if (vh.vin == dmx[1]) {
-                console.log(vh.name, dmx[2]);
 
                 //create log entry
                 var h = document.createElement('bt-cardx1');
@@ -73,7 +72,7 @@ function demuxFileName(name) {
 }
 
 
-XAPI.readTrips();
+if (!ispc) XAPI.readTrips();
 
 
 
@@ -83,33 +82,87 @@ function sendReadFileReq(filename) {
 
 }
 
-var coords = [], data = [];
+var coords = [], data = [], td = [];
 
-function fileRead(stringarray) {
+function fileRead(json) {
+
+
 
     coords = [];
     data = [];
 
-    stringarray.forEach(element => {
+    var lastCoord = [], dcml = 0;
 
 
+
+    json.forEach(element => {
 
         var arr = element.split('\t');
         if (arr.length > 3) data.push(arr);
-        else coords.push([arr[1], arr[2]]);
+        else {
+            coords.push([arr[1], arr[2]]);
+            if (lastCoord.length < 1) td.push([arr[0], dcml]);
+            else {
+                const delta = turf.distance(turf.point(lastCoord), turf.point([arr[1], arr[2]]), { units: 'kilometers' });
 
+                if (data.length > 0) {
+                    //loop last elements from data till time < last td element time                    
+                    const lasttd = td[td.length - 1];
+
+                    var i = 1;
+                    while (data[data.length - i] && data[data.length - i][0] > lasttd[0]) {
+
+                        data[data.length - i][0] = dcml + delta * (data[data.length - i][0] - lasttd[0]) / (arr[0] - lasttd[0]);
+
+                        i++;
+                    }
+                }
+
+                dcml += delta;
+                td.push([arr[0], dcml]);
+            }
+
+            lastCoord = [arr[1], arr[2]];
+        }
 
 
     });
 
 
 
-    console.log(coords);
-    console.log(data);
+    data.forEach(entry => {
+        entry[0] = entry[0] / dcml;
+    });
 
-    addPath(coords);
+
+    var ar = [];
+
+    data.forEach(entry => {
+        if (entry[0] <= 1) {
+            ar.push(entry[0]);
+            ar.push(hslToHex(2 * entry[4], 100, 50));
+        }
+    });
+
+    addPath(coords, ar);
+
+
+
     if (tripsList.style.display == 'block') openTripsList();
 }
+
+
+function hslToHex(h, s, l) {
+    l /= 100;
+    const a = s * Math.min(l, 1 - l) / 100;
+    const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
+}
+
 
 const expandbutton = document.querySelector('#opentripslist');
 var tripsList = document.querySelector('.tripslistholder');
@@ -141,3 +194,6 @@ function openTripsList() {
 
 
 }
+
+
+
