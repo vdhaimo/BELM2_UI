@@ -140,7 +140,7 @@ function fileRead(json) {
     data.forEach(entry => {
         if (entry[0] <= 1) {
             ar.push(entry[0]);
-            ar.push(hslToHex(2 * entry[4], 100, 50));
+            ar.push(hslToHex(0.03 * entry[3] / entry[4], 100, 50));
         }
     });
 

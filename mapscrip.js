@@ -69,6 +69,20 @@ map.on("load", () => {
 
 });
 
+map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['line'] });
+
+
+
+    if (features.length) {
+
+        console.log('dsa');
+        var clickedPoint = features[0].geometry.coordinates;
+        //console.log('Clicked point:', clickedPoint);
+        // Do something with the clicked point
+    }
+});
+
 
 
 function addPath(latlongarray, datarr) {
