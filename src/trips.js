@@ -177,6 +177,7 @@ function openTripsList() {
 
 
     if (tripsList.style.display != 'block') {
+        hidelayes(true);
         tripsList.style.display = 'block';
         expandbutton.setAttribute('icon', 'map');
         expandbutton.setAttribute('desc', 'Map');
@@ -195,5 +196,52 @@ function openTripsList() {
 
 }
 
+
+var layerslist = document.querySelector('.layerslist');
+function layers_button_clicked() {
+
+
+    if (layerslist.clientWidth < '150') {
+
+        hidelayes(false);
+
+    } else {
+
+        hidelayes(true);
+    }
+}
+
+function hidelayes(hide) {
+
+    if (!hide) {
+        if (layerslist.clientWidth > '0') return;
+        layerslist.classList.remove('layerscol');
+        layerslist.classList.add('layersexp');
+
+    } else {
+        if (layerslist.clientWidth < '150') return;
+        layerslist.classList.remove('layersexp');
+        layerslist.classList.add('layerscol');
+    }
+}
+
+layerslist.addEventListener("animationend", (event) => {
+
+
+    layerslist.classList.remove('layersexp');
+    layerslist.classList.remove('layerscol');
+
+    if (event.animationName == 'lexpand') {
+
+        layerslist.style.width = '150px';
+
+    }
+    if (event.animationName == 'lcollap') {
+
+        layerslist.style.width = '0';
+
+    }
+
+});
 
 

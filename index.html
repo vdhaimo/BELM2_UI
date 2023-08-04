@@ -545,6 +545,41 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
         </div>
 
 
+
+
+
+        <div class="layerslist">
+
+          <div id="layers_button">
+            <bt-iconmatbutton icon="layers" desc="" onclick="layers_button_clicked()"></bt-iconmatbutton>
+          </div>
+
+
+          <div class="llist">
+            <H3>Calculated</H3>
+            <P>Fuel Consumption</P>
+            <P>Drive Ratio</P>
+            _____________
+            <br>
+            <H3>ECU data</H3>
+            <P>Fuel System status</P>
+            <P>MAP</P>
+            <P>RPM</P>
+            <P>Speed</P>
+            <P>Intake Temp</P>
+            <P>MAF</P>
+            <P>AFR</P>
+            <P>Calc Load</P>
+            <P>Abs Load</P>
+
+          </div>
+
+          <div class="layerslistoverlay"></div>
+
+        </div>
+
+
+
         <div class="tripslistholder">
 
         </div>
@@ -562,6 +597,9 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
 
 
+
+
+
       </div>
 
 
@@ -575,6 +613,108 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           width: 100%;
           height: 100%;
+        }
+
+
+
+        #layers_button {
+          pointer-events: all;
+          position: absolute;
+          top: 12px;
+          left: -58px;
+          background-color: var(--card-color-light);
+
+          box-shadow: 0 0 15px var(--shadow-color);
+          width: 40px;
+          height: 40px;
+          border-radius: 22px;
+
+
+          padding: 5px 0 0 5px;
+        }
+
+
+        .layerslist {
+
+          display: block;
+          color: var(--text-colorA);
+          position: absolute;
+          right: 7px;
+          top: 114px;
+          width: 150px;
+          bottom: 7px;
+          background-color: var(--card-color-light);
+
+
+          box-shadow: 0 0 15px var(--shadow-color);
+          pointer-events: all;
+
+          border-radius: 10px;
+
+        }
+
+        .layersexp {
+          animation-duration: 0.3s;
+          animation-name: lexpand;
+        }
+
+        .layerscol {
+          animation-duration: 0.3s;
+          animation-name: lcollap;
+        }
+
+        @keyframes lexpand {
+          0% {
+            width: 0;
+            color: transparent;
+          }
+
+
+
+          100% {
+
+            width: 150px;
+            color: transparent;
+          }
+        }
+
+        @keyframes lcollap {
+          0% {
+            width: 150px;
+            color: transparent;
+          }
+
+
+
+          100% {
+
+            width: 0;
+            color: transparent;
+          }
+        }
+
+        .llist {
+
+          pointer-events: all;
+          position: absolute;
+          display: block;
+          padding-left: 24px;
+          padding-right: 24px;
+          width: 100px;
+          height: 100%;
+          position: absolute;
+          overflow-x: hidden;
+          overflow-y: scroll;
+        }
+
+        .layerslistoverlay {
+          pointer-events: none;
+          border-radius: 10px;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+
+          background: linear-gradient(0deg, var(--card-color-light) 0%, transparent 32px, transparent calc(100% - 20px), var(--card-color-light) 100%);
         }
 
 
