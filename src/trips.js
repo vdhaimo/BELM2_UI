@@ -177,7 +177,7 @@ function openTripsList() {
 
 
     if (tripsList.style.display != 'block') {
-        hidelayes(true);
+
         tripsList.style.display = 'block';
         expandbutton.setAttribute('icon', 'map');
         expandbutton.setAttribute('desc', 'Map');
@@ -198,6 +198,7 @@ function openTripsList() {
 
 
 var layerslist = document.querySelector('.layerslist');
+var layersbutton = document.getElementById('layersbt');
 function layers_button_clicked() {
 
 
@@ -218,29 +219,39 @@ function hidelayes(hide) {
         layerslist.classList.remove('layerscol');
         layerslist.classList.add('layersexp');
 
+        layersbutton.setAttribute('icon', 'keyboard_arrow_right');
+
     } else {
         if (layerslist.clientWidth < '150') return;
         layerslist.classList.remove('layersexp');
         layerslist.classList.add('layerscol');
+
     }
 }
 
 layerslist.addEventListener("animationend", (event) => {
 
-
     layerslist.classList.remove('layersexp');
     layerslist.classList.remove('layerscol');
 
+
     if (event.animationName == 'lexpand') {
 
+
+        //change button icon
         layerslist.style.width = '150px';
 
     }
     if (event.animationName == 'lcollap') {
 
+
+        //change button icon
         layerslist.style.width = '0';
 
+        layersbutton.setAttribute('icon', 'layers');
+
     }
+
 
 });
 

@@ -60,32 +60,54 @@ function getColorString(speed) {
 };
 
 
-console.log(getColorString(50))
+console.log(getColorString(50));
+
+
+var marker = new mapboxgl.Marker();
+var marker2 = new mapboxgl.Marker();
 
 map.on("load", () => {
 
 
 
 
-});
-
-map.on('click', function (e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: ['line'] });
+    map.on('click', function (e) {
 
 
+        var width = 0.1, height = 0.1;
 
-    if (features.length) {
+        var features = map.queryRenderedFeatures([
+            [e.point.x - width / 2, e.point.y - height / 2],
+            [e.point.x + width / 2, e.point.y + height / 2]
+        ], { layers: ['line'] });
+
+        marker.setLngLat(e.lngLat).addTo(map);
+        marker.se
 
         console.log('dsa');
-        var clickedPoint = features[0].geometry.coordinates;
-        //console.log('Clicked point:', clickedPoint);
-        // Do something with the clicked point
-    }
+
+        if (features.length) {
+
+            console.log('dsa');
+            var clickedPoint = features[0].geometry.coordinates;
+            console.log('Clicked point:', clickedPoint);
+            // Do something with the clicked point
+            console.log(clickedPoint);
+            marker2.setLngLat(clickedPoint[clickedPoint.length - 1]).addTo(map);
+        }
+    });
+
+
 });
 
 
 
+var coordinatesArray, dataArray;
+
 function addPath(latlongarray, datarr) {
+
+    coordinatesArray = latlongarray;
+    dataArray = datarr;
 
     if (map.getLayer('line')) {
 
