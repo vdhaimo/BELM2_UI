@@ -63,9 +63,13 @@ function getColorString(speed) {
 console.log(getColorString(50));
 
 
-var marker = new mapboxgl.Marker();
+const el = document.createElement('div');
+el.className = 'marker';
+var marker = new mapboxgl.Marker(el);
+var marker1 = new mapboxgl.Marker();
 var marker2 = new mapboxgl.Marker();
 
+var nrst;
 map.on("load", () => {
 
 
@@ -74,31 +78,56 @@ map.on("load", () => {
     map.on('click', function (e) {
 
 
-        var width = 0.1, height = 0.1;
 
-        var features = map.queryRenderedFeatures([
-            [e.point.x - width / 2, e.point.y - height / 2],
-            [e.point.x + width / 2, e.point.y + height / 2]
-        ], { layers: ['line'] });
 
-        marker.setLngLat(e.lngLat).addTo(map);
-        marker.se
 
-        console.log('dsa');
+        if (map.getZoom() < 15) return;
 
-        if (features.length) {
 
-            console.log('dsa');
-            var clickedPoint = features[0].geometry.coordinates;
-            console.log('Clicked point:', clickedPoint);
-            // Do something with the clicked point
-            console.log(clickedPoint);
-            marker2.setLngLat(clickedPoint[clickedPoint.length - 1]).addTo(map);
-        }
+
+
+
+        var cUL = map.unproject([e.point.x - 50, e.point.y - 50]).toArray();
+        var cLR = map.unproject([e.point.x + 50, e.point.y + 50]).toArray();
+
+
+
+
+
+
+
+        var proxim = coordinatesArray.filter(cord => {
+
+            return cord[0] > cUL[0] && cord[0] < cLR[0] && cord[1] < cUL[1] && cord[1] > cLR[1];
+        });
+
+        console.log(e.lngLat);
+
+        var targetPoint = turf.point([e.lngLat.lng, e.lngLat.lat]);
+        var pts = [];
+
+
+        proxim.forEach(pt => {
+            pts.push(turf.point(pt));
+            //  var mkr = new mapboxgl.Marker();
+            //  mkr.setLngLat(pt).addTo(map);
+        });
+
+        var points = turf.featureCollection(pts);
+
+        var nearest = turf.nearestPoint(targetPoint, points);
+
+
+        marker.setLngLat(proxim[nearest.properties.featureIndex
+        ]).addTo(map);
+
     });
 
 
 });
+
+
+
 
 
 
