@@ -365,9 +365,7 @@
   <title>BELM2</title>
 
 
-  <script src="
-https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
-"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
@@ -567,21 +565,27 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           <div class="llist">
             <H3>Calculated</H3>
-            <P>Fuel Consumption</P>
-            <P>Drive Ratio</P>
+            <P class="layerop">Fuel Consumption</P>
+            <P class="layerop">Drive Ratio</P>
             _____________
             <br>
             <H3>ECU data</H3>
-            <P>Fuel System status</P>
-            <P>MAP</P>
-            <P>RPM</P>
-            <P>Speed</P>
-            <P>Intake Temp</P>
-            <P>MAF</P>
-            <P>AFR</P>
-            <P>Calc Load</P>
-            <P>Abs Load</P>
+            <P class="layerop">Fuel System status</P>
+            <P class="layerop">MAP</P>
+            <P class="layerop">RPM</P>
+            <P class="layerop">Speed</P>
+            <P class="layerop">Intake Temp</P>
+            <P class="layerop">MAF</P>
+            <P class="layerop">AFR</P>
+            <P class="layerop">Calc Load</P>
+            <P class="layerop">Abs Load</P>
 
+            <style>
+              .layerop {
+                font-size: 16px;
+                opacity: 0.3;
+              }
+            </style>
           </div>
 
           <div class="layerslistoverlay"></div>
@@ -751,7 +755,6 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 
           box-shadow: 0 0 5px var(--shadow-color);
           pointer-events: all;
-
           border-radius: 10px;
 
         }

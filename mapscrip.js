@@ -96,7 +96,7 @@ map.on("load", () => {
 
 
 
-        var proxim = coordinatesArray.filter(cord => {
+        var proxim = coords.filter(cord => {
 
             return cord[0] > cUL[0] && cord[0] < cLR[0] && cord[1] < cUL[1] && cord[1] > cLR[1];
         });
@@ -131,12 +131,9 @@ map.on("load", () => {
 
 
 
-var coordinatesArray, dataArray;
-
 function addPath(latlongarray, datarr) {
 
-    coordinatesArray = latlongarray;
-    dataArray = datarr;
+
 
     if (map.getLayer('line')) {
 

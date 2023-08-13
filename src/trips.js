@@ -90,6 +90,7 @@ function fileRead(json) {
 
     coords = [];
     data = [];
+    td = [];
 
     var lastCoord = [], dcml = 0;
 
@@ -256,3 +257,66 @@ layerslist.addEventListener("animationend", (event) => {
 });
 
 
+let layernames = document.getElementsByClassName('layerop');
+
+Array.from(layernames).forEach(function (element, index) {
+    element.addEventListener("click", function () {
+
+        layerSelected(index);
+    });
+});
+
+
+
+
+function layerSelected(idx) {
+
+    Array.from(layernames).forEach(function (el, iidx) {
+        if (iidx == idx) {
+            el.style.opacity = 1;
+        }
+        else {
+            el.style.opacity = 0.3;
+        }
+    });
+
+    switch (idx) {
+        case 0:
+            // Fuel Consumption
+            break;
+        case 1:
+            // Drive ratio
+            break;
+        //_______________________________//
+        case 2:
+            // Fuel sys stat
+            break;
+        case 3:
+            // MAP
+            break;
+        case 4:
+            // RPM
+            break;
+        case 5:
+            // Speed
+            break;
+        case 6:
+            // Intake temp
+            break;
+        case 7:
+            // MAF
+            break;
+        case 8:
+            // AFR
+            break;
+        case 9:
+            // Calc Load
+            break;
+        case 10:
+            // Abs Load
+            break;
+        default:
+            return;
+    }
+
+}
