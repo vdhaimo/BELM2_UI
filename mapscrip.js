@@ -78,22 +78,11 @@ map.on("load", () => {
     map.on('click', function (e) {
 
 
-
-
-
         if (map.getZoom() < 15) return;
-
-
-
 
 
         var cUL = map.unproject([e.point.x - 50, e.point.y - 50]).toArray();
         var cLR = map.unproject([e.point.x + 50, e.point.y + 50]).toArray();
-
-
-
-
-
 
 
         var proxim = coords.filter(cord => {
@@ -127,11 +116,29 @@ map.on("load", () => {
 });
 
 
+function updatepath(datarr) {
+    var darr = [
+        'interpolate',
+        ['linear'],
+        ['line-progress']
+
+
+    ];
+
+    datarr.forEach(element => {
+        darr.push(element);
+    });
+
+
+
+    map.setPaintProperty('line', 'line-gradient', darr);
+
+}
 
 
 
 
-function addPath(latlongarray, datarr) {
+function addPath(latlongarray) {
 
 
 
@@ -177,17 +184,7 @@ function addPath(latlongarray, datarr) {
     });
 
 
-    var darr = [
-        'interpolate',
-        ['linear'],
-        ['line-progress']
 
-
-    ];
-
-    datarr.forEach(element => {
-        darr.push(element);
-    });
 
 
 
@@ -196,11 +193,11 @@ function addPath(latlongarray, datarr) {
         source: 'line',
         id: 'line',
         paint: {
-            'line-color': 'red',
+            'line-color': 'green',
             'line-width': 5,
             // 'line-gradient' must be specified using an expression
             // with the special 'line-progress' property
-            'line-gradient': darr
+
         },
         layout: {
             'line-cap': 'round',

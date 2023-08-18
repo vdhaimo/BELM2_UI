@@ -84,6 +84,19 @@ function sendReadFileReq(filename) {
 
 var coords = [], data = [], td = [];
 
+const mfactor = [
+    1,
+    16,//FuelSystemStatus
+    1,//MAP
+    0.05,//RPM
+    1,//VehicleSpeed
+    1,//IntakeTemp
+    2.5,//MAF
+    100,//eqAFR
+    2,//loadCalc
+    0.01//loadAbs
+];
+
 function fileRead(json) {
 
 
@@ -141,16 +154,38 @@ function fileRead(json) {
     data.forEach(entry => {
         if (entry[0] <= 1) {
             ar.push(entry[0]);
-            ar.push(hslToHex(2 * entry[8], 100, 50));
+            ar.push(hslToHex(mfactor[8] * entry[8], 100, 50));
         }
     });
 
-    addPath(coords, ar);
+    addPath(coords);
+
+    loadMetric(1);
 
 
 
     if (tripsList.style.display == 'block') openTripsList();
 }
+
+function loadMetric(m) {
+
+    if (!data) return;
+
+    var ar = [];
+
+
+
+    data.forEach(entry => {
+        if (entry[0] <= 1) {
+            ar.push(entry[0]);
+            ar.push(hslToHex(mfactor[m] * entry[m], 100, 50));
+        }
+    });
+
+    updatepath(ar);
+}
+
+
 
 
 function hslToHex(h, s, l) {
@@ -290,30 +325,39 @@ function layerSelected(idx) {
         //_______________________________//
         case 2:
             // Fuel sys stat
+            loadMetric(1);
             break;
         case 3:
             // MAP
+            loadMetric(2);
             break;
         case 4:
             // RPM
+            loadMetric(3);
             break;
         case 5:
             // Speed
+            loadMetric(4);
             break;
         case 6:
             // Intake temp
+            loadMetric(5);
             break;
         case 7:
             // MAF
+            loadMetric(6);
             break;
         case 8:
             // AFR
+            loadMetric(7);
             break;
         case 9:
             // Calc Load
+            loadMetric(8);
             break;
         case 10:
             // Abs Load
+            loadMetric(9);
             break;
         default:
             return;
