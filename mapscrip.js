@@ -72,6 +72,7 @@ var marker2 = new mapboxgl.Marker();
 var nrst;
 map.on("load", () => {
 
+    if (!ispc) XAPI.readTrips();
 
 
 

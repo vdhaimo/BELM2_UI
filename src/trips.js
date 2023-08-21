@@ -5,11 +5,15 @@ var tripsjs = this;
 var tripsListHolder = document.querySelector('.tripslistholder');
 
 
+var lastLayerSelected = 6;
+
+
 var trlist = [];
 var triplogs = [];
 
 
 function readLogs(loglist) {
+
 
     while (tripsListHolder.firstChild) {
         tripsListHolder.removeChild(tripsListHolder.lastChild);
@@ -72,7 +76,7 @@ function demuxFileName(name) {
 }
 
 
-if (!ispc) XAPI.readTrips();
+
 
 
 
@@ -86,16 +90,18 @@ var coords = [], data = [], td = [];
 
 const mfactor = [
     1,
-    16,//FuelSystemStatus
+    1,//FuelSystemStatus
     1,//MAP
-    0.05,//RPM
+    -1,//RPM
     1,//VehicleSpeed
-    1,//IntakeTemp
-    2.5,//MAF
-    100,//eqAFR
-    2,//loadCalc
-    0.01//loadAbs
+    -1,//IntakeTemp
+    -1,//MAF
+    1,//eqAFR
+    -1,//loadCalc
+    -1//loadAbs
 ];
+
+var Max_ed_fac = [];
 
 function fileRead(json) {
 
@@ -142,30 +148,37 @@ function fileRead(json) {
 
     });
 
-
+    let _Max_ed = [];
 
     data.forEach(entry => {
         entry[0] = entry[0] / dcml;
+
+        entry.forEach(function (d, i) {
+
+            if (i < 1) return;
+
+            if (!_Max_ed[i]) _Max_ed[i] = 1;
+
+            _Max_ed[i] = Math.max(_Max_ed[i], d);
+        });
     });
 
 
-    var ar = [];
-
-    data.forEach(entry => {
-        if (entry[0] <= 1) {
-            ar.push(entry[0]);
-            ar.push(hslToHex(mfactor[8] * entry[8], 100, 50));
-        }
+    _Max_ed.forEach(function (item, idx) {
+        Max_ed_fac[idx] = 135 / item;
     });
+
+
 
     addPath(coords);
 
-    loadMetric(1);
+    layerSelected(lastLayerSelected);
 
 
 
     if (tripsList.style.display == 'block') openTripsList();
 }
+
 
 function loadMetric(m) {
 
@@ -173,16 +186,23 @@ function loadMetric(m) {
 
     var ar = [];
 
+    var ii = []
+
 
 
     data.forEach(entry => {
         if (entry[0] <= 1) {
             ar.push(entry[0]);
-            ar.push(hslToHex(mfactor[m] * entry[m], 100, 50));
+
+            ii.push(135 + Max_ed_fac[m] * mfactor[m] * entry[m]);
+
+            ar.push(hslToHex(135 + (Max_ed_fac[m] * mfactor[m] * entry[m]), 100, 50));
         }
     });
 
     updatepath(ar);
+
+    console.log(ii);
 }
 
 
@@ -304,7 +324,11 @@ Array.from(layernames).forEach(function (element, index) {
 
 
 
+
 function layerSelected(idx) {
+
+
+    lastLayerSelected = idx;
 
     Array.from(layernames).forEach(function (el, iidx) {
         if (iidx == idx) {
@@ -320,47 +344,50 @@ function layerSelected(idx) {
             // Fuel Consumption
             break;
         case 1:
+            // Acceleration
+            break;
+        case 2:
             // Drive ratio
             break;
         //_______________________________//
-        case 2:
+        case 3:
             // Fuel sys stat
             loadMetric(1);
             break;
-        case 3:
+        case 4:
             // MAP
             loadMetric(2);
             break;
-        case 4:
+        case 5:
             // RPM
             loadMetric(3);
             break;
-        case 5:
+        case 6:
             // Speed
             loadMetric(4);
             break;
-        case 6:
+        case 7:
             // Intake temp
             loadMetric(5);
             break;
-        case 7:
+        case 8:
             // MAF
             loadMetric(6);
             break;
-        case 8:
+        case 9:
             // AFR
             loadMetric(7);
             break;
-        case 9:
+        case 10:
             // Calc Load
             loadMetric(8);
             break;
-        case 10:
+        case 11:
             // Abs Load
             loadMetric(9);
             break;
-        default:
-            return;
     }
+
+
 
 }
