@@ -108,8 +108,7 @@ map.on("load", () => {
         var nearest = turf.nearestPoint(targetPoint, points);
 
 
-        marker.setLngLat(proxim[nearest.properties.featureIndex
-        ]).addTo(map);
+        marker.setLngLat(proxim[nearest.properties.featureIndex]).addTo(map);
 
     });
 

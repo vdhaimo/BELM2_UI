@@ -101,7 +101,20 @@ const mfactor = [
     -1//loadAbs
 ];
 
-var Max_ed_fac = [];
+const units = [
+    '',
+    '',//FuelSystemStatus
+    'kPa',//MAP
+    'rpm',//RPM
+    'km/h',//VehicleSpeed
+    '°C',//IntakeTemp
+    'g/s',//MAF
+    '',//eqAFR
+    '%',//loadCalc
+    '%'//loadAbs
+
+];
+
 
 function fileRead(json) {
 
@@ -110,6 +123,10 @@ function fileRead(json) {
     coords = [];
     data = [];
     td = [];
+
+
+
+    cache_ed = [];
 
     var lastCoord = [], dcml = 0;
 
@@ -148,25 +165,10 @@ function fileRead(json) {
 
     });
 
-    let _Max_ed = [];
-
     data.forEach(entry => {
         entry[0] = entry[0] / dcml;
-
-        entry.forEach(function (d, i) {
-
-            if (i < 1) return;
-
-            if (!_Max_ed[i]) _Max_ed[i] = 1;
-
-            _Max_ed[i] = Math.max(_Max_ed[i], d);
-        });
     });
 
-
-    _Max_ed.forEach(function (item, idx) {
-        Max_ed_fac[idx] = 135 / item;
-    });
 
 
 
@@ -180,29 +182,57 @@ function fileRead(json) {
 }
 
 
+var cache_ed = [];
+
 function loadMetric(m) {
 
-    if (!data) return;
-
-    var ar = [];
-
-    var ii = []
+    if (!data || data.length < 1) return;
 
 
 
-    data.forEach(entry => {
-        if (entry[0] <= 1) {
-            ar.push(entry[0]);
 
-            ii.push(135 + Max_ed_fac[m] * mfactor[m] * entry[m]);
 
-            ar.push(hslToHex(135 + (Max_ed_fac[m] * mfactor[m] * entry[m]), 100, 50));
-        }
-    });
+    if (!cache_ed[m]) {
 
-    updatepath(ar);
+        cache_ed[m] = { max: 1, ar: [], av: 0 };
 
-    console.log(ii);
+        // analize data
+        var cum = 0;
+        data.forEach(e => {
+            cache_ed[m].max = Math.max(cache_ed[m].max, e[m]);
+            cum += Number(e[m]);
+        });
+
+        cache_ed[m].av = cum / data.length;
+
+        let fac = mfactor[m] * 135 / cache_ed[m].max;
+
+
+
+        data.forEach(entry => {
+            if (entry[0] <= 1) {
+                cache_ed[m].ar.push(entry[0]);
+
+
+                cache_ed[m].ar.push(hslToHex(135 + (fac * entry[m]), 100, 50));
+            }
+        });
+    }
+
+    updatepath(cache_ed[m].ar);
+    loadStats(m);
+
+}
+
+const statstext = document.getElementById('tripstats');
+
+function loadStats(m) {
+
+    if (!cache_ed[m]) statstext.innerHTML = '';
+
+    statstext.innerHTML = 'Average: ' + parseFloat(cache_ed[m].av).toFixed(2) + " " + units[m]
+        + '<br>Max: ' + parseFloat(cache_ed[m].max).toFixed(2) + " " + units[m];
+
 }
 
 
