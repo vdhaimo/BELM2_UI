@@ -78,7 +78,7 @@ map.on("load", () => {
     map.on('click', function (e) {
 
 
-        if (map.getZoom() < 15) return;
+        if (map.getZoom() < 13) return;
 
 
         var cUL = map.unproject([e.point.x - 50, e.point.y - 50]).toArray();
@@ -143,7 +143,11 @@ function updatepath(datarr) {
 }
 
 
+var bounds;
 
+function resetBounds() {
+    if (bounds) map.fitBounds(bounds, { padding: 50 });
+}
 
 function addPath(latlongarray) {
 
@@ -155,17 +159,13 @@ function addPath(latlongarray) {
         map.removeSource('line');
     }
 
-    map.flyTo({
-        center: latlongarray[0],
-        zoom: 20,
-        speed: 1.2,
-        curve: 1
-    });
-
-    map.fitBounds([
+    bounds = [
         latlongarray[0], // southwestern corner of the bounds
         latlongarray[latlongarray.length - 1] // northeastern corner of the bounds
-    ]);
+    ];
+
+
+    map.fitBounds(bounds, { padding: 50 });
 
 
 

@@ -111,11 +111,14 @@ const units = [
     'g/s',//MAF
     '',//eqAFR
     '%',//loadCalc
-    '%'//loadAbs
+    '%',//loadAbs
+    'kms'//distance
 
 ];
 
 var nearest_globalIdx;
+
+const tripstats_global = document.getElementById('tripstats_gl');
 
 function fileRead(json) {
 
@@ -181,6 +184,7 @@ function fileRead(json) {
 
     layerSelected(lastLayerSelected);
 
+    tripstats_global.innerHTML = "Trip dist: " + parseFloat(dcml).toFixed(2) + ' ' + units[10] + ' | Duration: ' + new Date(td[td.length - 1][0] - td[0][0]).toISOString().slice(11, 19);
 
 
     if (tripsList.style.display == 'block') openTripsList();
