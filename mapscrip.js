@@ -69,7 +69,6 @@ var marker = new mapboxgl.Marker(el);
 var marker1 = new mapboxgl.Marker();
 var marker2 = new mapboxgl.Marker();
 
-var nrst;
 map.on("load", () => {
 
     if (!ispc) XAPI.readTrips();
@@ -86,29 +85,37 @@ map.on("load", () => {
         var cLR = map.unproject([e.point.x + 50, e.point.y + 50]).toArray();
 
 
-        var proxim = coords.filter(cord => {
+        var proxim = coords.filter(function (cord, idx) {
 
-            return cord[0] > cUL[0] && cord[0] < cLR[0] && cord[1] < cUL[1] && cord[1] > cLR[1];
+            if (cord[0] > cUL[0] && cord[0] < cLR[0] && cord[1] < cUL[1] && cord[1] > cLR[1]) {
+
+                cord[2] = idx;
+
+                return true;
+            }
+            else return false;
         });
 
-        console.log(e.lngLat);
 
         var targetPoint = turf.point([e.lngLat.lng, e.lngLat.lat]);
         var pts = [];
 
 
         proxim.forEach(pt => {
-            pts.push(turf.point(pt));
+            pts.push(turf.point([pt[0], pt[1]]));
             //  var mkr = new mapboxgl.Marker();
             //  mkr.setLngLat(pt).addTo(map);
         });
 
-        var points = turf.featureCollection(pts);
+        let points = turf.featureCollection(pts);
 
-        var nearest = turf.nearestPoint(targetPoint, points);
+        let nearest = turf.nearestPoint(targetPoint, points);
 
+        nearest_globalIdx = proxim[nearest.properties.featureIndex][2];
 
-        marker.setLngLat(proxim[nearest.properties.featureIndex]).addTo(map);
+        marker.setLngLat([proxim[nearest.properties.featureIndex][0], proxim[nearest.properties.featureIndex][1]]).addTo(map);
+
+        loadStats(undefined);
 
     });
 

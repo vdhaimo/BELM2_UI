@@ -86,7 +86,7 @@ function sendReadFileReq(filename) {
 
 }
 
-var coords = [], data = [], td = [];
+var coords = [], data = [], td = [], markeronindex;
 
 const mfactor = [
     1,
@@ -115,6 +115,7 @@ const units = [
 
 ];
 
+var nearest_globalIdx;
 
 function fileRead(json) {
 
@@ -123,7 +124,8 @@ function fileRead(json) {
     coords = [];
     data = [];
     td = [];
-
+    markeronindex = undefined;
+    nearest_globalIdx = undefined;
 
 
     cache_ed = [];
@@ -165,9 +167,12 @@ function fileRead(json) {
 
     });
 
+
+
     data.forEach(entry => {
         entry[0] = entry[0] / dcml;
     });
+
 
 
 
@@ -194,7 +199,7 @@ function loadMetric(m) {
 
     if (!cache_ed[m]) {
 
-        cache_ed[m] = { max: 1, ar: [], av: 0 };
+        cache_ed[m] = { max: 0.001, ar: [], av: 0 };
 
         // analize data
         var cum = 0;
@@ -226,12 +231,44 @@ function loadMetric(m) {
 
 const statstext = document.getElementById('tripstats');
 
+var last_m = 6;
 function loadStats(m) {
 
-    if (!cache_ed[m]) statstext.innerHTML = '';
+    if (!m) m = last_m;
 
-    statstext.innerHTML = 'Average: ' + parseFloat(cache_ed[m].av).toFixed(2) + " " + units[m]
+    last_m = m;
+
+    if (!cache_ed[m]) {
+        statstext.innerHTML = '';
+        return;
+    }
+
+    var statxt = '';
+
+    if (nearest_globalIdx) {
+
+        var ii;
+        let _d = td[nearest_globalIdx][1] / td[td.length - 1][1];
+
+        data.every(function (entry, index) {
+            if (ii) return false;
+
+            if (entry[0] > _d && entry[0] < 1) ii = index;
+
+
+            return true;
+
+        });
+
+
+        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + parseFloat(data[ii][m]).toFixed(2) + " " + units[m] + '<br></Span>';
+    }
+
+
+    statxt += 'Average: ' + parseFloat(cache_ed[m].av).toFixed(2) + " " + units[m]
         + '<br>Max: ' + parseFloat(cache_ed[m].max).toFixed(2) + " " + units[m];
+
+    statstext.innerHTML = statxt;
 
 }
 
