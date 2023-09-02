@@ -64,6 +64,8 @@ var devices = [];
 
 function bondedDevices(devs) {
 
+    console.log(devs);
+
     devices = devs;
 
 
@@ -353,6 +355,19 @@ function populateHomescreen(noVehicles) {
 
 function connectVehicle(isconnect) {
 
+
+    if (!selectedVcard) return;
+
+    vehiclelist.forEach(vehicle => {
+        if (vehicle.vin == selectedVcard.getAttribute('vin')) {
+
+            if (isconnect) XAPI.connectdevice(vehicle.devadd);
+
+
+
+        }
+    });
+
 }
 
 //card
@@ -444,10 +459,14 @@ var selectedVcard;
 
 function selectVehicle(vehicle) {
 
+
+
     vlis.forEach(element => {
         if (element.getAttribute('vin') == vehicle.vin) {
 
-            selectVcard(element);
+            selectVcard(element, vehicle);
+
+
 
             return;
         }
@@ -455,7 +474,7 @@ function selectVehicle(vehicle) {
 }
 
 
-function selectVcard(element) {
+function selectVcard(element, vehicle) {
 
 
     //deselect
@@ -472,9 +491,11 @@ function selectVcard(element) {
     if (connectedVCard && element == connectedVCard) {
         connectOption.style.display = 'none';
         disconnectOption.style.display = 'block';
+        connectOption.setAttribute('smalltext', vehicle.devadd);
     } else {
         connectOption.style.display = 'block';
         disconnectOption.style.display = 'none';
+        disconnectOption.setAttribute('smalltext', vehicle.devadd);
     }
 
     selectedVcard = element;
