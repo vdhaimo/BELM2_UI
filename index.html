@@ -483,11 +483,11 @@
 
 
 
-        <bt-cardx1 id="option_connect" icon="link" bigtext="Connect" smalltext="OBD2"
-          onclick="connectVehicle(true)"></bt-cardx1>
+        <bt-cardx1 id="option_connect" icon="radio_button_checked" icncolor="#99ff99" bigtext="Connect"
+          smalltext="Starts Recording" onclick="connectVehicle(true)"></bt-cardx1>
 
-        <bt-cardx1 id="option_disconnect" icon="link_off" bigtext="Disconnect" smalltext="Connected to Bolt"
-          onclick="connectVehicle(false)"></bt-cardx1>
+        <bt-cardx1 id="option_disconnect" icon="stop_circle" icncolor="#ff8855" bigtext="Disconnect"
+          smalltext="Stops Recording" onclick="connectVehicle(false)"></bt-cardx1>
 
         <bt-cardx1 id="option_devices" icon="memory" bigtext="OBD2 Device" smalltext="Select OBD2 device"
           onclick="load()"></bt-cardx1>
@@ -573,9 +573,10 @@
 
           <div class="llist">
             <H3>Computed</H3>
-            <P class="layerop">Fuel Consumption</P>
+            <P class="layerop">Fuel Rate</P>
+            <P class="layerop">Fuel Economy</P>
             <P class="layerop">Acceleration</P>
-            <P class="layerop">Drive Ratio</P>
+            <P class="layerop">Revs : Mile</P>
             _____________
             <br>
             <H3>ECU data</H3>

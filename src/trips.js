@@ -24,6 +24,8 @@ function readLogs(loglist) {
     triplogs.forEach(log => {
         var dmx = demuxFileName(log);
 
+
+
         vehiclelist.forEach(vh => {
             if (vh.vin == dmx[1]) {
 
@@ -98,8 +100,31 @@ const mfactor = [
     -1,//MAF
     1,//eqAFR
     -1,//loadCalc
-    -1//loadAbs
+    -1,//loadAbs
+    -1,//fuelrate
+    1,//fueleco
+    1, //accn
+    -1 //dr ratio
 ];
+
+const mShift = [
+    135,
+    135,//FuelSystemStatus
+    135,//MAP
+    135,//RPM
+    135,//VehicleSpeed
+    135,//IntakeTemp
+    135,//MAF
+    135,//eqAFR
+    135,//loadCalc
+    135,//loadAbs
+    135,//fuelrate
+    0,//fueleco
+    135,//accn
+    275 //dr ratio
+];
+
+
 
 const units = [
     '',
@@ -112,6 +137,10 @@ const units = [
     '',//eqAFR
     '%',//loadCalc
     '%',//loadAbs
+    'g/s',//fuel rate
+    'km/l',//fuel economy
+    'm/s^2', //accn
+    'revs/km', //driveratio
     'kms'//distance
 
 ];
@@ -119,6 +148,8 @@ const units = [
 var nearest_globalIdx;
 
 const tripstats_global = document.getElementById('tripstats_gl');
+
+var fe = 0;
 
 function fileRead(json) {
 
@@ -133,14 +164,44 @@ function fileRead(json) {
 
     cache_ed = [];
 
-    var lastCoord = [], dcml = 0;
+    var lastCoord = [], dcml = 0, fuel = 0, lastspeed = 0;
 
+    var lt = 0;
 
 
     json.forEach(element => {
 
+
         var arr = element.split('\t');
-        if (arr.length > 3) data.push(arr);
+        if (arr.length > 3) {
+
+            let ddt = 0.001 * (Number(arr[0]) - Number(lt));
+
+            ddt = lt ? ddt : 0;
+
+            lt = arr[0];
+
+            let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * 1.2 * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * 14);
+
+            arr[10] = ff;
+
+            fuel += (ddt * ff);
+
+            arr[11] = (ddt && ff) ? Number(arr[4]) * 0.2083 / ff : 30;
+
+
+            let rpm = 60 * Number(arr[3]), spd = Number(arr[4]);
+
+            arr[12] = ddt ? (spd - lastspeed) * 0.28 / ddt : 0;
+
+            lastspeed = spd;
+
+            arr[13] = spd > 5 ? rpm / spd : 0;
+
+
+            data.push(arr);
+
+        }
         else {
             coords.push([arr[1], arr[2]]);
             if (lastCoord.length < 1) td.push([arr[0], dcml]);
@@ -172,19 +233,19 @@ function fileRead(json) {
 
 
 
+
     data.forEach(entry => {
         entry[0] = entry[0] / dcml;
     });
 
-
-
-
+    fe = 750 * dcml / fuel;
 
     addPath(coords);
 
     layerSelected(lastLayerSelected);
 
-    tripstats_global.innerHTML = "Trip dist: " + parseFloat(dcml).toFixed(2) + ' ' + units[10] + ' | Duration: ' + new Date(td[td.length - 1][0] - td[0][0]).toISOString().slice(11, 19);
+    tripstats_global.innerHTML = "Trip dist: " + parseFloat(dcml).toFixed(2) + ' ' + units[14] + ' | Duration: ' + new Date(td[td.length - 1][0] - td[0][0]).toISOString().slice(11, 19)
+        + '<br>Fuel: ' + parseFloat(fuel / 1000).toFixed(2) + ' Kg [' + parseFloat(fuel / 750).toFixed(2) + ' Liters] | Av. Economy: ' + parseFloat(fe).toFixed(2) + ' Km/l';
 
 
     if (tripsList.style.display == 'block') openTripsList();
@@ -212,10 +273,14 @@ function loadMetric(m) {
             cum += Number(e[m]);
         });
 
-        cache_ed[m].av = cum / data.length;
 
-        let fac = mfactor[m] * 135 / cache_ed[m].max;
 
+        cache_ed[m].av = (m == 11) ? fe : cum / data.length;
+
+
+        let fac = mfactor[m] * 135 / ((m != 13) ? cache_ed[m].max : cache_ed[m].av);
+
+        let m_s = mShift[m];
 
 
         data.forEach(entry => {
@@ -223,10 +288,11 @@ function loadMetric(m) {
                 cache_ed[m].ar.push(entry[0]);
 
 
-                cache_ed[m].ar.push(hslToHex(135 + (fac * entry[m]), 100, 50));
+                cache_ed[m].ar.push(hslToHex(m_s + (fac * entry[m]), 100, 50));
             }
         });
     }
+
 
     updatepath(cache_ed[m].ar);
     loadStats(m);
@@ -269,8 +335,8 @@ function loadStats(m) {
     }
 
 
-    statxt += 'Average: ' + parseFloat(cache_ed[m].av).toFixed(2) + " " + units[m]
-        + '<br>Max: ' + parseFloat(cache_ed[m].max).toFixed(2) + " " + units[m];
+    statxt += 'Average: ' + parseFloat(cache_ed[m].av).toFixed(2) + " " + units[m] +
+        '<br>Max: ' + parseFloat(cache_ed[m].max).toFixed(2) + " " + units[m];
 
     statstext.innerHTML = statxt;
 
@@ -412,48 +478,56 @@ function layerSelected(idx) {
 
     switch (idx) {
         case 0:
-            // Fuel Consumption
+            // Fuel Rate
+            loadMetric(10);
             break;
         case 1:
-            // Acceleration
+            // Fuel Economy
+            loadMetric(11);
             break;
+
         case 2:
+            // Acceleration
+            loadMetric(12);
+            break;
+        case 3:
             // Drive ratio
+            loadMetric(13);
             break;
         //_______________________________//
-        case 3:
+        case 4:
             // Fuel sys stat
             loadMetric(1);
             break;
-        case 4:
+        case 5:
             // MAP
             loadMetric(2);
             break;
-        case 5:
+        case 6:
             // RPM
             loadMetric(3);
             break;
-        case 6:
+        case 7:
             // Speed
             loadMetric(4);
             break;
-        case 7:
+        case 8:
             // Intake temp
             loadMetric(5);
             break;
-        case 8:
+        case 9:
             // MAF
             loadMetric(6);
             break;
-        case 9:
+        case 10:
             // AFR
             loadMetric(7);
             break;
-        case 10:
+        case 11:
             // Calc Load
             loadMetric(8);
             break;
-        case 11:
+        case 12:
             // Abs Load
             loadMetric(9);
             break;

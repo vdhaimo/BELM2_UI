@@ -236,6 +236,8 @@ class btCardX1 extends HTMLElement {
         this.ICON = content.querySelector('#icn');
 
 
+
+
         shadowRoot.appendChild(linkElem);
         shadowRoot.appendChild(content);
 
@@ -248,7 +250,7 @@ class btCardX1 extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['bigtext', 'smalltext', 'icon', 'selected'];
+        return ['bigtext', 'smalltext', 'icon', 'selected', 'icncolor'];
     }
 
 
@@ -271,6 +273,9 @@ class btCardX1 extends HTMLElement {
             } else {
                 this.MAIN.style.background = 'transparent';
             }
+        }
+        if (name == 'icncolor') {
+            if (name) this.ICON.style.color = newValue;
         }
     }
 

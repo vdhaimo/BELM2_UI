@@ -361,14 +361,40 @@ function connectVehicle(isconnect) {
     vehiclelist.forEach(vehicle => {
         if (vehicle.vin == selectedVcard.getAttribute('vin')) {
 
-            if (isconnect) XAPI.connectdevice(vehicle.devadd);
+            if (isconnect) {
+                if (selectedVcard) selectVcard.setAttribute('constat', "Connecting");
+                XAPI.connectdevice(vehicle.devadd);
+            }
 
+            else {
 
+            }
 
         }
     });
 
 }
+
+function connectStatus(status) {
+    console.log(status);
+    switch (status) {
+        case 0:
+
+            break;
+        case 1:
+
+            break;
+        case 2:
+            vlis.forEach(item => { item.setAttribute('constat', ""); });
+            XAPI.showToast('Failed To Connect')
+            break;
+    }
+}
+
+function elmStatus(status) {
+    console.log(status);
+}
+
 
 //card
 const cvName = document.getElementById('vname');
