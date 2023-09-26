@@ -31,7 +31,7 @@ function readLogs(loglist) {
 
                 //create log entry
                 var h = document.createElement('bt-cardx1');
-                h.setAttribute('bigtext', vh.name);
+                h.setAttribute('bigtext', vh.jsn.name);
                 h.setAttribute('smalltext', dmx[2]);
                 h.setAttribute('icon', 'line_end_circle');
 
@@ -395,6 +395,8 @@ var layersbutton = document.getElementById('layersbt');
 function layers_button_clicked() {
 
 
+
+
     if (layerslist.clientWidth < '150') {
 
         hidelayes(false);
@@ -536,3 +538,6 @@ function layerSelected(idx) {
 
 
 }
+
+
+

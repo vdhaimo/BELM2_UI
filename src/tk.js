@@ -64,7 +64,6 @@ var devices = [];
 
 function bondedDevices(devs) {
 
-    console.log(devs);
 
     devices = devs;
 
@@ -86,7 +85,7 @@ function updateDeviceList() {
             h.setAttribute('bigtext', element.name);
             h.setAttribute('smalltext', element.address);
             vehiclelist.forEach(vehicle => {
-                if (element.address == vehicle.devadd) h.setAttribute('righttext', vehicle.name);
+                if (element.address == vehicle.jsn.devadd) h.setAttribute('righttext', vehicle.jsn.name);
             });
 
             btdevicelist.appendChild(h);
@@ -150,9 +149,9 @@ function editvehicle(isNew) {
 
         vehiclelist.forEach(vehicle => {
             if (vehicle.vin == selectedVcard.getAttribute('vin')) {
-                fueltypeselector.value = vehicle.fuel;
-                vehicleName.value = vehicle.name;
-                cc.value = vehicle.cc;
+                fueltypeselector.value = vehicle.jsn.fuel;
+                vehicleName.value = vehicle.jsn.name;
+                cc.value = vehicle.jsn.cc;
             }
         });
 
@@ -197,37 +196,7 @@ function readVehicles(vehicles) {
 
 
 
-    var vhs = []
-
-    vehicles.forEach(vh => {
-
-        vhs.forEach(function (element, index) {
-
-            if (element.vin == vh.vin) {
-
-                vhs.splice(index, 1);
-
-            }
-        });
-        vhs.push(vh);
-
-    });
-
-    if (vhs.length > 1) {
-        vhs.sort((a, b) => {
-            const vinA = a.vin.toLowerCase();
-            const vinB = b.vin.toLowerCase();
-            if (vinA < vinB) {
-                return -1; // a should be placed before b
-            }
-            if (vinA > vinB) {
-                return 1; // b should be placed before a
-            }
-            return 0; // names are equal, maintain the order
-        });
-    }
-
-    vehiclelist = vhs;
+    vehiclelist = vehicles;
 
     populateHomescreen(!vehiclelist.length);
 
@@ -261,9 +230,10 @@ function connectedVehicleID(id, mac) {
             });
 
 
-            if (element.mac != mac) {
-                //save new
-                XAPI.saveEditedVehicle(element.vin, element.name, element.cc, element.conm, mac);
+            if (element.jsn.devadd != mac) {
+                //save new mac address
+                element.jsn.devadd = mac;
+                XAPI.saveVehicle(element.vin, JSON.stringify(element.jsn));
 
             }
             return;
@@ -288,12 +258,12 @@ function saveVehicle() {
 
     var nm = vehicleName.value;
 
-    if (nm.length < 2) {
+    if (nm.length < 4) {
         XAPI.showToast("Name should be at least 4 characters long")
         return;
     }
 
-    var fuel = fueltypeselector.value;
+    var _fuel = fueltypeselector.value;
 
     var c_c = parseInt(cc.value);
 
@@ -302,12 +272,15 @@ function saveVehicle() {
         return;
     }
 
-    if (isNw) XAPI.saveVehicle(nm, c_c, fuel);
+    if (isNw) XAPI.saveVehicle(connectedVehicleID, { name: nm, cc: c_c, fuel: _fuel });
     else if (selectedVcard) {
 
         vehiclelist.forEach(element => {
             if (element.vin == selectedVcard.getAttribute('vin')) {
-                XAPI.saveEditedVehicle(element.vin, nm, c_c, element.conm, element.devadd, fuel);
+                element.jsn.name = nm;
+                element.jsn.cc = c_c;
+                element.jsn.fuel = _fuel;
+                XAPI.saveVehicle(element.vin, JSON.stringify(element.jsn));
                 return;
             }
         });
@@ -348,8 +321,8 @@ function populateHomescreen(noVehicles) {
 
     vehiclelist.forEach(vh => {
 
-        var dt = vh.cc + " cc" + " | " + FUELS[vh.fuel];
-        uploadtolist(vh.name, dt, "", "", vh.vin);
+        var dt = vh.jsn.cc + " cc" + " | " + FUELS[vh.jsn.fuel];
+        uploadtolist(vh.jsn.name, dt, "", "", vh.vin);
     });
 }
 
@@ -362,12 +335,12 @@ function connectVehicle(isconnect) {
         if (vehicle.vin == selectedVcard.getAttribute('vin')) {
 
             if (isconnect) {
-                if (selectedVcard) selectVcard.setAttribute('constat', "Connecting");
-                XAPI.connectdevice(vehicle.devadd);
+                selectedVcard.setAttribute('constat', "Connecting");
+                XAPI.connectdevice(vehicle.jsn.devadd);
             }
 
             else {
-
+                XAPI.disconnectCurrent();
             }
 
         }
@@ -378,15 +351,17 @@ function connectVehicle(isconnect) {
 function connectStatus(status) {
     console.log(status);
     switch (status) {
-        case 0:
+        case '0':
+
 
             break;
-        case 1:
+        case '1':
+            XAPI.showToast('Connected')
 
             break;
-        case 2:
+        case '2':
             vlis.forEach(item => { item.setAttribute('constat', ""); });
-            XAPI.showToast('Failed To Connect')
+            XAPI.showToast('Disconnected')
             break;
     }
 }
@@ -409,7 +384,7 @@ function lastDevice() {
     if (!lastdeviceMAC) return;
 
     vehiclelist.forEach(vehicle => {
-        if (vehicle.devadd == lastdeviceMAC) selectVehicle(vehicle);
+        if (vehicle.jsn.devadd == lastdeviceMAC) selectVehicle(vehicle);
     });
 }
 
@@ -470,7 +445,7 @@ function uploadtolist(name, details, com, constat, vin) {
     h.setAttribute('vin', vin);
 
     h.addEventListener('click', function (event) {
-        parent.selectVcard(h);
+        parent.selectVcard(h, null);
     });
 
 
@@ -503,6 +478,13 @@ function selectVehicle(vehicle) {
 function selectVcard(element, vehicle) {
 
 
+    let _vin = element.getAttribute('vin')
+    if (!vehicle) vehiclelist.forEach(vh => {
+        if (vh.vin == _vin) vehicle = vh;
+    });
+
+
+
     //deselect
     vlis.forEach(lmnt => {
         lmnt.setAttribute('select', 'none');
@@ -517,11 +499,11 @@ function selectVcard(element, vehicle) {
     if (connectedVCard && element == connectedVCard) {
         connectOption.style.display = 'none';
         disconnectOption.style.display = 'block';
-        connectOption.setAttribute('smalltext', vehicle.devadd);
+        connectOption.setAttribute('smalltext', vehicle.jsn.devadd);
     } else {
         connectOption.style.display = 'block';
         disconnectOption.style.display = 'none';
-        disconnectOption.setAttribute('smalltext', vehicle.devadd);
+        disconnectOption.setAttribute('smalltext', vehicle.jsn.devadd);
     }
 
     selectedVcard = element;
