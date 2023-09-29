@@ -223,11 +223,14 @@ function connectedVehicleID(id, mac) {
         if (element.vin == id) {
             //connected to element update card
 
-            selectVehicle(element);
 
             vlis.forEach(lmnt => {
-                if (lmnt.getAttribute('vin') == vehicle.vin) connectedVCard = lmnt;
+                if (lmnt.getAttribute('vin') == vehicle.vin) {
+                    connectedVCard = lmnt;
+                    selectVehicle(element);
+                }
             });
+
 
 
             if (element.jsn.devadd != mac) {
