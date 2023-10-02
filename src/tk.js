@@ -170,10 +170,13 @@ function editvehicle(isNew) {
 }
 
 function editvehicleclose(isSave) {
-    editvehicleOptn.classList.remove('slide-in')
-    editvehicleOptn.classList.add('slide-out')
 
-    if (isSave) saveVehicle();
+
+    if (isSave && saveVehicle()) {
+
+        editvehicleOptn.classList.remove('slide-in')
+        editvehicleOptn.classList.add('slide-out')
+    }
 
 
 }
@@ -219,19 +222,18 @@ function connectedVehicleID(id, mac) {
 
     Cookies.set('lastMAC', lastdeviceMAC);
 
+    var tr = false;
     vehiclelist.forEach(element => {
         if (element.vin == id) {
             //connected to element update card
 
 
             vlis.forEach(lmnt => {
-                if (lmnt.getAttribute('vin') == vehicle.vin) {
+                if (lmnt.getAttribute('vin') == id) {
                     connectedVCard = lmnt;
                     selectVehicle(element);
                 }
             });
-
-
 
             if (element.jsn.devadd != mac) {
                 //save new mac address
@@ -239,7 +241,7 @@ function connectedVehicleID(id, mac) {
                 XAPI.saveVehicle(element.vin, JSON.stringify(element.jsn));
 
             }
-            return;
+            tr = true;
         }
     });
 
@@ -247,7 +249,7 @@ function connectedVehicleID(id, mac) {
     //vehicle does not exist
 
     //create vehicle
-    editvehicle(true);
+    if (!tr) editvehicle(true);
 }
 
 var fueltypeselector = document.getElementById("FuelType");
@@ -263,7 +265,7 @@ function saveVehicle() {
 
     if (nm.length < 4) {
         XAPI.showToast("Name should be at least 4 characters long")
-        return;
+        return false;
     }
 
     var _fuel = fueltypeselector.value;
@@ -272,7 +274,7 @@ function saveVehicle() {
 
     if (isNaN(c_c)) {
         XAPI.showToast("Invalid Displacement")
-        return;
+        return false;
     }
 
     if (isNw) XAPI.saveVehicle(connectedVehicleID, { name: nm, cc: c_c, fuel: _fuel });
@@ -284,7 +286,7 @@ function saveVehicle() {
                 element.jsn.cc = c_c;
                 element.jsn.fuel = _fuel;
                 XAPI.saveVehicle(element.vin, JSON.stringify(element.jsn));
-                return;
+                return true;
             }
         });
 
