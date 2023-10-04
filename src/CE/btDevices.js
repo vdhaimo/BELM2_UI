@@ -97,9 +97,24 @@ class btVehicleCard extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'com') {
-            // Update the element's content based on the new attribute value
-            this.COM.style.display = 'none';
-            this.COM.style.display = 'block';
+
+            switch (newValue) {
+                case 'val':
+                    this.COM.style.backgroundColor = 'var(--c3)';
+                    let parent = this;
+
+                    setTimeout(function () {
+                        parent.COM.style.backgroundColor = 'var(--text-colorB)';
+                    }, 300);
+                    break;
+                case 'elm':
+                    this.COM.style.backgroundColor = 'var(--c0)';
+                    break;
+
+            }
+
+
+
         }
         if (name === 'constat') {
             // Update the element's content based on the new attribute value

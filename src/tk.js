@@ -4,6 +4,16 @@ const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 const btdevicelist = document.getElementById("listholder")
 
 
+var splashScreen = document.getElementById('splashscreen');
+let stateCheck = setInterval(() => {
+    if (document.readyState === 'complete') {
+        splashScreen.style.display = 'none';
+        clearInterval(stateCheck);
+
+    }
+}, 100);
+
+
 const btdevicelistMain = document.getElementById('selectBTdevices')
 btdevicelistMain.addEventListener("animationend", (event) => {
     if (event.animationName == 'slideOut') {
@@ -231,6 +241,7 @@ function connectedVehicleID(id, mac) {
             vlis.forEach(lmnt => {
                 if (lmnt.getAttribute('vin') == id) {
                     connectedVCard = lmnt;
+                    connectedVCard.setAttribute('com', 'elm');
                     selectVehicle(element);
                 }
             });
@@ -522,8 +533,8 @@ function selectVcard(element, vehicle) {
 
 
 
-function updateReceived() {
-    if (connectedVCard) connectedVCard.setAttribute('com', 'yes');
+function updateReceived(string) {
+    if (connectedVCard) connectedVCard.setAttribute('com', 'val');
 }
 
 
