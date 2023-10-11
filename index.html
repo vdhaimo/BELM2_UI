@@ -385,6 +385,79 @@
     var ispc = typeof XAPI == "undefined";
 
   </script>
+  <div id="splashscreen">
+    <img id="splash" fetchpriority="low" src="src\icons\CHNGU_LOGO_BNW.png">
+    <div class="loadingIndicator" id="i1"></div>
+    <div class="loadingIndicator" id="i2"></div>
+    <div class="loadingIndicator" id="i3"></div>
+
+    <style>
+      #splashscreen {
+        z-index: 10;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: var(--background-color);
+        z-index: 100;
+      }
+
+      #splash {
+        position: absolute;
+        width: 256px;
+        height: 256px;
+        opacity: 0.3;
+        left: calc(50% - 128px);
+        top: calc(50% - 128px);
+      }
+
+      .loadingIndicator {
+        position: absolute;
+        width: 32px;
+        height: 5px;
+        background-color: var(--c3);
+        border-radius: 2px;
+        left: calc(50% - 28px);
+        top: calc(50% + 200px);
+        animation: blinkind1 2s ease-out infinite;
+
+      }
+
+      #i1 {
+        transform: translateX(-36px);
+      }
+
+      #i2 {
+        animation-delay: 0.3s;
+      }
+
+      #i3 {
+        transform: translateX(36px);
+        animation-delay: 0.6s;
+      }
+
+
+      @keyframes blinkind1 {
+        0% {
+          opacity: 0;
+        }
+
+        30% {
+          opacity: 1;
+        }
+
+        60% {
+          opacity: 0;
+        }
+
+
+        100% {
+
+          opacity: 0;
+        }
+      }
+    </style>
+
+  </div>
 
 
   <div id='map'></div>
@@ -456,7 +529,7 @@
       <div class="home">
 
         <div id="title">
-          <P><img id="logo" src="src\icons\CHNGU_LOGO_BNW.png"><span id="bxh">CHNGU</span></P>
+          <P><img id="logo" fetchpriority="low" src="src\icons\CHNGU_LOGO_BNW.png"><span id="bxh">CHNGU</span></P>
 
 
           <style>
@@ -540,9 +613,142 @@
       </style>
 
       <div class="drive">
-        <div class="topgrdnt">
+
+        <div id="dialframe">
+
+          <div id="primarydial">
+            <div class="dial" id="bigdial"></div>
+
+            <div class="dialmask">
+              <P style="font-size: 12px;"><span style="font-size: 36px;">2356</span> RPM<br>
+                <span style="color: var(--c4); font-size: 15px;">&#9679</span>
+                Average 1532
+              </P>
+            </div>
+
+            <div class="average">
+              <div class="av_dot"></div>
+            </div>
+
+
+          </div>
+          <br>
+          <div id="secondaydials">
+            <div class="secdial"></div>
+            <div class="secdial"></div>
+            <div class="secdial"></div>
+
+          </div>
+
+
+
+        </div>
+        <style>
+          #dialframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+
+            font-family: 'Saira Stencil One', cursive;
+
+            line-height: 1.3;
+
+          }
+
+
+
+          .dial {
+            transform: rotate(-180deg);
+            border-radius: 50%;
+            background: conic-gradient(var(--c1) 0deg 120deg, #555555 120deg 360deg);
+            box-shadow: 0 0 10px 0 rgba(256, 256, 256, 0.4);
+
+
+          }
+
+
+          .dialmask {
+            position: absolute;
+            border-radius: 50%;
+            left: 2px;
+            right: 2px;
+            top: 2px;
+            bottom: 2px;
+            background-color: var(--background-color);
+            box-shadow: inset 0 0 10px rgba(256, 256, 256, 0.4);
+            text-align: center;
+            padding-top: 52px;
+          }
+
+          .average {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: rotateZ(0deg)
+          }
+
+          .av_dot {
+
+            position: absolute;
+            left: 0;
+            width: 3.5%;
+            height: 3.5%;
+            border-radius: 50%;
+            background-color: var(--c4);
+
+            left: 48.25%;
+            top: 98.25%;
+          }
+
+          #primarydial {
+            position: relative;
+            width: 192px;
+            height: 192px;
+            left: calc(50% - 96px);
+            top: 200px;
+            aspect-ratio: 1/1;
+            font-size: 4vh;
+
+          }
+
+
+          #bigdial {
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+
+          }
+
+          #secondaydials {
+            width: 100%;
+            position: absolute;
+            top: 450px;
+            display: flex;
+            justify-content: space-between;
+
+          }
+
+          .secdial {
+            width: 33.33%;
+            height: 152px;
+            margin: 1% 1%;
+            border-radius: 10px;
+            border: solid 1px var(--card-color-light);
+          }
+        </style>
+
+
+
+        <div class=" topgrdnt">
           DRIVE
         </div>
+
+
       </div>
       <style>
         .drive {
@@ -550,6 +756,7 @@
           position: absolute;
           width: 100%;
           height: 100%;
+          background-color: var(--background-color);
         }
       </style>
 
@@ -1404,77 +1611,7 @@
 
   </div>
 
-  <div id="splashscreen">
-    <img id="splash" src="src\icons\CHNGU_LOGO_BNW.png">
-    <div class="loadingIndicator" id="i1"></div>
-    <div class="loadingIndicator" id="i2"></div>
-    <div class="loadingIndicator" id="i3"></div>
 
-    <style>
-      #splashscreen {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        background-color: var(--background-color);
-      }
-
-      #splash {
-        position: absolute;
-        width: 256px;
-        height: 256px;
-        opacity: 0.3;
-        left: calc(50% - 128px);
-        top: calc(50% - 128px);
-      }
-
-      .loadingIndicator {
-        position: absolute;
-        width: 32px;
-        height: 5px;
-        background-color: var(--c3);
-        border-radius: 2px;
-        left: calc(50% - 28px);
-        top: calc(50% + 200px);
-        animation: blinkind1 2s ease-out infinite;
-
-      }
-
-      #i1 {
-        transform: translateX(-36px);
-      }
-
-      #i2 {
-        animation-delay: 0.3s;
-      }
-
-      #i3 {
-        transform: translateX(36px);
-        animation-delay: 0.6s;
-      }
-
-
-      @keyframes blinkind1 {
-        0% {
-          opacity: 0;
-        }
-
-        30% {
-          opacity: 1;
-        }
-
-        60% {
-          opacity: 0;
-        }
-
-
-        100% {
-
-          opacity: 0;
-        }
-      }
-    </style>
-
-  </div>
 
   <P id="dlog">log1</P>
   <P id="dlog2">log2</P>

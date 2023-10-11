@@ -11,7 +11,7 @@ let stateCheck = setInterval(() => {
         clearInterval(stateCheck);
 
     }
-}, 100);
+}, 1000);
 
 
 const btdevicelistMain = document.getElementById('selectBTdevices')
@@ -377,6 +377,11 @@ function connectStatus(status) {
             break;
         case '2':
             vlis.forEach(item => { item.setAttribute('constat', ""); });
+
+
+            // change disconnect button to connect
+
+
             XAPI.showToast('Disconnected')
             break;
     }
