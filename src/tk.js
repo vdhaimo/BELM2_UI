@@ -11,7 +11,7 @@ let stateCheck = setInterval(() => {
         clearInterval(stateCheck);
 
     }
-}, 1000);
+}, 100);
 
 
 const btdevicelistMain = document.getElementById('selectBTdevices')
