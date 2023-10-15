@@ -616,6 +616,8 @@
 
         <div id="dialframe">
 
+          <P id="driveconto"><span style="font-size: 10px;">Connected to:</span><br>Bolt</P>
+
           <P id="bigdialtitle">Fuel Rate</P>
 
           <P id="bigdialaverage">
@@ -635,26 +637,66 @@
           <br>
           <div id="secondaydials">
             <div class="secdial">
+
+              <P id="hr1txt"><span style="font-size: 18px;">Fuel econ<br>5.8 </span>g/s<br><br>Av. 2.3 g/s</P>
               <div id="hr1"></div>
-              <P id="hr1txt">rpm<br>2560</P>
             </div>
             <div class="secdial">
+
+              <P id="hr2txt"><span style="font-size: 18px;">Speed<br>76 </span>km/h<br><br>Av. 52 km/h</P>
               <div id="hr2"></div>
-              <P id="hr2txt">rpm<br>2560</P>
             </div>
 
             <div class="secdial">
+
+              <p id="hr3txt"><span style="font-size: 18px;">RPM<br>2560 </span>rpm<br><br>Av. 1356 rpm</P>
               <div id="hr3"></div>
-              <P id="hr3txt">rpm<br>2560</P>
             </div>
 
+          </div>
+
+          <div class="dialscreeenswitch">
+            <span class="material-symbols-outlined">
+              looks_one
+            </span>
+            <span class="material-symbols-outlined">
+              looks_two
+            </span>
+            <span class="material-symbols-outlined">
+              looks_3
+            </span>
           </div>
 
 
 
         </div>
         <style>
+          .dialscreeenswitch {
+            position: absolute;
+            transform: translateX(-50px);
+            width: 100px;
+            background-color: var(--card-color-light);
+            height: 48px;
+            border-radius: 10px;
+            font-size: 48px;
+            left: 50%;
+            bottom: 24px;
+            display: flex;
+
+          }
+
+          #driveconto {
+            position: absolute;
+            top: 28px;
+            width: 100%;
+            font-size: 24px;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+          }
+
           #dialframe {
+
+            pointer-events: all;
             position: absolute;
             width: 100%;
             height: 100%;
@@ -737,6 +779,7 @@
             width: 100%;
             position: absolute;
             top: 450px;
+            font-size: 10px;
             display: flex;
             justify-content: space-between;
 
@@ -746,18 +789,18 @@
             width: 33.33%;
             height: 152px;
             margin: 10px 10px;
-            border-radius: 10px;
-            border: solid 1px var(--card-color-light);
+
           }
 
           #hr1,
           #hr2,
           #hr3 {
+
             position: relative;
-            left: 0;
+            width: 30%;
+            left: 35%;
             bottom: 0;
             height: 2px;
-            width: 30%;
             background-color: var(--c1);
             box-shadow: 0 0 10px 0 white;
           }
@@ -765,7 +808,8 @@
           #hr1txt,
           #hr2txt,
           #hr3txt {
-            margin-left: 12px;
+            text-align: center;
+
           }
         </style>
 

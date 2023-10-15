@@ -540,6 +540,7 @@ function selectVcard(element, vehicle) {
 
 function updateReceived(string) {
     if (connectedVCard) connectedVCard.setAttribute('com', 'val');
+    vupdate(string.split('\t'));
 }
 
 
