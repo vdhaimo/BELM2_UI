@@ -655,15 +655,15 @@
 
           </div>
 
-          <div class="dialscreeenswitch">
-            <span class="material-symbols-outlined">
-              looks_one
+          <div id="dialscreeenswitch">
+            <span class="material-symbols-outlined" id="swtab1" onclick="switchtab(0)">
+              counter_1
             </span>
-            <span class="material-symbols-outlined">
-              looks_two
+            <span class="material-symbols-outlined" id="swtab2" onclick="switchtab(1)">
+              counter_2
             </span>
-            <span class="material-symbols-outlined">
-              looks_3
+            <span class="material-symbols-outlined" id="swtab3" onclick="switchtab(2)">
+              counter_3
             </span>
           </div>
 
@@ -671,17 +671,32 @@
 
         </div>
         <style>
-          .dialscreeenswitch {
+          #dialscreeenswitch {
             position: absolute;
-            transform: translateX(-50px);
-            width: 100px;
-            background-color: var(--card-color-light);
+            transform: translateX(-80px);
+            width: 160px;
+
             height: 48px;
             border-radius: 10px;
             font-size: 48px;
             left: 50%;
             bottom: 24px;
             display: flex;
+            text-align: left;
+            justify-content: space-between;
+
+            background-color: var(--card-color);
+            border-radius: 24px;
+            border: solid 1px var(--card-color-light);
+
+
+          }
+
+          #swtab1,
+          #swtab2,
+          #swtab3 {
+
+            font-size: 48px;
 
           }
 
@@ -730,7 +745,6 @@
           .dial {
             transform: rotate(-180deg);
             border-radius: 50%;
-            background: conic-gradient(var(--c1) 0deg 120deg, #555555 120deg 360deg);
             box-shadow: 0 0 10px 0 rgba(256, 256, 256, 0.4);
 
 
@@ -772,6 +786,8 @@
             right: 0;
             top: 0;
             bottom: 0;
+
+            background: conic-gradient(var(--c1) 0deg 120deg, #555555 120deg 360deg);
 
           }
 
@@ -1221,7 +1237,7 @@
             width: fit-content;
             background-color: var(--card-color);
             color: var(--text-colorA);
-            border: 0px;
+            border: solid 1px var(--card-color-light);
 
             font-family: 'Open Sans', sans-serif;
             font-weight: 200;
@@ -1476,6 +1492,7 @@
 
         </div>
         <br>
+        <br>
         <div class="editvehContainer">
           <Button id="saveVehicle" onclick="svv()">Save</Button>
         </div>
@@ -1491,6 +1508,7 @@
             width: 100%;
             text-align: center;
             color: var(--c4);
+            border: none;
           }
 
           #saveVehicle:active {
@@ -1509,6 +1527,8 @@
           }
 
           .editveh {
+
+            pointer-events: all;
 
 
             position: relative;
@@ -1694,6 +1714,7 @@
       top: 0;
       font-size: 14px;
       width: 100%;
+      pointer-events: none;
     }
 
     #dlog2 {
@@ -1702,15 +1723,17 @@
       top: 24px;
       font-size: 14px;
       width: 100%;
+      pointer-events: none;
     }
   </style>
 
 
 
   <script src="src/consts.js"></script>
-  <script src="src/tk.js"></script>
+
   <script src="src/drive.js"></script>
   <script src="src/trips.js"></script>
+  <script src="src/tk.js"></script>
 </body>
 
 </html>

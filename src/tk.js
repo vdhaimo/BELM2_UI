@@ -188,6 +188,11 @@ function editvehicleclose(isSave) {
         editvehicleOptn.classList.add('slide-out')
     }
 
+    else {
+        editvehicleOptn.classList.remove('slide-in')
+        editvehicleOptn.classList.add('slide-out')
+    }
+
 
 }
 
@@ -540,7 +545,7 @@ function selectVcard(element, vehicle) {
 
 function updateReceived(string) {
     if (connectedVCard) connectedVCard.setAttribute('com', 'val');
-    vupdate(string.split('\t'));
+    vupdate(string);
 }
 
 
