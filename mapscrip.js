@@ -60,7 +60,6 @@ function getColorString(speed) {
 };
 
 
-console.log(getColorString(50));
 
 
 const el = document.createElement('div');

@@ -5,7 +5,7 @@ var tripsjs = this;
 var tripsListHolder = document.querySelector('.tripslistholder');
 
 
-var lastLayerSelected = 6;
+var lastLayerSelected = 1;
 
 
 var trlist = [];
@@ -126,25 +126,6 @@ const mShift = [
 
 
 
-const units = [
-    '',
-    '',//FuelSystemStatus
-    'kPa',//MAP
-    'rpm',//RPM
-    'km/h',//VehicleSpeed
-    '°C',//IntakeTemp
-    'g/s',//MAF
-    '',//eqAFR
-    '%',//loadCalc
-    '%',//loadAbs
-    'g/s',//fuel rate
-    'km/l',//fuel economy
-    'm/s^2', //accn
-    'revs/km', //driveratio
-    'kms'//distance
-
-];
-
 var nearest_globalIdx;
 
 const tripstats_global = document.getElementById('tripstats_gl');
@@ -244,8 +225,11 @@ function fileRead(json) {
 
     layerSelected(lastLayerSelected);
 
-    tripstats_global.innerHTML = "Trip dist: " + parseFloat(dcml).toFixed(2) + ' ' + units[14] + ' | Duration: ' + new Date(td[td.length - 1][0] - td[0][0]).toISOString().slice(11, 19)
-        + '<br>Fuel: ' + parseFloat(fuel / 1000).toFixed(2) + ' Kg [' + parseFloat(fuel / 750).toFixed(2) + ' Liters] | Av. Economy: ' + parseFloat(fe).toFixed(2) + ' Km/l';
+    let tr_dis = readvalue(dcml, 14), fuel_spent_mass = readvalue(fuel / 1000, 15), fuel_spent_volume = readvalue(fuel / 750, 16), fuel_economy = readvalue(fe, 11);
+
+
+    tripstats_global.innerHTML = "Trip dist: " + parseFloat(tr_dis.READING).toFixed(2) + ' ' + tr_dis.UNIT + ' | Duration: ' + new Date(td[td.length - 1][0] - td[0][0]).toISOString().slice(11, 19)
+        + '<br>Fuel: ' + parseFloat(fuel_spent_mass.READING).toFixed(2) + ' ' + fuel_spent_mass.UNIT + ' [' + parseFloat(fuel_spent_volume.READING).toFixed(2) + ' ' + fuel_spent_volume.UNIT + '] | Av. Economy: ' + parseFloat(fuel_economy.READING).toFixed(2) + ' ' + fuel_economy.UNIT;
 
 
     if (tripsList.style.display == 'block') openTripsList();
@@ -330,13 +314,14 @@ function loadStats(m) {
 
         });
 
+        let pointread = readvalue(data[ii][m], m);
 
-        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + parseFloat(data[ii][m]).toFixed(2) + " " + units[m] + '<br></Span>';
+        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + parseFloat(pointread.READING).toFixed(2) + " " + pointread.UNIT + '<br></Span>';
     }
 
 
-    statxt += 'Average: ' + parseFloat(cache_ed[m].av).toFixed(2) + " " + units[m] +
-        '<br>Max: ' + parseFloat(cache_ed[m].max).toFixed(2) + " " + units[m];
+    statxt += 'Average: ' + parseFloat(cache_ed[m].av).toFixed(2) + " " + units[m][0] +
+        '<br>Max: ' + parseFloat(cache_ed[m].max).toFixed(2) + " " + units[m][0];
 
     statstext.innerHTML = statxt;
 

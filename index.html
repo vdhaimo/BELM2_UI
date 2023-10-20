@@ -638,18 +638,24 @@
           <div id="secondaydials">
             <div class="secdial">
 
-              <P id="hr1txt"><span style="font-size: 18px;">Fuel econ<br>5.8 </span>g/s<br><br>Av. 2.3 g/s</P>
+              <P id="hr1txt"><span style="font-size: 18px;">Fuel econ<br>5.8 </span>g/s<br><br>60s Av 2.3 g/s</P>
+              <div id="hr1b"></div>
               <div id="hr1"></div>
+
             </div>
             <div class="secdial">
 
-              <P id="hr2txt"><span style="font-size: 18px;">Speed<br>76 </span>km/h<br><br>Av. 52 km/h</P>
+              <P id="hr2txt"><span style="font-size: 18px;">Speed<br>76 </span>km/h<br><br>60s Av 52 km/h</P>
+              <div id="hr2b"></div>
               <div id="hr2"></div>
+
             </div>
 
             <div class="secdial">
 
-              <p id="hr3txt"><span style="font-size: 18px;">RPM<br>2560 </span>rpm<br><br>Av. 1356 rpm</P>
+              <p id="hr3txt"><span style="font-size: 18px;">RPM<br>2560 </span>rpm<br><br>60s Av 1356 rpm</P>
+
+              <div id="hr3b"></div>
               <div id="hr3"></div>
             </div>
 
@@ -773,7 +779,6 @@
             height: 192px;
             left: calc(50% - 96px);
             top: 200px;
-            aspect-ratio: 1/1;
             font-size: 4vh;
 
           }
@@ -813,11 +818,24 @@
           #hr3 {
 
             position: relative;
-            width: 30%;
-            left: 35%;
+            width: 100%;
+            left: 0;
             bottom: 0;
             height: 2px;
             background-color: var(--c1);
+
+          }
+
+          #hr1b,
+          #hr2b,
+          #hr3b {
+            position: relative;
+            transform: translateY(2px);
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            background-color: #555555;
             box-shadow: 0 0 10px 0 white;
           }
 
@@ -1730,6 +1748,7 @@
 
 
   <script src="src/consts.js"></script>
+  <script src="src/userprefs.js"></script>
 
   <script src="src/drive.js"></script>
   <script src="src/trips.js"></script>
