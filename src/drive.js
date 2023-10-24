@@ -6,7 +6,8 @@ let dl2 = document.getElementById('dlog2');
 
 
 var MTRX = [[], [], [], [], [], [], [], [], [], []];
-const mtrx_units =
+var mtrx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const mtrx_names =
     [
         'timestamp',
         'Fuel Sys Status',
@@ -26,15 +27,15 @@ const mtrx_units =
 
 var mtrx_range = [
     [],//0 tstamp
-    [0, 16],//1 FuelSysStatus
-    [0, 200],//2 MAP
-    [0, 7000],//3 RPM
-    [0, 220],//4 VehicleSPeed
-    [-20, 80],//5 IntakeTemp
-    [0, 180],//6 MAF //111222333
-    [0.5, 1.5],//7 eqAFR
-    [0, 100],//8 loadCalc
-    [0, 200]//9 loadAbs
+    [0, 16, 16],//1 FuelSysStatus
+    [0, 200, 200],//2 MAP
+    [0, 7000, 7000],//3 RPM
+    [0, 220, 220],//4 VehicleSPeed
+    [-20, 80, 100],//5 IntakeTemp
+    [0, 180, 180],//6 MAF //111222333
+    [0.5, 1.5, 1.0],//7 eqAFR
+    [0, 100, 100],//8 loadCalc
+    [0, 300, 300]//9 loadAbs
 
     // FuelRate
     // FuelEconomy
@@ -71,7 +72,10 @@ function vupdate(string) {
 
     dl2.innerHTML = txt;
 
-    ar.forEach(function (element, index) { MTRX[index].push(element); });
+    ar.forEach(function (element, index) {
+        MTRX[index].push(element);
+        mtrx[index] = element;
+    });
 
 
     while ((MTRX[0][0] + 60000) < ar[0]) {
@@ -205,10 +209,28 @@ function savedashbaord() {
 }
 
 
+function getPercent(idx, value) {
+
+    var midx = mtrx_range[idx];
+
+    if (value < midx[0]) {
+        midx[0] = value;
+        midx[2] = midx[1] - midx[0];
+    }
+    else if (value > midx[1]) {
+        midx[1] = value;
+        midx[2] = midx[1] - midx[0];
+    }
+
+    mtrx_range[idx] = midx;
+
+    return 100 * value / (midx[2]);
+
+}
+
 function setDials() {
 
     //P
-
 
 
 
@@ -219,5 +241,48 @@ function setDials() {
 
 
     //s3
+
+}
+
+function araverage(n) {
+
+    var sum = 0;
+    MTRX[n].forEach(element => { sum += element });
+    let l = MTRX[n].length;
+
+    return l > 0 ? sum / l : 0;
+}
+
+let primary_title = document.getElementById('bigdialtitle'),
+    primary_average = document.getElementById('bigdialaverage'),
+    primary_text = document.getElementById('bigdialtext');
+
+function setprimary() {
+
+    let _p = dashboard[selectedtab].p;
+
+    let readinginst = readvalue(mtrx[_p], _p),
+        readingavg = readvalue(araverage(_p), _p);
+
+    primary_title.innerHTML = mtrx_names[_p];
+    primary_average.innerHTML = 'Average<br>' + readingavg.READING + ' ' + readingavg.UNIT;
+    primary_text.innerHTML = readinginst.READING + '<span style="font-size: 12px;"><br>' + readinginst.UNIT + '</span>';
+
+    pdial_Tval = mtrx[_p];
+
+}
+
+
+
+
+let secondary_texts = [
+    document.getElementById('hr1txt'),
+    document.getElementById('hr2txt'),
+    document.getElementById('hr3txt')
+]
+
+function setsecondary() {
+
+
 
 }
