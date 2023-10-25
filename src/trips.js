@@ -228,8 +228,8 @@ function fileRead(json) {
     let tr_dis = readvalue(dcml, 14), fuel_spent_mass = readvalue(fuel / 1000, 15), fuel_spent_volume = readvalue(fuel / 750, 16), fuel_economy = readvalue(fe, 11);
 
 
-    tripstats_global.innerHTML = "Trip dist: " + parseFloat(tr_dis.READING).toFixed(2) + ' ' + tr_dis.UNIT + ' | Duration: ' + new Date(td[td.length - 1][0] - td[0][0]).toISOString().slice(11, 19)
-        + '<br>Fuel: ' + parseFloat(fuel_spent_mass.READING).toFixed(2) + ' ' + fuel_spent_mass.UNIT + ' [' + parseFloat(fuel_spent_volume.READING).toFixed(2) + ' ' + fuel_spent_volume.UNIT + '] | Av. Economy: ' + parseFloat(fuel_economy.READING).toFixed(2) + ' ' + fuel_economy.UNIT;
+    tripstats_global.innerHTML = "Trip dist: " + tr_dis.READING + ' ' + tr_dis.UNIT + ' | Duration: ' + new Date(td[td.length - 1][0] - td[0][0]).toISOString().slice(11, 19)
+        + '<br>Fuel: ' + fuel_spent_mass.READING + ' ' + fuel_spent_mass.UNIT + ' [' + fuel_spent_volume.READING + ' ' + fuel_spent_volume.UNIT + '] | Av. Economy: ' + fuel_economy.READING + ' ' + fuel_economy.UNIT;
 
 
     if (tripsList.style.display == 'block') openTripsList();
@@ -316,12 +316,14 @@ function loadStats(m) {
 
         let pointread = readvalue(data[ii][m], m);
 
-        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + parseFloat(pointread.READING).toFixed(2) + " " + pointread.UNIT + '<br></Span>';
+        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + pointread.READING + " " + pointread.UNIT + '<br></Span>';
     }
 
+    let avr = readvalue(cache_ed[m].av, m);
+    let maxr = readvalue(cache_ed[m].max, m);
 
-    statxt += 'Average: ' + parseFloat(cache_ed[m].av).toFixed(2) + " " + units[m][0] +
-        '<br>Max: ' + parseFloat(cache_ed[m].max).toFixed(2) + " " + units[m][0];
+    statxt += 'Average: ' + avr.READING + " " + avr.UNIT +
+        '<br>Max: ' + maxr.READING + " " + maxr.UNIT;
 
     statstext.innerHTML = statxt;
 

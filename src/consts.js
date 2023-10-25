@@ -21,6 +21,27 @@ const units = [
     ['Liters', 0, 1, 'Gallon', 0, 0.264172] //16 Fuel volume
 
 ];
+const precision = [
+
+    0,//0
+    0,//1 FuelSystemStatus
+    0,//2 MAP
+    0,//3 RPM
+    0,//4 VehicleSpeed
+    0,//5 IntakeTemp
+    2,//6 MAF
+    4,//7 eqAFR
+    0,//8 loadCalc
+    0,//9 loadAbs
+    3,//10 fuel rate
+    2,//11 fuel economy
+    2, //12 accn
+    0, //13 driveratio
+    1, //14 distance
+    2, //15 Fuel mass
+    2 //16 Fuel volume
+
+];
 
 
 
@@ -29,7 +50,7 @@ function readvalue(reading, un) {
 
     let pref = unp[un];
 
-    return { READING: reading * units[un][pref + 2] + units[un][pref + 1], UNIT: units[un][pref] }
+    return { READING: parseFloat(reading * units[un][pref + 2] + units[un][pref + 1]).toFixed(precision[un]), UNIT: units[un][pref] }
 }
 
 
