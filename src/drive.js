@@ -120,8 +120,9 @@ function switchtab(tbn) {
     });
 
     selectedtab = tbn;
-    Cookies.set('lastDriveTab', tbn)
+    Cookies.set('lastDriveTab', tbn);
 
+    setDials();
 
 }
 
@@ -214,9 +215,10 @@ function savedashbaord() {
 }
 
 
-function getPercent(idx, value) {
+function getPercent(idx) {
 
     var midx = mtrx_range[idx];
+    var value = mtrx[idx];
 
     if (value < midx[0]) {
         midx[0] = value;
@@ -258,7 +260,7 @@ function setDials() {
     primary_average.innerHTML = 'Average<br>' + readingavg.READING + ' ' + readingavg.UNIT;
     primary_text.innerHTML = readinginst.READING + '<span style="font-size: 12px;"><br>' + readinginst.UNIT + '</span>';
 
-    pdial_Tval = mtrx[_p];
+    pdial_Tval = getPercent[_p];
 
     //s
     secondary_texts.forEach(function (element, index) {
@@ -270,9 +272,9 @@ function setDials() {
         element.innerHTML = '<span style="font-size: 18px;">' + mtrx_names[_s] + '<br>' + readinginst.READING + '</span>' + readinginst.UNIT +
             '<br><br>60s Av ' + readingavg.READING + ' ' + readingavg.UNIT;
 
-        if (index == 0) sdial1_Tval = mtrx[_s];
-        else if (index == 1) sdial2_Tval = mtrx[_s];
-        else if (index == 2) sdial3_Tval = mtrx[_s];
+        if (index == 0) sdial1_Tval = getPercent[_s];
+        else if (index == 1) sdial2_Tval = getPercent[_s];
+        else if (index == 2) sdial3_Tval = getPercent[_s];
 
     });
 
