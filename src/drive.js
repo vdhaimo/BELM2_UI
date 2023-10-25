@@ -10,7 +10,7 @@ var mtrx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const mtrx_names =
     [
         'timestamp',
-        'Fuel Sys Status',
+        'Fuel Sys',
         'MAP',
         'RPM',
         'Speed',
@@ -20,9 +20,9 @@ const mtrx_names =
         'Calc Load',
         'Abs Load',
         'Fuel Rate',
-        'Fuel Economy',
-        'Acceleration',
-        'Drive Ratio'
+        'Fuel Eco',
+        'Accn',
+        'Dr Ratio'
     ];
 
 var mtrx_range = [
@@ -83,6 +83,8 @@ function vupdate(string) {
         MTRX.forEach(function (element) { element.shift(); });
 
     }
+
+
 
 
     setDials();
@@ -155,6 +157,8 @@ var sdial1_Tval = 0, sdial1_val = 0,
 
 
 
+
+
 if (loopf) clearInterval(loopf);
 
 var loopf = setInterval(loop, 40);
@@ -181,6 +185,7 @@ function loop() {
     pdial_val = deltaf(pdial_Tval, pdial_val);
     sdial1_val = deltaf(sdial1_Tval, sdial1_val);
     sdial2_val = deltaf(sdial2_Tval, sdial2_val);
+    sdial3_val = deltaf(sdial3_Tval, sdial3_val);
 
     dial_values(pdial_val, sdial1_val, sdial2_val, sdial3_val);
 
@@ -196,9 +201,9 @@ function readDash() {
         dashboard = JSON.parse(jsn);
     } else {
         dashboard = [
-            { p: 0, s1: 1, s2: 2, s3: 3 },
-            { p: 0, s1: 1, s2: 2, s3: 3 },
-            { p: 0, s1: 1, s2: 2, s3: 3 }
+            { p: 1, s: [2, 3, 4] },
+            { p: 2, s: [4, 5, 6] },
+            { p: 8, s: [2, 5, 9] }
         ]
     }
 }
@@ -228,36 +233,21 @@ function getPercent(idx, value) {
 
 }
 
-function setDials() {
-
-    //P
-
-
-
-    //s1
-
-
-    //s2
-
-
-    //s3
-
-}
-
-function araverage(n) {
-
-    var sum = 0;
-    MTRX[n].forEach(element => { sum += element });
-    let l = MTRX[n].length;
-
-    return l > 0 ? sum / l : 0;
-}
 
 let primary_title = document.getElementById('bigdialtitle'),
     primary_average = document.getElementById('bigdialaverage'),
     primary_text = document.getElementById('bigdialtext');
 
-function setprimary() {
+
+let secondary_texts = [
+    document.getElementById('hr1txt'),
+    document.getElementById('hr2txt'),
+    document.getElementById('hr3txt')
+]
+
+function setDials() {
+
+    //P
 
     let _p = dashboard[selectedtab].p;
 
@@ -270,19 +260,35 @@ function setprimary() {
 
     pdial_Tval = mtrx[_p];
 
+    //s
+    secondary_texts.forEach(function (element, index) {
+
+        let _s = dashboard[selectedtab].s[index];
+        let readinginst = readvalue(mtrx[_s], _s),
+            readingavg = readvalue(araverage(_s), _s);
+
+        element.innerHTML = '<span style="font-size: 18px;">' + mtrx_names[_s] + '<br>' + readinginst.READING + '</span>' + readinginst.UNIT +
+            '<br><br>60s Av ' + readingavg.READING + ' ' + readingavg.UNIT;
+
+        if (index == 0) sdial1_Tval = mtrx[_s];
+        else if (index == 1) sdial2_Tval = mtrx[_s];
+        else if (index == 2) sdial3_Tval = mtrx[_s];
+
+    });
+
+}
+
+function araverage(n) {
+
+    var sum = 0;
+    MTRX[n].forEach(element => { sum += element });
+    let l = MTRX[n].length;
+
+    return l > 0 ? sum / l : 0;
 }
 
 
 
 
-let secondary_texts = [
-    document.getElementById('hr1txt'),
-    document.getElementById('hr2txt'),
-    document.getElementById('hr3txt')
-]
-
-function setsecondary() {
 
 
-
-}
