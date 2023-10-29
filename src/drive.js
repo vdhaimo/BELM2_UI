@@ -104,9 +104,11 @@ let tabswitch = [
 
 
 var selectedtab = Cookies.get('lastDriveTab');
-switchtab(selectedtab);
+
 
 function switchtab(tbn) {
+
+
 
     if (!tbn) tbn = 0;
 
@@ -160,13 +162,6 @@ var sdial1_Tval = 0, sdial1_val = 0,
 
 
 
-if (loopf) clearInterval(loopf);
-
-var loopf = setInterval(loop, 40);
-
-
-
-
 
 const fff = 0.3;
 function deltaf(t, v) {
@@ -200,6 +195,7 @@ function readDash() {
     let jsn = Cookies.get('dboard');
     if (jsn) {
         dashboard = JSON.parse(jsn);
+
     } else {
         dashboard = [
             { p: 1, s: [2, 3, 4] },
@@ -219,6 +215,7 @@ function getPercent(idx) {
 
     var midx = mtrx_range[idx];
     var value = mtrx[idx];
+
 
     if (value < midx[0]) {
         midx[0] = value;
@@ -260,21 +257,22 @@ function setDials() {
     primary_average.innerHTML = 'Average<br>' + readingavg.READING + ' ' + readingavg.UNIT;
     primary_text.innerHTML = readinginst.READING + '<span style="font-size: 12px;"><br>' + readinginst.UNIT + '</span>';
 
-    pdial_Tval = getPercent[_p];
+    pdial_Tval = getPercent(_p);
 
     //s
     secondary_texts.forEach(function (element, index) {
 
         let _s = dashboard[selectedtab].s[index];
+
         let readinginst = readvalue(mtrx[_s], _s),
             readingavg = readvalue(araverage(_s), _s);
 
         element.innerHTML = '<span style="font-size: 18px;">' + mtrx_names[_s] + '<br>' + readinginst.READING + '</span>' + readinginst.UNIT +
             '<br><br>60s Av ' + readingavg.READING + ' ' + readingavg.UNIT;
 
-        if (index == 0) sdial1_Tval = getPercent[_s];
-        else if (index == 1) sdial2_Tval = getPercent[_s];
-        else if (index == 2) sdial3_Tval = getPercent[_s];
+        if (index == 0) sdial1_Tval = getPercent(_s);
+        else if (index == 1) sdial2_Tval = getPercent(_s);
+        else if (index == 2) sdial3_Tval = getPercent(_s);
 
     });
 
@@ -283,10 +281,14 @@ function setDials() {
 function araverage(n) {
 
     var sum = 0;
-    MTRX[n].forEach(element => { sum += element });
+    MTRX[n].forEach(element => {
+        sum += parseFloat(element);
+
+    });
     let l = MTRX[n].length;
 
-    return l > 0 ? sum / l : 0;
+
+    return l > 0 ? (sum / l) : 0;
 }
 
 
@@ -294,3 +296,10 @@ function araverage(n) {
 
 
 
+
+switchtab(selectedtab);
+
+
+if (loopf) clearInterval(loopf);
+
+var loopf = setInterval(loop, 40);
