@@ -33,7 +33,7 @@ function readLogs(loglist) {
                 var h = document.createElement('bt-cardx1');
                 h.setAttribute('bigtext', vh.jsn.name);
                 h.setAttribute('smalltext', dmx[2]);
-                h.setAttribute('icon', 'line_end_circle');
+                h.setAttribute('icon', 'line_end');
 
                 h.addEventListener('click', function (event) {
                     tripsjs.selectLogFile(h);

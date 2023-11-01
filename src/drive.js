@@ -64,13 +64,6 @@ function vupdate(string) {
 
     let ar = string.split('\t');
 
-    var txt = "";
-
-    ar.forEach(element => {
-        txt += element + "<br>";
-    });
-
-    dl2.innerHTML = txt;
 
     ar.forEach(function (element, index) {
         MTRX[index].push(element);
@@ -232,7 +225,6 @@ function getPercent(idx) {
 
 }
 
-
 let primary_title = document.getElementById('bigdialtitle'),
     primary_average = document.getElementById('bigdialaverage'),
     primary_text = document.getElementById('bigdialtext');
@@ -268,7 +260,7 @@ function setDials() {
             readingavg = readvalue(araverage(_s), _s);
 
         element.innerHTML = '<span style="font-size: 18px;">' + mtrx_names[_s] + '<br>' + readinginst.READING + '</span>' + readinginst.UNIT +
-            '<br><br>60s Av ' + readingavg.READING + ' ' + readingavg.UNIT;
+            '<br><br>1 min Av ' + readingavg.READING + ' ' + readingavg.UNIT;
 
         if (index == 0) sdial1_Tval = getPercent(_s);
         else if (index == 1) sdial2_Tval = getPercent(_s);
@@ -303,3 +295,92 @@ switchtab(selectedtab);
 if (loopf) clearInterval(loopf);
 
 var loopf = setInterval(loop, 40);
+
+
+let icon = document.getElementById('editdialsicon');
+var iseditunlocked = false;
+
+let editdialinstructions = document.getElementById('editdialinstr');
+
+function edtDials() {
+
+    iseditunlocked = !iseditunlocked;
+
+    if (iseditunlocked) {
+        //XAPI.showToast("edit enabled");
+        icon.setAttribute('icon', 'lock_open_right');
+        editdialinstructions.style.display = 'block';
+    }
+    else {
+        //XAPI.showToast("edit disabled");
+        icon.setAttribute('icon', 'lock');
+        editdialinstructions.style.display = 'none';
+
+    }
+
+
+}
+
+function getnextdial(n) {
+    let nn = n + 1;
+
+    return nn < MTRX.length ? nn : 1;
+}
+function getprevdial(n) {
+    let nn = n - 1;
+
+    return nn > 0 ? nn : (MTRX.length - 1);
+}
+
+
+let chdls = document.getElementsByClassName('chdl');
+
+
+Array.from(chdls).forEach((element, index) => {
+
+    var ix = 0;
+
+    element.addEventListener('touchstart', (event) => {
+        if (!iseditunlocked) return;
+
+
+        ix = event.changedTouches[0].screenX;
+
+    });
+    element.addEventListener('touchend', (event) => {
+
+        if (!iseditunlocked) return;
+
+
+        if (event.changedTouches[0].screenX < ix) dialclicked(true, index);
+        else dialclicked(false, index);
+    });
+
+
+});
+
+function dialclicked(fwd, n) {
+
+
+    if (!iseditunlocked) return;
+
+    switch (n) {
+        case 0:
+            dashboard[selectedtab].p = fwd ? getnextdial(dashboard[selectedtab].p) : getprevdial(dashboard[selectedtab].p);
+            break;
+        case 1:
+            dashboard[selectedtab].s[0] = fwd ? getnextdial(dashboard[selectedtab].s[0]) : getprevdial(dashboard[selectedtab].s[0]);
+            break;
+        case 2:
+            dashboard[selectedtab].s[1] = fwd ? getnextdial(dashboard[selectedtab].s[1]) : getprevdial(dashboard[selectedtab].s[1]);
+            break;
+        case 3:
+            dashboard[selectedtab].s[2] = fwd ? getnextdial(dashboard[selectedtab].s[2]) : getprevdial(dashboard[selectedtab].s[2]);
+            break;
+    }
+
+    savedashbaord();
+
+    setDials();
+
+}

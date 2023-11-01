@@ -302,9 +302,7 @@
 
 
 <template id="tp-iconbutton">
-  <script>
 
-  </script>
   <div class="mmain">
     <span id="icon-mat" class="material-symbols-outlined">
 
@@ -623,7 +621,7 @@
           <P id="bigdialaverage">
           </P>
 
-          <div id="primarydial">
+          <div id="primarydial" class="chdl">
             <div class="dial" id="bigdial"></div>
 
             <div class="dialmask">
@@ -636,14 +634,14 @@
           </div>
           <br>
           <div id="secondaydials">
-            <div class="secdial">
+            <div class="secdial chdl">
 
               <P id="hr1txt"></P>
               <div id="hr1b"></div>
               <div id="hr1"></div>
 
             </div>
-            <div class="secdial">
+            <div class="secdial chdl">
 
               <P id="hr2txt"></P>
               <div id="hr2b"></div>
@@ -651,7 +649,7 @@
 
             </div>
 
-            <div class="secdial">
+            <div class="secdial chdl">
 
               <p id="hr3txt"></P>
               <div id="hr3b"></div>
@@ -707,10 +705,12 @@
 
           #driveconto {
             position: absolute;
-            top: 28px;
-            width: 100%;
-            font-size: 24px;
-            text-align: center;
+            top: 20px;
+            margin-top: 0;
+            left: 24px;
+            text-align: left;
+            font-size: 36px;
+            text-align: left;
             font-family: 'Open Sans', sans-serif;
           }
 
@@ -748,6 +748,7 @@
 
 
           .dial {
+            pointer-events: all;
             transform: rotate(-180deg);
             border-radius: 50%;
             box-shadow: 0 0 10px 0 rgba(256, 256, 256, 0.4);
@@ -757,6 +758,7 @@
 
 
           .dialmask {
+            pointer-events: all;
             position: absolute;
             border-radius: 50%;
             left: 2px;
@@ -773,6 +775,7 @@
 
 
           #primarydial {
+            pointer-events: all;
             position: relative;
             width: 192px;
             height: 192px;
@@ -784,6 +787,7 @@
 
 
           #bigdial {
+            pointer-events: all;
             position: absolute;
 
             left: 0;
@@ -809,6 +813,7 @@
             width: 33.33%;
             height: 152px;
             margin: 10px 10px;
+            pointer-events: all;
 
           }
 
@@ -848,9 +853,65 @@
 
 
 
+
         <div class=" topgrdnt">
           DRIVE
         </div>
+
+        <div id="editdialinstr">Swipe left-right<br>on gauges<br></div>
+
+        <div id="editdials">
+          <bt-iconmatbutton id="editdialsicon" icon="lock" desc="" onclick=" edtDials()"></bt-iconmatbutton>
+        </div>
+
+
+
+        <style>
+          #editdials {
+
+            pointer-events: all;
+            position: absolute;
+            right: 24px;
+            top: 48px;
+            border: 1px solid #555555;
+            border-radius: 20%;
+
+
+          }
+
+          #editdialinstr {
+            display: none;
+            position: absolute;
+            background-color: var(--card-color);
+            padding: 10px;
+            font-size: 12px;
+            border-radius: 15px;
+            border: 1px solid var(--card-color-light);
+            right: 78px;
+            top: 42px;
+            color: var(--text-colorB);
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+            animation-name: fadeininstr;
+          }
+
+
+
+          @keyframes fadeininstr {
+            0% {
+              opacity: 0;
+            }
+
+
+            100% {
+
+              opacity: 1;
+            }
+          }
+        </style>
+
+
+
 
 
       </div>

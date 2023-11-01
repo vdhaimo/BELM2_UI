@@ -280,7 +280,7 @@ function saveVehicle() {
     var nm = vehicleName.value;
 
     if (nm.length < 4) {
-        XAPI.showToast("Name should be at least 4 characters long")
+        XAPI.showToast("Name should be at least 4 characters long");
         return false;
     }
 
