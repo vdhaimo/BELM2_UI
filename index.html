@@ -614,7 +614,7 @@
 
         <div id="dialframe">
 
-          <P id="driveconto"><span style="font-size: 10px;">Connected to:</span><br>Bolt</P>
+
 
           <P id="bigdialtitle"></P>
 
@@ -703,16 +703,10 @@
 
           }
 
-          #driveconto {
-            position: absolute;
-            top: 20px;
-            margin-top: 0;
-            left: 24px;
-            text-align: left;
-            font-size: 36px;
-            text-align: left;
-            font-family: 'Open Sans', sans-serif;
-          }
+
+
+
+
 
           #dialframe {
 
@@ -849,13 +843,24 @@
             text-align: center;
 
           }
+
+          #driveconto {
+
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+
+
+          }
         </style>
 
 
 
 
         <div class=" topgrdnt">
-          DRIVE
+          DRIVE<br>
+          <span id="driveconto"></span>
+          </span>
         </div>
 
         <div id="editdialinstr">Swipe left-right<br>on gauges<br></div>
@@ -1261,13 +1266,22 @@
       </style>
 
 
-      <div class="settings"></div>
+      <div class="settings">
+        <div class="topgrdnt">
+          SETTINGS
+        </div>
+
+        <bt-cardx1 id="settings_Units" icon="scale" icncolor="var(--text-colorA)" bigtext="Units" smalltext="Km, g, L"
+          onclick="connectVehicle(true)"></bt-cardx1>
+
+      </div>
       <style>
         .settings {
           pointer-events: all;
           position: absolute;
           width: 100%;
           height: 100%;
+          background-color: var(--background-color);
         }
       </style>
 

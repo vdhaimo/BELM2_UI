@@ -347,6 +347,12 @@ Array.from(chdls).forEach((element, index) => {
         ix = event.changedTouches[0].screenX;
 
     });
+    element.addEventListener('mousedown', (event) => {
+        if (!iseditunlocked) return;
+
+        dialclicked(true, index);
+
+    });
     element.addEventListener('touchend', (event) => {
 
         if (!iseditunlocked) return;
@@ -355,6 +361,8 @@ Array.from(chdls).forEach((element, index) => {
         if (event.changedTouches[0].screenX < ix) dialclicked(true, index);
         else dialclicked(false, index);
     });
+
+
 
 
 });
@@ -384,3 +392,20 @@ function dialclicked(fwd, n) {
     setDials();
 
 }
+
+
+const connS = '► ', discS = '⊝ Disconnected';
+let driveconto = document.getElementById('driveconto');
+function drivestatus(vehiclename) {
+
+    if (vehiclename) {
+        driveconto.innerHTML = connS + vehiclename;
+        driveconto.style.color = document.styleSheets[0].cssRules[0].style.getPropertyValue('--c3');
+    }
+    else {
+        driveconto.innerHTML = discS;
+        driveconto.style.color = document.styleSheets[0].cssRules[0].style.getPropertyValue('--text-colorB');
+    }
+}
+
+drivestatus();

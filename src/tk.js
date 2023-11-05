@@ -224,6 +224,12 @@ function readVehicles(vehicles) {
 
 }
 
+function existingConnection(address) {
+    vehiclelist.forEach((vh) => {
+        if (vh.jsn.devadd == add) connectedVehicleID(vh.vin, address);
+    });
+}
+
 
 function connectedVehicleID(id, mac) {
 
