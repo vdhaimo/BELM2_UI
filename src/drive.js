@@ -5,8 +5,24 @@ let dl2 = document.getElementById('dlog2');
 
 
 
-var MTRX = [[], [], [], [], [], [], [], [], [], []];
-var mtrx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var MTRX = [
+    [],//0 tstamp
+    [],//1 FuelSysStatus
+    [],//2 MAP
+    [],//3 RPM
+    [],//4 VehicleSPeed
+    [],//5 IntakeTemp
+    [],//6 MAF
+    [],//7 eqAFR
+    [],//8 loadCalc
+    [],//9 loadAbs
+
+    [],//10 FuelRate
+    [],//11 FuelEconomy
+    [],//12 Accn
+    [] //13 DriveRatio
+];
+var mtrx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const mtrx_names =
     [
         'timestamp',
@@ -31,16 +47,16 @@ var mtrx_range = [
     [0, 200, 200],//2 MAP
     [0, 7000, 7000],//3 RPM
     [0, 220, 220],//4 VehicleSPeed
-    [-20, 80, 100],//5 IntakeTemp
+    [-25, 80, 75],//5 IntakeTemp
     [0, 180, 180],//6 MAF //111222333
     [0.5, 1.5, 1.0],//7 eqAFR
     [0, 100, 100],//8 loadCalc
-    [0, 300, 300]//9 loadAbs
+    [0, 300, 150],//9 loadAbs
 
-    // FuelRate
-    // FuelEconomy
-    // Accn
-    // DriveRatio
+    [0, 5, 5],// FuelRate
+    [0, 100, 100],// FuelEconomy
+    [-10, 10, 20],// Accn
+    [0, 25000, 25000],// DriveRatio
 ];
 
 
@@ -60,16 +76,53 @@ var mtrx_range = [
 // Accn
 // DriveRatio
 
+var Engg_disp,
+    Fuel_Stchmr,
+    Fuel_Dnst,
+    Fuel_ecn_factor,
+    lt = 0,
+    lastspeed = 0;
+
+function drive_vehicleParams(vh) {
+    Engg_disp = parseFloat(vh.jsn.cc) / 1000;
+    Fuel_Stchmr = FUELS[vh.jsn.fuel].STCHM;
+    Fuel_Dnst = FUELS[vh.jsn.fuel].DNST;
+    Fuel_ecn_factor = FUELS[vh.jsn.fuel].DNST / 3600;
+}
+
 function vupdate(string) {
 
-    let ar = string.split('\t');
+    let arr = string.split('\t');
+
+    if (!Engg_disp || !Fuel_Stchmr || !Fuel_Dnst || !Fuel_ecn_factor) return;
 
 
-    ar.forEach(function (element, index) {
+    let ddt = 0.001 * (Number(arr[0]) - Number(lt));
+
+    ddt = lt ? ddt : 0;
+
+    lt = arr[0];
+
+    let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * Engg_disp * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * Fuel_Stchmr);
+
+    arr[10] = ff;
+
+    arr[11] = (ddt && ff) ? Number(arr[4]) * Fuel_ecn_factor / ff : 0;
+
+
+    let rpm = 60 * Number(arr[3]), spd = Number(arr[4]);
+
+    arr[12] = ddt ? (spd - lastspeed) * 0.28 / ddt : 0;
+
+    lastspeed = spd;
+
+    arr[13] = spd > 5 ? rpm / spd : 0;
+
+
+    arr.forEach(function (element, index) {
         MTRX[index].push(element);
         mtrx[index] = element;
     });
-
 
     while ((MTRX[0][0] + 60000) < ar[0]) {
 

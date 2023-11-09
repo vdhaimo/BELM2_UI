@@ -264,6 +264,9 @@ function connectedVehicleID(id, mac) {
 
             }
             tr = true;
+
+            //set vehicle paramaeters for drive
+            drive_vehicleParams(element);
         }
     });
 

@@ -15,6 +15,8 @@ var triplogs = [];
 function readLogs(loglist) {
 
 
+
+
     while (tripsListHolder.firstChild) {
         tripsListHolder.removeChild(tripsListHolder.lastChild);
     }
@@ -27,12 +29,12 @@ function readLogs(loglist) {
 
 
         vehiclelist.forEach(vh => {
-            if (vh.vin == dmx[1]) {
+            if (vh.vin == dmx.VID) {
 
                 //create log entry
                 var h = document.createElement('bt-cardx1');
                 h.setAttribute('bigtext', vh.jsn.name);
-                h.setAttribute('smalltext', dmx[2]);
+                h.setAttribute('smalltext', dmx.DATE);
                 h.setAttribute('icon', 'line_end');
 
                 h.addEventListener('click', function (event) {
@@ -74,17 +76,20 @@ function selectLogFile(h) {
 
 
 function demuxFileName(name) {
-    return name.split('.txt')[0].split('&&');
+    let nn = name.split('.txt')[0].split('&&');
+    return { VID: nn[1], DATE: nn[2] };
 }
 
 
 
 
 
-
+var vid_selectedtrip;
 function sendReadFileReq(filename) {
 
     XAPI.readLogFile(filename);
+
+    vid_selectedtrip = demuxFileName(filename).VID;
 
 }
 
@@ -143,6 +148,20 @@ function fileRead(json) {
     nearest_globalIdx = undefined;
 
 
+    //vehiclespecs
+
+    let trip_vehicle = getVehicleFromVIN(vid_selectedtrip);
+
+
+    if (!trip_vehicle) return;
+
+    let Engg_disp = parseFloat(trip_vehicle.jsn.cc) / 1000;
+    let Fuel_Stchmr = FUELS[trip_vehicle.jsn.fuel].STCHM;
+    let Fuel_Dnst = FUELS[trip_vehicle.jsn.fuel].DNST;
+    let Fuel_ecn_factor = FUELS[trip_vehicle.jsn.fuel].DNST / 3600;
+
+
+
     cache_ed = [];
 
     var lastCoord = [], dcml = 0, fuel = 0, lastspeed = 0;
@@ -162,13 +181,13 @@ function fileRead(json) {
 
             lt = arr[0];
 
-            let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * 1.2 * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * 14);
+            let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * Engg_disp * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * Fuel_Stchmr);
 
             arr[10] = ff;
 
             fuel += (ddt * ff);
 
-            arr[11] = (ddt && ff) ? Number(arr[4]) * 0.2083 / ff : 30;
+            arr[11] = (ddt && ff) ? Number(arr[4]) * Fuel_ecn_factor / ff : 0;
 
 
             let rpm = 60 * Number(arr[3]), spd = Number(arr[4]);
@@ -184,6 +203,7 @@ function fileRead(json) {
 
         }
         else {
+
             coords.push([arr[1], arr[2]]);
             if (lastCoord.length < 1) td.push([arr[0], dcml]);
             else {
@@ -219,13 +239,13 @@ function fileRead(json) {
         entry[0] = entry[0] / dcml;
     });
 
-    fe = 750 * dcml / fuel;
+    fe = Fuel_Dnst * dcml / fuel;
 
     addPath(coords);
 
     layerSelected(lastLayerSelected);
 
-    let tr_dis = readvalue(dcml, 14), fuel_spent_mass = readvalue(fuel / 1000, 15), fuel_spent_volume = readvalue(fuel / 750, 16), fuel_economy = readvalue(fe, 11);
+    let tr_dis = readvalue(dcml, 14), fuel_spent_mass = readvalue(fuel / 1000, 15), fuel_spent_volume = readvalue(fuel / Fuel_Dnst, 16), fuel_economy = readvalue(fe, 11);
 
 
     tripstats_global.innerHTML = "Trip dist: " + tr_dis.READING + ' ' + tr_dis.UNIT + ' | Duration: ' + new Date(td[td.length - 1][0] - td[0][0]).toISOString().slice(11, 19)

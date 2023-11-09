@@ -1,4 +1,14 @@
-const FUELS = [];
+const FUELS = [
+
+    {},                                 //0 Not available
+    { NAME: 'Gasoline', STCHM: 14.7, DNST: 730 },  //1 Gasoline
+    {},                                 //2	Methanol
+    {},                                 //3	Ethanol
+    { NAME: 'Diesel', STCHM: 14.4, DNST: 840 },    //4	Diesel
+    {},                                 //5	LPG
+    { NAME: 'CNG', STCHM: 10, DNST: 0 },         //6	CNG
+    {}                                  //7	Propane
+];
 
 const units = [
 
@@ -52,5 +62,17 @@ function readvalue(reading, un) {
 
     return { READING: parseFloat(reading * units[un][pref + 2] + units[un][pref + 1]).toFixed(precision[un]), UNIT: units[un][pref] }
 }
+
+
+function getVehicleFromVIN(vin) {
+
+    var v;
+    vehiclelist.forEach((el) => {
+        if (el.vin) v = el;
+    });
+
+    return v;
+}
+
 
 
