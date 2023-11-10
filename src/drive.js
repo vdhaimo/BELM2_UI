@@ -124,7 +124,7 @@ function vupdate(string) {
         mtrx[index] = element;
     });
 
-    while ((MTRX[0][0] + 60000) < ar[0]) {
+    while ((MTRX[0][0] + 60000) < arr[0]) {
 
         MTRX.forEach(function (element) { element.shift(); });
 
