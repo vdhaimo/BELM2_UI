@@ -96,7 +96,6 @@ function vupdate(string) {
 
     if (!Engg_disp || !Fuel_Stchmr || !Fuel_Dnst || !Fuel_ecn_factor) return;
 
-
     let ddt = 0.001 * (Number(arr[0]) - Number(lt));
 
     ddt = lt ? ddt : 0;
@@ -124,7 +123,7 @@ function vupdate(string) {
         mtrx[index] = element;
     });
 
-    while ((MTRX[0][0] + 60000) < arr[0]) {
+    while ((Number(MTRX[0][0]) + 60000) < arr[0]) {
 
         MTRX.forEach(function (element) { element.shift(); });
 
