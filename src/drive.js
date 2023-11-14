@@ -42,21 +42,22 @@ const mtrx_names =
     ];
 
 var mtrx_range = [
+    //low high range isnonzero
     [],//0 tstamp
-    [0, 16, 16],//1 FuelSysStatus
-    [0, 200, 200],//2 MAP
-    [0, 7000, 7000],//3 RPM
-    [0, 220, 220],//4 VehicleSPeed
-    [-25, 80, 75],//5 IntakeTemp
-    [0, 180, 180],//6 MAF //111222333
-    [0.5, 1.5, 1.0],//7 eqAFR
-    [0, 100, 100],//8 loadCalc
-    [0, 300, 150],//9 loadAbs
+    [0, 16, 16, 0],//1 FuelSysStatus
+    [0, 200, 200, 0],//2 MAP
+    [0, 7000, 7000, 0],//3 RPM
+    [0, 220, 220, 0],//4 VehicleSPeed
+    [-25, 80, 75, 0],//5 IntakeTemp
+    [0, 180, 180, 0],//6 MAF //111222333
+    [0.5, 1.5, 1.0, 0],//7 eqAFR
+    [0, 100, 100, 0],//8 loadCalc
+    [0, 300, 150, 0],//9 loadAbs
 
-    [0, 5, 5],// FuelRate
-    [0, 100, 100],// FuelEconomy
-    [-10, 10, 20],// Accn
-    [0, 25000, 25000],// DriveRatio
+    [0, 5, 5, 0],// FuelRate
+    [0, 100, 100, 1],// FuelEconomy
+    [-10, 10, 20, 0],// Accn
+    [0, 25000, 25000, 0],// DriveRatio
 ];
 
 
@@ -102,9 +103,14 @@ function vupdate(string) {
 
     lt = arr[0];
 
-    let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * Engg_disp * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * Fuel_Stchmr);
-
-    arr[10] = ff;
+    if (arr[6]) {
+        let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * Engg_disp * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * Fuel_Stchmr);
+        arr[10] = ff;
+    }
+    else {
+        let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : parseFloat(arr[6]) * parseFloat(arr[7]) / Fuel_Stchmr;
+        arr[10] = ff;
+    }
 
     arr[11] = (ddt && ff) ? Number(arr[4]) * Fuel_ecn_factor / ff : 0;
 
@@ -128,8 +134,6 @@ function vupdate(string) {
         MTRX.forEach(function (element) { element.shift(); });
 
     }
-
-
 
 
     setDials();
@@ -295,11 +299,11 @@ function setDials() {
     let _p = dashboard[selectedtab].p;
 
     let readinginst = readvalue(mtrx[_p], _p),
-        readingavg = readvalue(araverage(_p), _p);
+        readingavg = readvalue(mtrx_range[_p][3] ? araverage_noZero(_p) : araverage(_p), _p);
 
     primary_title.innerHTML = mtrx_names[_p];
-    primary_average.innerHTML = 'Average<br>' + readingavg.READING + ' ' + readingavg.UNIT;
-    primary_text.innerHTML = readinginst.READING + '<span style="font-size: 12px;"><br>' + readinginst.UNIT + '</span>';
+    primary_average.innerHTML = 'Average<br>' + ((mtrx_range[_p][3] && !readingavg.READING) ? '--' : readingavg.READING) + ' ' + readingavg.UNIT;
+    primary_text.innerHTML = ((mtrx_range[_p][3] && !readinginst.READING) ? '--' : readinginst.READING) + '<span style="font-size: 12px;"><br>' + readinginst.UNIT + '</span>';
 
     pdial_Tval = getPercent(_p);
 
@@ -309,10 +313,10 @@ function setDials() {
         let _s = dashboard[selectedtab].s[index];
 
         let readinginst = readvalue(mtrx[_s], _s),
-            readingavg = readvalue(araverage(_s), _s);
+            readingavg = readvalue(mtrx_range[_s][3] ? araverage_noZero(_s) : araverage(_s), _s);
 
-        element.innerHTML = '<span style="font-size: 18px;">' + mtrx_names[_s] + '<br>' + readinginst.READING + '</span>' + readinginst.UNIT +
-            '<br><br>1 min Av ' + readingavg.READING + ' ' + readingavg.UNIT;
+        element.innerHTML = '<span style="font-size: 18px;">' + mtrx_names[_s] + '<br>' + ((mtrx_range[_s][3] && !readinginst.READING) ? '--' : readinginst.READING) + '</span>' + readinginst.UNIT +
+            '<br><br>1 min Av ' + ((mtrx_range[_s][3] && !readingavg.READING) ? '--' : readingavg.READING) + ' ' + readingavg.UNIT;
 
         if (index == 0) sdial1_Tval = getPercent(_s);
         else if (index == 1) sdial2_Tval = getPercent(_s);
@@ -335,6 +339,19 @@ function araverage(n) {
     return l > 0 ? (sum / l) : 0;
 }
 
+function araverage_noZero(n) {
+
+    var sum = 0; var l = 0;
+    MTRX[n].forEach(element => {
+        if (element) {
+            sum += parseFloat(element);
+            l++;
+        }
+
+    });
+
+    return l > 0 ? (sum / l) : 0;
+}
 
 
 

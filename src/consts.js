@@ -32,7 +32,6 @@ const units = [
 
 ];
 const precision = [
-
     0,//0
     0,//1 FuelSystemStatus
     0,//2 MAP

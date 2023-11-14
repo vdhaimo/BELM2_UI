@@ -181,9 +181,12 @@ function fileRead(json) {
 
             lt = arr[0];
 
-            let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * Engg_disp * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * Fuel_Stchmr);
+
+            let ff = arr[6] ? (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * Engg_disp * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * Fuel_Stchmr)
+                : (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : parseFloat(arr[6]) * parseFloat(arr[7]) / Fuel_Stchmr;
 
             arr[10] = ff;
+
 
             fuel += (ddt * ff);
 
@@ -336,7 +339,7 @@ function loadStats(m) {
 
         let pointread = readvalue(data[ii][m], m);
 
-        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + pointread.READING + " " + pointread.UNIT + '<br></Span>';
+        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + ((mtrx_range[m][3] && !pointread.READING) ? '--' : pointread.READING) + " " + pointread.UNIT + '<br></Span>';
     }
 
     let avr = readvalue(cache_ed[m].av, m);
