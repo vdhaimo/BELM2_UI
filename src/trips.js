@@ -274,15 +274,15 @@ function loadMetric(m) {
         cache_ed[m] = { max: 0.001, ar: [], av: 0 };
 
         // analize data
-        var cum = 0;
+        var cum = 0; let isnz = mtrx_range[m][3];
         data.forEach(e => {
             cache_ed[m].max = Math.max(cache_ed[m].max, e[m]);
-            cum += Number(e[m]);
+            if (!isnz) cum += Number(e[m]);
         });
 
 
 
-        cache_ed[m].av = (m == 11) ? fe : cum / data.length;
+        cache_ed[m].av = (isnz) ? fe : (cum / data.length);
 
 
         let fac = mfactor[m] * 135 / ((m != 13) ? cache_ed[m].max : cache_ed[m].av);
