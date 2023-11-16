@@ -103,14 +103,11 @@ function vupdate(string) {
 
     lt = arr[0];
 
-    if (arr[6]) {
-        let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * Engg_disp * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * Fuel_Stchmr);
-        arr[10] = ff;
-    }
-    else {
-        let ff = (arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : parseFloat(arr[6]) * parseFloat(arr[7]) / Fuel_Stchmr;
-        arr[10] = ff;
-    }
+    let ff = (arr[6]) ? ((arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : 0.01 * parseFloat(arr[9]) * 1.184 * Engg_disp * parseFloat(arr[3]) * parseFloat(arr[7]) / (120 * Fuel_Stchmr))
+        : ((arr[1] == 4 && parseInt(arr[8]) < 10) ? 0 : parseFloat(arr[6]) * parseFloat(arr[7]) / Fuel_Stchmr);
+    arr[10] = ff;
+
+
 
     arr[11] = (ddt && ff) ? Number(arr[4]) * Fuel_ecn_factor / ff : 0;
 
