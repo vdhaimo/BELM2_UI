@@ -339,7 +339,7 @@ function loadStats(m) {
 
         let pointread = readvalue(data[ii][m], m);
 
-        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + ((mtrx_range[m][3] && !pointread.READING) ? '--' : pointread.READING) + " " + pointread.UNIT + '<br></Span>';
+        statxt = '<Span style="font-weight:bold; color:var(--c4);">&#9864 ' + ((mtrx_range[m][3] && !Number(pointread.READING)) ? ' - - ' : pointread.READING) + " " + pointread.UNIT + '<br></Span>';
     }
 
     let avr = readvalue(cache_ed[m].av, m);

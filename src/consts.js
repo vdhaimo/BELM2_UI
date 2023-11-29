@@ -57,7 +57,7 @@ const precision = [
 
 function readvalue(reading, un) {
 
-    let pref = unp[un];
+    let pref = 3 * unp[un];
 
     return { READING: parseFloat(reading * units[un][pref + 2] + units[un][pref + 1]).toFixed(precision[un]), UNIT: units[un][pref] }
 }
@@ -75,3 +75,6 @@ function getVehicleFromVIN(vin) {
 
 
 
+const compareArrays = (a, b) => {
+    return JSON.stringify(a) === JSON.stringify(b);
+};

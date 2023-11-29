@@ -299,8 +299,8 @@ function setDials() {
         readingavg = readvalue(mtrx_range[_p][3] ? araverage_noZero(_p) : araverage(_p), _p);
 
     primary_title.innerHTML = mtrx_names[_p];
-    primary_average.innerHTML = 'Average<br>' + ((/*mtrx_range[_p][3] &&*/ !readingavg.READING) ? '--' : readingavg.READING) + ' ' + readingavg.UNIT;
-    primary_text.innerHTML = ((/*mtrx_range[_p][3] &&*/ !readinginst.READING) ? '--' : readinginst.READING) + '<span style="font-size: 12px;"><br>' + readinginst.UNIT + '</span>';
+    primary_average.innerHTML = 'Average<br>' + ((mtrx_range[_p][3] && !Number(readingavg.READING)) ? '- -' : readingavg.READING) + ' ' + readingavg.UNIT;
+    primary_text.innerHTML = ((mtrx_range[_p][3] && !Number(readinginst.READING)) ? '- -' : readinginst.READING) + '<span style="font-size: 12px;"><br>' + readinginst.UNIT + '</span>';
 
     pdial_Tval = getPercent(_p);
 
@@ -312,8 +312,8 @@ function setDials() {
         let readinginst = readvalue(mtrx[_s], _s),
             readingavg = readvalue(mtrx_range[_s][3] ? araverage_noZero(_s) : araverage(_s), _s);
 
-        element.innerHTML = '<span style="font-size: 18px;">' + mtrx_names[_s] + '<br>' + ((/*mtrx_range[_s][3] &&*/ !readinginst.READING) ? '--' : readinginst.READING) + '</span>' + readinginst.UNIT +
-            '<br><br>1 min Av ' + ((/*mtrx_range[_s][3] &&*/ !readingavg.READING) ? '--' : readingavg.READING) + ' ' + readingavg.UNIT;
+        element.innerHTML = '<span style="font-size: 18px;">' + mtrx_names[_s] + '<br>' + ((mtrx_range[_s][3] && !Number(readinginst.READING)) ? '- -' : readinginst.READING) + '</span>' + readinginst.UNIT +
+            '<br><br>1 min Av ' + ((mtrx_range[_s][3] && !Number(readingavg.READING)) ? '- -' : readingavg.READING) + ' ' + readingavg.UNIT;
 
         if (index == 0) sdial1_Tval = getPercent(_s);
         else if (index == 1) sdial2_Tval = getPercent(_s);
