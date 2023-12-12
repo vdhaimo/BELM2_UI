@@ -527,15 +527,17 @@
       <div class="home">
 
         <div id="title">
-          <P><img id="logo" fetchpriority="low" src="src\icons\CHNGU_LOGO_BNW.png"><span id="bxh">CHNGU</span></P>
+          <P><img id="logo" fetchpriority="low" src="src\icons\CHNGU_LOGO_BNW.png"><span id="bxh">eMAP</span> OBD2
+          </P>
 
 
           <style>
             #logo {
               width: 102px;
               height: 102px;
-              opacity: 0.4;
               transform: translateY(24px);
+              opacity: 0.5;
+
             }
 
             #title {
@@ -543,11 +545,11 @@
               font-family: 'Saira Stencil One', cursive;
               width: 90%;
               text-align: center;
-              color: var(--text-colorB)
+              color: var(--text-colorB);
+              opacity: 0.7;
             }
 
             #bxh {
-              opacity: 0.7;
               font-size: 48px;
             }
           </style>
@@ -1797,22 +1799,25 @@
   <P id="dlog2">log2</P>
 
   <style>
-    #dlog {
+    #dlog,
+    #dlog2 {
       z-index: 30;
+      left: 8px;
       position: fixed;
-      top: 0;
-      font-size: 14px;
+      font-size: 8px;
       width: 100%;
       pointer-events: none;
+      opacity: 0.2;
+      font-family: 'Source Code Pro', monospace;
+      color: var(--c1);
+    }
+
+    #dlog1 {
+      top: 0px;
     }
 
     #dlog2 {
-      z-index: 30;
-      position: fixed;
-      top: 24px;
-      font-size: 14px;
-      width: 100%;
-      pointer-events: none;
+      top: 12px;
     }
   </style>
 

@@ -84,7 +84,6 @@ const un_metric = [
 
     ];
 
-
 var selected_un = 0;
 let settings_units = document.getElementById('set_unit');
 function selectunits(istoggle) {
@@ -106,6 +105,8 @@ function selectunits(istoggle) {
     settings_units.setAttribute('smalltext', selected_un ? 'Imperial' : 'Metric');
 
     saveUserPrefs();
+
+    if (typeof lastLayerSelected !== 'undefined') layerSelected(lastLayerSelected);
 
 }
 

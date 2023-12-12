@@ -89,6 +89,8 @@ function drive_vehicleParams(vh) {
     Fuel_Stchmr = FUELS[vh.jsn.fuel].STCHM;
     Fuel_Dnst = FUELS[vh.jsn.fuel].DNST;
     Fuel_ecn_factor = FUELS[vh.jsn.fuel].DNST / 3600;
+
+    drivestatus(vh.jsn.name);
 }
 
 function vupdate(string) {
@@ -474,4 +476,4 @@ function drivestatus(vehiclename) {
     }
 }
 
-drivestatus();
+drivestatus(null);

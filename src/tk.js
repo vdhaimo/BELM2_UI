@@ -366,7 +366,8 @@ function connectVehicle(isconnect) {
         if (vehicle.vin == selectedVcard.getAttribute('vin')) {
 
             if (isconnect) {
-                selectedVcard.setAttribute('constat', "Connecting");
+                connectedVCard = selectedVcard;
+                selectVcard(selectedVcard, null);
                 XAPI.connectdevice(vehicle.jsn.devadd);
             }
 
@@ -379,15 +380,22 @@ function connectVehicle(isconnect) {
 
 }
 
+
 function connectStatus(status) {
     console.log(status);
+
+    //0 connected
+    //1 trying
+    //2 failall
     switch (status) {
         case '0':
 
+            XAPI.showToast('Connected')
 
             break;
         case '1':
-            XAPI.showToast('Connected')
+
+            selectedVcard.setAttribute('constat', 'connecting..')
 
             break;
         case '2':
@@ -395,7 +403,10 @@ function connectStatus(status) {
 
 
             // change disconnect button to connect
+            connectedVCard = null;
+            selectVcard(selectedVcard, null);
 
+            drivestatus(null);
 
             XAPI.showToast('Disconnected')
             break;
