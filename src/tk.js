@@ -213,8 +213,9 @@ var vehiclelist = []
 function readVehicles(vehicles) {
 
 
-
-    vehiclelist = vehicles;
+    vehicles.forEach(item => {
+        if (item.vin && item.jsn && item.jsn.name && item.jsn.cc && item.jsn.fuel) vehiclelist.push(item);
+    });
 
     populateHomescreen(!vehiclelist.length);
 
@@ -303,7 +304,7 @@ function saveVehicle() {
         return false;
     }
 
-    if (isNw) XAPI.saveVehicle(connectedVehicleID, { name: nm, cc: c_c, fuel: _fuel });
+    if (isNw) XAPI.saveVehicle(connectedVehicleid, { name: nm, cc: c_c, fuel: _fuel });
     else if (selectedVcard) {
 
         vehiclelist.forEach(element => {
@@ -426,6 +427,7 @@ const ecuLamp = document.getElementById('vehicleconnection');
 const ecuStatus = document.getElementById('connectstatus');
 
 var lastdeviceMAC = Cookies.get('lastMAC');
+var connectedvehicleid;
 function lastDevice() {
 
     if (!lastdeviceMAC) return;
