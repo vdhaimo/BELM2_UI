@@ -212,6 +212,8 @@ var vehiclelist = []
 
 function readVehicles(vehicles) {
 
+    console.log(vehicles);
+
 
     vehicles.forEach(item => {
         if (item.vin && item.jsn && item.jsn.name && item.jsn.cc && item.jsn.fuel) vehiclelist.push(item);
@@ -226,7 +228,6 @@ function readVehicles(vehicles) {
 }
 
 function existingConnection(address) {
-    document.getElementById('dlog2').innerHTML = address;
     vehiclelist.forEach((vh) => {
         if (vh.jsn.devadd == add) connectedVehicleID(vh.vin, address);
     });
@@ -304,7 +305,10 @@ function saveVehicle() {
         return false;
     }
 
-    if (isNw) XAPI.saveVehicle(connectedVehicleid, { name: nm, cc: c_c, fuel: _fuel });
+    if (isNw) {
+        XAPI.saveVehicle(connectedvehicleid, JSON.stringify({ name: nm, cc: c_c, fuel: _fuel, devadd: lastdeviceMAC }));
+        isNw = false;
+    }
     else if (selectedVcard) {
 
         vehiclelist.forEach(element => {
@@ -353,7 +357,7 @@ function populateHomescreen(noVehicles) {
 
     vehiclelist.forEach(vh => {
 
-        var dt = vh.jsn.cc + " cc" + " | " + FUELS[vh.jsn.fuel];
+        var dt = vh.jsn.cc + " cc" + " | " + FUELS[vh.jsn.fuel].NAME;
         uploadtolist(vh.jsn.name, dt, "", "", vh.vin);
     });
 }
