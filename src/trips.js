@@ -141,6 +141,7 @@ function fileRead(json) {
 
 
 
+
     coords = [];
     data = [];
     td = [];

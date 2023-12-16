@@ -212,8 +212,6 @@ var vehiclelist = []
 
 function readVehicles(vehicles) {
 
-    console.log(vehicles);
-
 
     vehicles.forEach(item => {
         if (item.vin && item.jsn && item.jsn.name && item.jsn.cc && item.jsn.fuel) vehiclelist.push(item);
@@ -271,6 +269,10 @@ function connectedVehicleID(id, mac) {
             //set vehicle paramaeters for drive
             drive_vehicleParams(element);
         }
+    });
+
+    vlis.forEach(item => {
+        if (item.getAttribute('vin') == id) connectedVCard = item;
     });
 
 
