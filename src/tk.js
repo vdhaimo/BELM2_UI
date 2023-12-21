@@ -398,6 +398,7 @@ function connectStatus(status) {
         case '0':
 
             XAPI.showToast('Connected')
+            selectedVcard.setAttribute('constat', 'Connected')
 
             break;
         case '1':
@@ -408,7 +409,7 @@ function connectStatus(status) {
         case '2':
             vlis.forEach(item => { item.setAttribute('constat', ""); });
 
-
+            connectedVCard.setAttribute('com', 'val');
             // change disconnect button to connect
             connectedVCard = null;
             selectVcard(selectedVcard, null);
@@ -657,3 +658,61 @@ function selectTab(n) {
 }
 
 selectTab(0);
+
+
+
+// prompt
+
+let promptbox = document.querySelector(".promptbox");
+let prompttext = document.querySelector(".prompttext");
+
+let promptback = document.querySelector('.prompt');
+
+promptback.onclick = function (e) {
+
+    var ev = e || window.event;
+    if (e.target !== this)
+        return;
+    promptcance();
+}
+
+promptbox.addEventListener("animationend", (event) => {
+    if (event.animationName == 'prslideOut') {
+
+        promptback.style.display = 'none';
+
+
+    }
+});
+
+function prcs() {
+    console.log('rere')
+}
+
+var onPromptOk;
+
+function showPrompt(text, onok) {
+    onPromptOk = onok;
+    promptback.style.display = 'block';
+    prompttext.innerHTML = text;
+    promptbox.classList.remove('pslide-out');
+    promptbox.classList.add('pslide-in');
+
+
+}
+
+function promptok() {
+    if (onPromptOk) eval(onPromptOk + "()");
+    escprmt();
+}
+
+function promptcance() {
+    onPromptOk = undefined;
+    escprmt();
+}
+
+function escprmt() {
+    promptbox.classList.add('pslide-out');
+    promptbox.classList.remove('pslide-in');
+}
+

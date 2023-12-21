@@ -551,4 +551,6 @@ function layerSelected(idx) {
 }
 
 
-
+function deleteLog(filename) {
+    XAPI.deleteLog(filename);
+}

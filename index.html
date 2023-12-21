@@ -609,6 +609,7 @@
 
           background-color: var(--background-color);
 
+
         }
       </style>
 
@@ -946,6 +947,15 @@
 
         <bt-iconmatbutton id="reset_bounds" icon="zoom_out_map" desc="" onclick="resetBounds()"></bt-iconmatbutton>
 
+        <div class="tripoptions">
+          <span class="material-symbols-outlined">
+            close
+          </span>
+          <span class="material-symbols-outlined">
+            delete
+          </span>
+        </div>
+
 
         <div class="layerslist">
 
@@ -1099,6 +1109,22 @@
           padding: 0;
           left: 56px;
           color: var(--text-colorB);
+        }
+
+        .tripoptions {
+          position: absolute;
+          left: 0;
+          top: 125px;
+          background-color: var(--card-color-light);
+          padding-left: 10px;
+          padding-top: 5px;
+          padding-right: 10px;
+          font-size: 24px;
+
+          box-shadow: 0 0 5px var(--shadow-color);
+          pointer-events: all;
+          border-radius: 0 10px 10px 0;
+
         }
 
         #opentripslist {
@@ -1793,7 +1819,99 @@
 
   </div>
 
+  <div class="prompt">
+    <div class="promptbox">
+      <P class="prompttext">
+        Delete this log ?
+      </P>
+      <bt-iconmatbutton id="prbt1" icon="cancel" desc="" onclick="promptcance()"></bt-iconmatbutton>
+      <bt-iconmatbutton id="prbt2" icon="check_circle" desc="" onclick="promptok()"></bt-iconmatbutton>
+    </div>
 
+  </div>
+  <style>
+    .prompt {
+      display: none;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: all;
+      z-index: 35;
+      backdrop-filter: blur(5px);
+      color: var(--text-colorA);
+      font-size: 24px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .promptbox {
+      pointer-events: all;
+      position: absolute;
+      width: 100%;
+      height: 200px;
+      bottom: 0px;
+      background-color: var(--card-color-light);
+      text-align: center;
+      animation-duration: 0.2s;
+
+      animation-fill-mode: forwards;
+      box-shadow: 0 0 10px #090909;
+
+    }
+
+    .pslide-in {
+
+      animation-timing-function: ease-out;
+
+      animation-name: prslideIn;
+    }
+
+    .pslide-out {
+
+      animation-timing-function: ease-in;
+      animation-name: prslideOut;
+    }
+
+    @keyframes prslideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20%);
+
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+
+      }
+    }
+
+    @keyframes prslideOut {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateY(20%);
+
+      }
+    }
+
+
+
+    #prbt1 {
+      position: absolute;
+      bottom: 42px;
+      left: 42px;
+    }
+
+    #prbt2 {
+      position: absolute;
+      bottom: 42px;
+      right: 42px;
+    }
+  </style>
 
   <P id="dlog">log1</P>
   <P id="dlog2">log2</P>
@@ -1820,6 +1938,8 @@
       top: 12px;
     }
   </style>
+
+
 
 
 
