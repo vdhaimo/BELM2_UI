@@ -948,13 +948,72 @@
         <bt-iconmatbutton id="reset_bounds" icon="zoom_out_map" desc="" onclick="resetBounds()"></bt-iconmatbutton>
 
         <div class="tripoptions">
-          <span class="material-symbols-outlined">
-            close
+          <span class="material-symbols-outlined" onclick="toggletripoptions(false)">
+            drag_indicator
           </span>
-          <span class="material-symbols-outlined">
+          <span class="material-symbols-outlined" onclick="deletecurrentlog()">
             delete
           </span>
+
         </div>
+        <style>
+          .tripoptions {
+            position: absolute;
+            right: 12px;
+            bottom: 24px;
+            background-color: var(--card-color-light);
+            padding-left: 10px;
+            padding-top: 5px;
+            padding-right: 10px;
+            font-size: 24px;
+
+            box-shadow: 0 0 5px var(--shadow-color);
+            pointer-events: all;
+            border-radius: 10px;
+            transform: translateX(calc(100% - 28px));
+
+
+            animation-duration: 0.2s;
+            animation-fill-mode: forwards;
+
+          }
+
+          .tro-slide-in {
+
+            animation-timing-function: ease-out;
+
+            animation-name: troslideIn;
+          }
+
+          .tro-slide-out {
+
+            animation-timing-function: ease-in;
+            animation-name: troslideOut;
+          }
+
+          @keyframes troslideIn {
+            from {
+              transform: translateX(calc(100% - 28px));
+
+            }
+
+            to {
+              transform: translateY(0);
+
+            }
+          }
+
+          @keyframes troslideOut {
+            from {
+              transform: translateY(0);
+            }
+
+            to {
+              transform: translateX(calc(100% - 28px));
+
+            }
+          }
+        </style>
 
 
         <div class="layerslist">
@@ -1084,7 +1143,7 @@
         #reset_bounds {
           position: absolute;
           bottom: 24px;
-          right: 24px;
+          right: 52px;
           pointer-events: all;
           transform: rotate(90deg);
 
@@ -1111,21 +1170,6 @@
           color: var(--text-colorB);
         }
 
-        .tripoptions {
-          position: absolute;
-          left: 0;
-          top: 125px;
-          background-color: var(--card-color-light);
-          padding-left: 10px;
-          padding-top: 5px;
-          padding-right: 10px;
-          font-size: 24px;
-
-          box-shadow: 0 0 5px var(--shadow-color);
-          pointer-events: all;
-          border-radius: 0 10px 10px 0;
-
-        }
 
         #opentripslist {
           position: absolute;

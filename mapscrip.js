@@ -73,8 +73,8 @@ map.on("load", () => {
     if (!ispc) XAPI.readTrips();
 
 
-
     map.on('click', function (e) {
+
 
 
         if (map.getZoom() < 13) return;

@@ -83,12 +83,13 @@ function demuxFileName(name) {
 
 
 
-
+var selected_filename;
 var vid_selectedtrip;
 function sendReadFileReq(filename) {
 
     XAPI.readLogFile(filename);
 
+    selected_filename = filename;
     vid_selectedtrip = demuxFileName(filename).VID;
 
 }
@@ -551,6 +552,42 @@ function layerSelected(idx) {
 }
 
 
-function deleteLog(filename) {
-    XAPI.deleteLog(filename);
+function deleteSelected() {
+    if (selected_filename) XAPI.deleteLog(selected_filename);
+}
+
+
+// tripoptions
+
+let tripoptions = document.querySelector(".tripoptions");
+
+
+function toggletripoptions(forcehide) {
+
+    if (forcehide) {
+        tripoptions.classList.remove('tro-slide-in');
+        tripoptions.classList.add('tro-slide-out');
+        return;
+    }
+
+    if (!tripoptions.classList.contains('tro-slide-in')) {
+        tripoptions.classList.add('tro-slide-in');
+        tripoptions.classList.remove('tro-slide-out');
+    }
+    else {
+        tripoptions.classList.remove('tro-slide-in');
+        tripoptions.classList.add('tro-slide-out');
+    }
+
+}
+
+
+function deletecurrentlog() {
+
+    if (!tripoptions.classList.contains('tro-slide-in')) return;
+
+    toggletripoptions(true);
+
+    showPrompt("Delete This Trip ?", "deleteSelected");
+
 }
