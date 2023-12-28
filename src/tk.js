@@ -333,6 +333,8 @@ const devicesOption = document.getElementById("option_devices");
 
 const editOption = document.getElementById("option_edit");
 
+const deleteOption = document.getElementById("option_delete");
+
 
 const connectOption = document.getElementById("option_connect");
 const disconnectOption = document.getElementById("option_disconnect");
@@ -555,10 +557,14 @@ function selectVcard(element, vehicle) {
     if (connectedVCard && element == connectedVCard) {
         connectOption.style.display = 'none';
         disconnectOption.style.display = 'block';
+        editOption.style.display = 'none';
+        deleteOption.style.display = 'none';
         connectOption.setAttribute('smalltext', vehicle.jsn.devadd);
     } else {
         connectOption.style.display = 'block';
         disconnectOption.style.display = 'none';
+        editOption.style.display = 'block';
+        deleteOption.style.display = 'block';
         disconnectOption.setAttribute('smalltext', vehicle.jsn.devadd);
     }
 
@@ -716,3 +722,15 @@ function escprmt() {
     promptbox.classList.remove('pslide-in');
 }
 
+
+
+
+function deletevehicle() {
+    showPrompt("Delete current vehicle data?", "confirmdeletevehicle");
+}
+
+function confirmdeletevehicle() {
+    if (selectedVcard) {
+        XAPI.deletevehicleanddata(selectedVcard.getAttribute('vin'));
+    }
+}

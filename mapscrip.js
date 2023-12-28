@@ -106,6 +106,8 @@ map.on("load", () => {
             //  mkr.setLngLat(pt).addTo(map);
         });
 
+        if (!pts.length) return;
+
         let points = turf.featureCollection(pts);
 
         let nearest = turf.nearestPoint(targetPoint, points);

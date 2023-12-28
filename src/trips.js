@@ -16,12 +16,16 @@ function readLogs(loglist) {
 
 
 
+    trlist = [];
+    triplogs = [];
 
     while (tripsListHolder.firstChild) {
         tripsListHolder.removeChild(tripsListHolder.lastChild);
     }
 
+
     triplogs = loglist.slice().reverse();
+
 
     triplogs.forEach(log => {
         var dmx = demuxFileName(log);

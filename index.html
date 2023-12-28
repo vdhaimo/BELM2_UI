@@ -574,6 +574,9 @@
         <bt-cardx1 id="option_edit" icon="car_repair" bigtext="Edit Vehicle" smalltext="Bolt"
           onclick="editvehicle()"></bt-cardx1>
 
+        <bt-cardx1 id="option_delete" icon="delete_forever" bigtext="Delete Vehicle" smalltext="Delete vehicle data"
+          onclick="deletevehicle()"></bt-cardx1>
+
 
 
 
@@ -951,6 +954,7 @@
           <span class="material-symbols-outlined" onclick="toggletripoptions(false)">
             drag_indicator
           </span>
+          &nbsp;&nbsp;
           <span class="material-symbols-outlined" onclick="deletecurrentlog()">
             delete
           </span>
@@ -1866,7 +1870,7 @@
   <div class="prompt">
     <div class="promptbox">
       <P class="prompttext">
-        Delete this log ?
+
       </P>
       <bt-iconmatbutton id="prbt1" icon="cancel" desc="" onclick="promptcance()"></bt-iconmatbutton>
       <bt-iconmatbutton id="prbt2" icon="check_circle" desc="" onclick="promptok()"></bt-iconmatbutton>
@@ -1888,9 +1892,11 @@
     }
 
     .promptbox {
+
       pointer-events: all;
       position: absolute;
       width: 100%;
+
       height: 200px;
       bottom: 0px;
       background-color: var(--card-color-light);
