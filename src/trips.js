@@ -15,6 +15,7 @@ var triplogs = [];
 function readLogs(loglist) {
 
 
+    console.log(loglist)
 
     trlist = [];
     triplogs = [];
@@ -29,11 +30,12 @@ function readLogs(loglist) {
 
     triplogs.forEach(log => {
         var dmx = demuxFileName(log);
-
+        console.log(dmx);
 
 
         vehiclelist.forEach(vh => {
-            if (vh.vin == dmx.VID) {
+
+            if (dmx.VID && vh.vin == dmx.VID) {
 
                 //create log entry
                 var h = document.createElement('bt-cardx1');
@@ -52,6 +54,8 @@ function readLogs(loglist) {
                 trlist.push(h);
 
 
+            } else {
+                console.log(dmx.VID, vh.vin)
             }
         });
     });
@@ -81,7 +85,7 @@ function selectLogFile(h) {
 
 function demuxFileName(name) {
     let nn = name.split('.txt')[0].split('&&');
-    return { VID: nn[1], DATE: nn[2] };
+    return { VID: nn[1], DATE: nn[2] ? nn[2].replace(/_/g, ':') : undefined };
 }
 
 
