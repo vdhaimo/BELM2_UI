@@ -113,7 +113,6 @@ function btlistitemclicked(addr) {
 
 function rer() {
 }
-// program to generate random strings
 
 
 
@@ -226,6 +225,9 @@ function readVehicles(vehicles) {
 }
 
 function existingConnection(address) {
+
+    document.getElementById('dlog2').innerHTML = address;
+
     vehiclelist.forEach((vh) => {
         if (vh.jsn.devadd == add) connectedVehicleID(vh.vin, address);
     });
