@@ -15,8 +15,6 @@ var triplogs = [];
 function readLogs(loglist) {
 
 
-    console.log(loglist)
-
     trlist = [];
     triplogs = [];
 
@@ -30,7 +28,7 @@ function readLogs(loglist) {
 
     triplogs.forEach(log => {
         var dmx = demuxFileName(log);
-        console.log(dmx);
+
 
 
         vehiclelist.forEach(vh => {
@@ -54,8 +52,6 @@ function readLogs(loglist) {
                 trlist.push(h);
 
 
-            } else {
-                console.log(dmx.VID, vh.vin)
             }
         });
     });
