@@ -224,12 +224,12 @@ function readVehicles(vehicles) {
 
 }
 
-function existingConnection(address) {
+function existingConnection(address, vid) {
 
     document.getElementById('dlog2').innerHTML = address;
 
     vehiclelist.forEach((vh) => {
-        if (vh.jsn.devadd == address) connectedVehicleID(vh.vin, address);
+        if (vh.vin == vid) connectedVehicleID(vh.vin, address);
     });
 }
 

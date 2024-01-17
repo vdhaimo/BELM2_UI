@@ -91,6 +91,8 @@ function drive_vehicleParams(vh) {
     Fuel_ecn_factor = FUELS[vh.jsn.fuel].DNST / 3600;
 
     drivestatus(vh.jsn.name);
+
+    selectTab(1);
 }
 
 function vupdate(string) {
