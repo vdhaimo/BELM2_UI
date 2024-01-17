@@ -270,6 +270,10 @@ function connectedVehicleID(id, mac) {
 
             //set vehicle paramaeters for drive
             drive_vehicleParams(element);
+        } else if (element.jsn.devadd == mac) {
+            //remove duplicate mac
+            element.jsn.devadd = "nal";
+            XAPI.saveVehicle(element.vin, JSON.stringify(element.jsn));
         }
     });
 
