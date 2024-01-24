@@ -560,18 +560,19 @@ function selectVcard(element, vehicle) {
 
     editOption.style.display = 'block';
 
+    connectOption.setAttribute('smalltext', vehicle.jsn.devadd);
+    disconnectOption.setAttribute('smalltext', vehicle.jsn.devadd);
+
     if (connectedVCard && element == connectedVCard) {
         connectOption.style.display = 'none';
         disconnectOption.style.display = 'block';
         editOption.style.display = 'none';
         deleteOption.style.display = 'none';
-        connectOption.setAttribute('smalltext', vehicle.jsn.devadd);
     } else {
         connectOption.style.display = 'block';
         disconnectOption.style.display = 'none';
         editOption.style.display = 'block';
         deleteOption.style.display = 'block';
-        disconnectOption.setAttribute('smalltext', vehicle.jsn.devadd);
     }
 
     selectedVcard = element;
@@ -586,8 +587,10 @@ function selectVcard(element, vehicle) {
 
 
 function updateReceived(string) {
-    if (connectedVCard) connectedVCard.setAttribute('com', 'val');
-    vupdate(string);
+    if (connectedVCard) {
+        connectedVCard.setAttribute('com', 'val');
+        vupdate(string);
+    }
 }
 
 
