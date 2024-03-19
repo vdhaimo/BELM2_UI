@@ -40,6 +40,9 @@ function closeDevices() {
 
 }
 
+function permissionsdenied() {
+    closeDevices();
+}
 
 function clear() {
 
@@ -417,7 +420,7 @@ function connectStatus(status) {
         case '2':
             vlis.forEach(item => { item.setAttribute('constat', ""); });
 
-            connectedVCard.setAttribute('com', 'val');
+            if (connectedVCard) connectedVCard.setAttribute('com', 'val');
             // change disconnect button to connect
             connectedVCard = null;
             selectVcard(selectedVcard, null);
