@@ -400,7 +400,7 @@ function connectVehicle(isconnect) {
 
 
 function connectStatus(status) {
-    console.log(status);
+
 
     //0 connected
     //1 trying
