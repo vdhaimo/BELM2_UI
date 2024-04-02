@@ -3,14 +3,13 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidmlzaGFsZGhhaW1vZGthciIsImEiOiJjbGZpZXVqbG80N
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/dark-v11', // style URL
-    center: [74.0004989, 15.3978042], // starting position [lng, lat]
+    center: [-122, 37.5], // starting position [lng, lat]
     zoom: 15, // starting zoom
     maxZoom: 17
 });
 
 
 
-//console.log(turf.length(ls), 'kms');
 
 function hslToHex(h, s, l) {
     h /= 360;
